@@ -58,8 +58,12 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg">BG</span>
+            <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center p-1">
+              <img 
+                src="/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png" 
+                alt="Bluewater Group Logo" 
+                className="h-full w-full object-contain"
+              />
             </div>
             <div className="hidden md:block">
               <span className="font-heading font-bold text-xl text-primary">Bluewater Group</span>
