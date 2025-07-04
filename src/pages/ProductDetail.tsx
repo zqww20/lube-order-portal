@@ -27,6 +27,49 @@ interface Product {
   options: ProductOption[];
 }
 
+const crossSellProducts = [
+  {
+    id: 'cs1',
+    name: 'Diesel Exhaust Fluid (DEF)',
+    category: 'Consumables',
+    description: 'High-quality DEF for diesel engines',
+    price: 12.99,
+    unit: 'per 10L',
+    image: '/placeholder.svg',
+    inStock: true
+  },
+  {
+    id: 'cs2',
+    name: 'Windshield Wiper Fluid',
+    category: 'Consumables', 
+    description: 'All-season windshield washer fluid',
+    price: 8.99,
+    unit: 'per 4L',
+    image: '/placeholder.svg',
+    inStock: true
+  },
+  {
+    id: 'cs3',
+    name: 'Varsol Solvent',
+    category: 'Consumables',
+    description: 'Industrial grade cleaning solvent',
+    price: 24.99,
+    unit: 'per 20L',
+    image: '/placeholder.svg',
+    inStock: true
+  },
+  {
+    id: 'cs4',
+    name: 'Shop Rags',
+    category: 'Consumables',
+    description: 'Absorbent cleaning rags for workshops',
+    price: 15.99,
+    unit: 'per box',
+    image: '/placeholder.svg',
+    inStock: true
+  }
+];
+
 const mockProducts: Product[] = [
   {
     id: '1',
@@ -311,6 +354,56 @@ const ProductDetail = () => {
               </Card>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Cross-sell Section */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">You might also need</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {crossSellProducts.map((crossProduct) => (
+            <Card key={crossProduct.id} className="hover:shadow-md transition-shadow">
+              <CardHeader className="pb-2">
+                <div className="aspect-square bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
+                  <img 
+                    src={crossProduct.image} 
+                    alt={crossProduct.name}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+                <CardTitle className="text-sm">{crossProduct.name}</CardTitle>
+                <CardDescription className="text-xs">{crossProduct.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="flex justify-between items-center mb-2">
+                  <Badge variant="secondary" className="text-xs">{crossProduct.category}</Badge>
+                  <Badge variant={crossProduct.inStock ? "default" : "destructive"} className="text-xs">
+                    {crossProduct.inStock ? "In Stock" : "Out of Stock"}
+                  </Badge>
+                </div>
+                <div className="text-lg font-bold text-blue-600 mb-2">
+                  ${crossProduct.price} 
+                  <span className="text-xs font-normal text-gray-500 ml-1">
+                    {crossProduct.unit}
+                  </span>
+                </div>
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                  disabled={!crossProduct.inStock}
+                  onClick={() => {
+                    toast({
+                      title: "Added to Cart",
+                      description: `${crossProduct.name} has been added to your cart.`,
+                    });
+                  }}
+                >
+                  <ShoppingCart className="h-3 w-3 mr-1" />
+                  Add to Cart
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
