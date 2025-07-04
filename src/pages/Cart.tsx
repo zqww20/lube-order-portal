@@ -192,6 +192,67 @@ const Cart = () => {
           ))}
         </div>
         
+        {/* Cross-Sell Section */}
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Frequently Bought Together</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg"></div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm">Engine Filter Kit</h4>
+                    <p className="text-sm text-gray-600">$24.99</p>
+                  </div>
+                  <Button size="sm" variant="outline">Add</Button>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg"></div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm">Premium Grease</h4>
+                    <p className="text-sm text-gray-600">$18.99</p>
+                  </div>
+                  <Button size="sm" variant="outline">Add</Button>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg"></div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm">Marine Additives</h4>
+                    <p className="text-sm text-gray-600">$32.99</p>
+                  </div>
+                  <Button size="sm" variant="outline">Add</Button>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg"></div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm">Oil Analysis Kit</h4>
+                    <p className="text-sm text-gray-600">$45.99</p>
+                  </div>
+                  <Button size="sm" variant="outline">Add</Button>
+                </div>
+              </div>
+              
+              <div className="mt-4 p-3 bg-primary/5 border border-primary/10 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-medium text-sm">Bundle Deal</span>
+                  <Badge variant="secondary">Save 15%</Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Add all recommended items and save $18.50
+                </p>
+                <Button className="w-full" size="sm">
+                  Add Complete Bundle
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
         {/* Order Summary */}
         <div className="lg:col-span-1">
           <Card>
