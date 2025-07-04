@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ShoppingCart, Search, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import QuoteRequest from '@/components/QuoteRequest';
+
 
 interface Product {
   id: string;
@@ -217,7 +217,7 @@ const Products = () => {
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 Add to Cart
               </Button>
-              <QuoteRequest product={product} />
+              
             </CardFooter>
           </Card>
         ))}
