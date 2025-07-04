@@ -11,7 +11,7 @@ import {
   AlertCircle, 
   Settings, 
   Database, 
-  Sync,
+  RefreshCw,
   FileText,
   TrendingUp 
 } from 'lucide-react';
@@ -137,7 +137,7 @@ const ERPIntegration = () => {
                 Test Connection
               </Button>
               <Button onClick={syncData} className="w-full">
-                <Sync className="h-4 w-4 mr-2" />
+                <RefreshCw className="h-4 w-4 mr-2" />
                 Sync Now
               </Button>
             </div>
