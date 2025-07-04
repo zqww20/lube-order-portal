@@ -126,71 +126,61 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Compact Header & Quick Actions */}
-      <div className="flex flex-col space-y-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-heading font-bold">Welcome back, John!</h1>
-            <p className="text-sm text-muted-foreground">Manage your lubricant orders and track shipments</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button asChild size="sm">
-              <Link to="/products">
-                <ShoppingCart className="h-4 w-4 mr-1" />
-                Browse
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/products">
-                <FileText className="h-4 w-4 mr-1" />
-                Quote
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/erp-integration">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                ERP
-              </Link>
-            </Button>
-          </div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-2 lg:space-y-0">
+        <div className="flex-1">
+          <h1 className="text-xl font-heading font-bold">Welcome back, John!</h1>
+          <p className="text-xs text-muted-foreground">Manage your lubricant orders and track shipments</p>
         </div>
-        
-        {/* Compact Search */}
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search products..."
-            className="pl-10 h-9"
-          />
+        <div className="flex items-center space-x-2">
+          <div className="relative">
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+            <Input 
+              placeholder="Search..."
+              className="pl-7 h-8 w-32 text-xs"
+            />
+          </div>
+          <Button asChild size="sm" className="h-8">
+            <Link to="/products">
+              <ShoppingCart className="h-3 w-3 mr-1" />
+              Browse
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm" className="h-8">
+            <Link to="/products">
+              <FileText className="h-3 w-3 mr-1" />
+              Quote
+            </Link>
+          </Button>
         </div>
       </div>
 
-      {/* Account Summary Widget */}
+      {/* Account Summary Widget - More Compact */}
       <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="font-heading text-lg flex items-center">
-            <CreditCard className="h-5 w-5 mr-2" />
+        <CardHeader className="pb-2">
+          <CardTitle className="font-heading text-base flex items-center">
+            <CreditCard className="h-4 w-4 mr-2" />
             Account Summary
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="space-y-1">
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="space-y-0.5">
               <p className="text-xs text-muted-foreground">Credit Limit</p>
-              <p className="font-semibold text-lg">${accountSummary.creditLimit.toLocaleString()}</p>
+              <p className="font-semibold text-sm">${accountSummary.creditLimit.toLocaleString()}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">Available Credit</p>
-              <p className="font-semibold text-lg text-success">${accountSummary.availableCredit.toLocaleString()}</p>
+            <div className="space-y-0.5">
+              <p className="text-xs text-muted-foreground">Available</p>
+              <p className="font-semibold text-sm text-success">${accountSummary.availableCredit.toLocaleString()}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">Current Balance</p>
-              <p className="font-semibold text-lg">${accountSummary.currentBalance.toLocaleString()}</p>
+            <div className="space-y-0.5">
+              <p className="text-xs text-muted-foreground">Balance</p>
+              <p className="font-semibold text-sm">${accountSummary.currentBalance.toLocaleString()}</p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">Payment Due</p>
-              <p className="font-semibold text-sm">{accountSummary.nextPaymentDue}</p>
+            <div className="space-y-0.5">
+              <p className="text-xs text-muted-foreground">Due Date</p>
+              <p className="font-semibold text-xs">{accountSummary.nextPaymentDue}</p>
               <Badge className="bg-success/10 text-success border-success/20 text-xs">
                 {accountSummary.accountStatus}
               </Badge>
@@ -199,33 +189,33 @@ const Dashboard = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
         {/* Recent Orders */}
         <div className="lg:col-span-3">
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="font-heading text-lg">Recent Orders</CardTitle>
-                <Button asChild variant="outline" size="sm">
+                <CardTitle className="font-heading text-base">Recent Orders</CardTitle>
+                <Button asChild variant="outline" size="sm" className="h-7">
                   <Link to="/orders">
-                    View All <ArrowRight className="h-4 w-4 ml-1" />
+                    View All <ArrowRight className="h-3 w-3 ml-1" />
                   </Link>
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-2 pt-0">
               {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/30 transition-colors">
+                <div key={order.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-muted/30 transition-colors">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-semibold text-primary text-sm">{order.id}</span>
+                      <span className="font-semibold text-primary text-xs">{order.id}</span>
                       <Badge className={`${getStatusColor(order.status)} flex items-center space-x-1 text-xs`}>
                         {getStatusIcon(order.status)}
                         <span>{order.status}</span>
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-1">{order.items}</p>
-                    <div className="flex items-center space-x-3 text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mb-1 line-clamp-1">{order.items}</p>
+                    <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                       <span>{order.date}</span>
                       {order.trackingNumber && (
                         <span>#{order.trackingNumber}</span>
@@ -233,7 +223,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-sm">${order.total.toFixed(2)}</p>
+                    <p className="font-semibold text-xs">${order.total.toFixed(2)}</p>
                     {order.status === 'Shipped' && (
                       <Button variant="link" size="sm" className="p-0 h-auto text-xs">
                         Track
@@ -246,20 +236,21 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Customer Quotes Compact */}
-        <div>
+        {/* Quote Status & Delivery - Combined */}
+        <div className="lg:col-span-2 space-y-3">
+          {/* Quote Status */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="font-heading text-lg">Quote Status</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="font-heading text-base">Quote Status</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-2 pt-0">
               <div className="p-2 border rounded-lg">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs font-medium">Q001</span>
                   <Badge className="bg-green-50 text-green-700 border-green-200 text-xs">Ready</Badge>
                 </div>
                 <p className="text-xs text-muted-foreground">Engine Oil 5W-30</p>
-                <p className="text-sm font-semibold">$4,200.00</p>
+                <p className="text-xs font-semibold">$4,200.00</p>
               </div>
               <div className="p-2 border rounded-lg">
                 <div className="flex items-center justify-between mb-1">
@@ -269,40 +260,34 @@ const Dashboard = () => {
                 <p className="text-xs text-muted-foreground">Marine Gear Oil</p>
                 <p className="text-xs text-muted-foreground">Under review</p>
               </div>
-              <Button asChild variant="outline" size="sm" className="w-full">
+              <Button asChild variant="outline" size="sm" className="w-full h-7">
                 <Link to="/quotes">View All</Link>
               </Button>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Delivery Information Card */}
-        <div>
+          {/* Delivery Information */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="font-heading text-lg flex items-center">
-                <Truck className="h-4 w-4 mr-2" />
+            <CardHeader className="pb-2">
+              <CardTitle className="font-heading text-base flex items-center">
+                <Truck className="h-3 w-3 mr-2" />
                 Next Delivery
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2 pt-0">
               <div className="p-2 border rounded-lg">
                 <div className="flex items-center space-x-2 mb-1">
                   <Calendar className="h-3 w-3 text-muted-foreground" />
                   <span className="text-xs font-medium">{deliveryInfo.nextDelivery.date}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-2">{deliveryInfo.nextDelivery.time}</p>
-                <div className="flex items-start space-x-2 mb-2">
+                <p className="text-xs text-muted-foreground mb-1">{deliveryInfo.nextDelivery.time}</p>
+                <div className="flex items-start space-x-2 mb-1">
                   <MapPin className="h-3 w-3 text-muted-foreground mt-0.5" />
-                  <p className="text-xs text-muted-foreground">{deliveryInfo.nextDelivery.address}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-2">{deliveryInfo.nextDelivery.address}</p>
                 </div>
-                <p className="text-xs text-muted-foreground">{deliveryInfo.nextDelivery.items}</p>
+                <p className="text-xs text-muted-foreground line-clamp-1">{deliveryInfo.nextDelivery.items}</p>
               </div>
-              <div className="text-xs text-muted-foreground">
-                <p className="mb-1">Special: {deliveryInfo.deliveryPreferences}</p>
-                <p>Emergency: {deliveryInfo.emergencyContact}</p>
-              </div>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="outline" size="sm" className="w-full h-7">
                 <Zap className="h-3 w-3 mr-1" />
                 Emergency Delivery
               </Button>
@@ -312,16 +297,16 @@ const Dashboard = () => {
       </div>
 
       {/* Smart Re-Order Section with Predictive Analytics */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
         {/* Predictive Recommendations */}
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="font-heading text-lg flex items-center">
-              <Target className="h-4 w-4 mr-2" />
+          <CardHeader className="pb-2">
+            <CardTitle className="font-heading text-base flex items-center">
+              <Target className="h-3 w-3 mr-2" />
               You'll Need Soon
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2 pt-0">
             {predictiveRecommendations.map((item) => (
               <div key={item.id} className="p-2 border rounded-lg">
                 <div className="flex items-center justify-between mb-1">
@@ -342,20 +327,20 @@ const Dashboard = () => {
         </Card>
 
         {/* Quick Re-Order Section */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="font-heading text-lg">Quick Re-Order</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="font-heading text-base">Quick Re-Order</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                 {frequentProducts.map((product) => (
-                  <div key={product.id} className="p-3 border rounded-lg hover:bg-muted/30 transition-colors">
+                  <div key={product.id} className="p-2 border rounded-lg hover:bg-muted/30 transition-colors">
                     <div className="aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                      <Package className="h-6 w-6 text-muted-foreground" />
+                      <Package className="h-5 w-5 text-muted-foreground" />
                     </div>
                     <h3 className="font-medium text-xs mb-1 line-clamp-2">{product.name}</h3>
-                    <p className="text-xs text-muted-foreground mb-2">
+                    <p className="text-xs text-muted-foreground mb-1">
                       ${product.price} / {product.unit}
                     </p>
                     <div className="flex items-center space-x-1 mb-2">
@@ -366,7 +351,7 @@ const Dashboard = () => {
                     </div>
                     <Button 
                       size="sm" 
-                      className="w-full h-8 text-xs" 
+                      className="w-full h-7 text-xs" 
                       disabled={!product.inStock}
                       variant={product.inStock ? "default" : "secondary"}
                     >
