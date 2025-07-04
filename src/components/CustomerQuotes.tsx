@@ -31,6 +31,18 @@ const mockCustomerQuotes: CustomerQuote[] = [
     validUntil: '2024-02-05'
   },
   {
+    id: 'Q002',
+    productName: 'Hydraulic System Cleaner',
+    category: 'Industrial Fluids',
+    quantity: 50,
+    requirements: 'Regular maintenance schedule',
+    expectedDelivery: '2024-02-10',
+    status: 'quoted',
+    requestDate: '2024-01-21',
+    quoteAmount: 1850.00,
+    validUntil: '2024-02-07'
+  },
+  {
     id: 'Q003',
     productName: 'Marine Gear Oil',
     category: 'Marine Lubricants',
@@ -39,6 +51,16 @@ const mockCustomerQuotes: CustomerQuote[] = [
     expectedDelivery: '2024-01-30',
     status: 'pending',
     requestDate: '2024-01-22'
+  },
+  {
+    id: 'Q004',
+    productName: 'Industrial Grease Multi-Purpose',
+    category: 'Greases',
+    quantity: 12,
+    requirements: 'High temperature application',
+    expectedDelivery: '2024-02-05',
+    status: 'processing',
+    requestDate: '2024-01-23'
   }
 ];
 
@@ -109,15 +131,32 @@ const CustomerQuotes = () => {
                   </div>
                 )}
 
-                {quote.quoteAmount && (
+                {quote.quoteAmount ? (
                   <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <p className="font-semibold text-green-800">Quote Amount</p>
+                      <div>
+                        <p className="font-semibold text-green-800">Your Custom Quote</p>
+                        <p className="text-xs text-green-600">Pricing specific to your order quantity</p>
+                      </div>
                       <p className="text-2xl font-bold text-green-800">${quote.quoteAmount.toFixed(2)}</p>
+                    </div>
+                    <div className="flex justify-between items-center text-sm text-green-700 mb-2">
+                      <span>Per unit price:</span>
+                      <span className="font-medium">${(quote.quoteAmount / quote.quantity).toFixed(2)}</span>
                     </div>
                     {quote.validUntil && (
                       <p className="text-sm text-green-600">Valid until: {quote.validUntil}</p>
                     )}
+                  </div>
+                ) : (
+                  <div className="bg-muted/50 border border-muted p-4 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium text-muted-foreground">Quote Pending</p>
+                        <p className="text-sm text-muted-foreground">We're preparing your custom pricing</p>
+                      </div>
+                      <Clock className="h-5 w-5 text-muted-foreground" />
+                    </div>
                   </div>
                 )}
 
