@@ -1,21 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ShoppingCart, Search, Filter } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-
-
-interface ProductOption {
-  id: string;
-  type: string;
-  price: number;
-  unit: string;
-  minOrder: number;
-  description: string;
-}
+import { ShoppingCart, Search, Filter, Eye } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -26,7 +16,7 @@ interface Product {
   application: string;
   image: string;
   inStock: boolean;
-  options: ProductOption[];
+  startingPrice: number;
 }
 
 const mockProducts: Product[] = [
@@ -39,32 +29,7 @@ const mockProducts: Product[] = [
     application: 'Automotive',
     image: '/placeholder.svg',
     inStock: true,
-    options: [
-      {
-        id: '1-pail',
-        type: 'Pail',
-        price: 45.99,
-        unit: 'per liter',
-        minOrder: 4,
-        description: '20L Pail - Perfect for small garages'
-      },
-      {
-        id: '1-drum',
-        type: 'Drum',
-        price: 42.99,
-        unit: 'per liter',
-        minOrder: 1,
-        description: '205L Drum - Great for workshops'
-      },
-      {
-        id: '1-bulk',
-        type: 'Bulk Tank',
-        price: 38.99,
-        unit: 'per liter',
-        minOrder: 1000,
-        description: '1000L+ Bulk delivery - Best price for large operations'
-      }
-    ]
+    startingPrice: 38.99
   },
   {
     id: '2',
@@ -75,32 +40,7 @@ const mockProducts: Product[] = [
     application: 'Industrial',
     image: '/placeholder.svg',
     inStock: true,
-    options: [
-      {
-        id: '2-container',
-        type: '5L Container',
-        price: 89.99,
-        unit: 'per 5L container',
-        minOrder: 1,
-        description: '5L Container - Convenient for small applications'
-      },
-      {
-        id: '2-drum',
-        type: 'Drum',
-        price: 16.50,
-        unit: 'per liter',
-        minOrder: 1,
-        description: '205L Drum - Industrial standard'
-      },
-      {
-        id: '2-bulk',
-        type: 'Bulk Tank',
-        price: 14.99,
-        unit: 'per liter',
-        minOrder: 2000,
-        description: '2000L+ Bulk delivery - Maximum savings'
-      }
-    ]
+    startingPrice: 14.99
   },
   {
     id: '3',
@@ -111,32 +51,7 @@ const mockProducts: Product[] = [
     application: 'Marine',
     image: '/placeholder.svg',
     inStock: true,
-    options: [
-      {
-        id: '3-bottle',
-        type: '1L Bottle',
-        price: 67.50,
-        unit: 'per liter',
-        minOrder: 2,
-        description: '1L Bottle - Perfect for small boats'
-      },
-      {
-        id: '3-case',
-        type: 'Case',
-        price: 62.50,
-        unit: 'per liter',
-        minOrder: 1,
-        description: '12x1L Case - Great for marine services'
-      },
-      {
-        id: '3-bulk',
-        type: 'Bulk Tank',
-        price: 55.99,
-        unit: 'per liter',
-        minOrder: 500,
-        description: '500L+ Bulk delivery - For large marine operations'
-      }
-    ]
+    startingPrice: 55.99
   },
   {
     id: '4',
@@ -147,24 +62,7 @@ const mockProducts: Product[] = [
     application: 'General Purpose',
     image: '/placeholder.svg',
     inStock: false,
-    options: [
-      {
-        id: '4-tube',
-        type: '500g Tube',
-        price: 25.99,
-        unit: 'per 500g tube',
-        minOrder: 6,
-        description: '500g Tube - Handy for maintenance'
-      },
-      {
-        id: '4-pail',
-        type: '18kg Pail',
-        price: 18.50,
-        unit: 'per kg',
-        minOrder: 1,
-        description: '18kg Pail - Workshop favorite'
-      }
-    ]
+    startingPrice: 18.50
   }
 ];
 
@@ -175,8 +73,7 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [cart, setCart] = useState<{[key: string]: number}>({});
-  const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let filtered = products;
@@ -195,46 +92,8 @@ const Products = () => {
     setFilteredProducts(filtered);
   }, [products, searchTerm, selectedCategory]);
 
-  const addToCart = (optionId: string, quantity: number = 1) => {
-    // Find the product and option
-    let foundProduct: Product | undefined;
-    let foundOption: ProductOption | undefined;
-    
-    for (const product of products) {
-      const option = product.options.find(opt => opt.id === optionId);
-      if (option) {
-        foundProduct = product;
-        foundOption = option;
-        break;
-      }
-    }
-
-    if (!foundProduct || !foundOption) return;
-
-    const newQuantity = (cart[optionId] || 0) + quantity;
-    
-    if (newQuantity < foundOption.minOrder) {
-      toast({
-        title: "Minimum Order Requirement",
-        description: `Minimum order quantity for ${foundProduct.name} (${foundOption.type}) is ${foundOption.minOrder} units.`,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setCart(prev => ({
-      ...prev,
-      [optionId]: newQuantity
-    }));
-
-    toast({
-      title: "Added to Cart",
-      description: `${foundProduct.name} (${foundOption.type}) has been added to your cart.`,
-    });
-  };
-
-  const getTotalItems = () => {
-    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+  const handleProductClick = (productId: string) => {
+    navigate(`/products/${productId}`);
   };
 
   return (
@@ -243,12 +102,6 @@ const Products = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Lubricant Products</h1>
           <p className="text-gray-600 mt-2">Professional grade lubricants for all your needs</p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <ShoppingCart className="h-6 w-6" />
-          <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-sm">
-            {getTotalItems()}
-          </span>
         </div>
       </div>
 
@@ -281,7 +134,11 @@ const Products = () => {
       {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
-          <Card key={product.id} className="hover:shadow-lg transition-shadow">
+          <Card 
+            key={product.id} 
+            className="hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => handleProductClick(product.id)}
+          >
             <CardHeader>
               <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
                 <img 
@@ -294,7 +151,7 @@ const Products = () => {
               <CardDescription>{product.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <Badge variant="secondary">{product.category}</Badge>
                   <Badge variant={product.inStock ? "default" : "destructive"}>
@@ -305,40 +162,16 @@ const Products = () => {
                   <p>Viscosity: {product.viscosity}</p>
                   <p>Application: {product.application}</p>
                 </div>
-                
-                {/* Product Options */}
-                <div className="space-y-3">
-                  <h4 className="font-medium text-gray-900">Available Options:</h4>
-                  {product.options.map((option) => (
-                    <div key={option.id} className="border rounded-lg p-3 bg-gray-50">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <Badge variant="outline" className="mb-1">{option.type}</Badge>
-                          <p className="text-sm text-gray-600">{option.description}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold text-blue-600">
-                            ${option.price} <span className="text-xs font-normal text-gray-500">{option.unit}</span>
-                          </p>
-                          <p className="text-xs text-gray-500">Min: {option.minOrder}</p>
-                        </div>
-                      </div>
-                      <Button 
-                        onClick={() => addToCart(option.id)}
-                        disabled={!product.inStock}
-                        size="sm"
-                        className="w-full"
-                      >
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        Add {option.type}
-                      </Button>
-                    </div>
-                  ))}
+                <div className="text-xl font-bold text-blue-600">
+                  From ${product.startingPrice}
                 </div>
               </div>
             </CardContent>
             <CardFooter>
-              {/* Footer can be empty now since buttons are in options */}
+              <Button className="w-full" variant="outline">
+                <Eye className="h-4 w-4 mr-2" />
+                View Details
+              </Button>
             </CardFooter>
           </Card>
         ))}
