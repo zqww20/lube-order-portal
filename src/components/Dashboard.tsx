@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import CustomerQuotes from '@/components/CustomerQuotes';
 import { 
   Search,
   ShoppingCart, 
@@ -53,11 +54,6 @@ const Dashboard = () => {
     { id: '3', name: 'Marine Gear Oil', price: 67.50, unit: 'liter', inStock: false },
     { id: '4', name: 'Multi-Purpose Grease', price: 25.99, unit: '500g tube', inStock: true },
     { id: '5', name: 'Transmission Fluid ATF', price: 55.99, unit: 'liter', inStock: true },
-  ];
-
-  const pendingQuotes = [
-    { id: 'QTE-2024-012', date: '2024-01-24', items: 'Bulk Engine Oil Order', total: 15420.00 },
-    { id: 'QTE-2024-011', date: '2024-01-22', items: 'Marine Lubricant Package', total: 8750.00 },
   ];
 
   const getStatusColor = (status: string) => {
@@ -151,33 +147,9 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Action Required */}
+        {/* Customer Quotes */}
         <div className="space-y-6">
-          {pendingQuotes.length > 0 && (
-            <Card className="border-warning/50">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center space-x-2 text-warning">
-                  <AlertCircle className="h-5 w-5" />
-                  <span className="font-heading">Action Required</span>
-                </CardTitle>
-                <CardDescription>Quotes awaiting your approval</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {pendingQuotes.map((quote) => (
-                  <div key={quote.id} className="p-3 bg-warning/5 rounded-lg border border-warning/20">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-medium text-sm">{quote.id}</span>
-                      <span className="font-semibold text-warning">${quote.total.toFixed(2)}</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mb-2">{quote.items}</p>
-                    <Button size="sm" className="w-full">
-                      Review Quote
-                    </Button>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          )}
+          <CustomerQuotes />
 
           {/* Quick Actions */}
           <Card>
@@ -193,7 +165,7 @@ const Dashboard = () => {
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start h-12">
-                <Link to="/quotes/new">
+                <Link to="/products">
                   <FileText className="h-4 w-4 mr-3" />
                   <span>Request Quote</span>
                   <ArrowRight className="h-4 w-4 ml-auto" />
