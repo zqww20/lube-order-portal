@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Quote, Search, Filter, Calendar, User, Building } from 'lucide-react';
+import { Quote, Search, Filter, Calendar, User, Building, Mail, Phone, Package, Clock, DollarSign, ArrowRight, FileText } from 'lucide-react';
 
 interface QuoteRequest {
   id: string;
@@ -70,11 +69,11 @@ const mockQuotes: QuoteRequest[] = [
 ];
 
 const statusColors = {
-  pending: 'bg-yellow-100 text-yellow-800',
-  processing: 'bg-blue-100 text-blue-800',
-  quoted: 'bg-green-100 text-green-800',
-  accepted: 'bg-purple-100 text-purple-800',
-  declined: 'bg-red-100 text-red-800'
+  pending: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+  processing: 'bg-blue-50 text-blue-700 border-blue-200',
+  quoted: 'bg-green-50 text-green-700 border-green-200',
+  accepted: 'bg-purple-50 text-purple-700 border-purple-200',
+  declined: 'bg-red-50 text-red-700 border-red-200'
 };
 
 const Quotes = () => {
@@ -106,133 +105,236 @@ const Quotes = () => {
   }, [searchTerm, statusFilter, quotes]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Quote Requests</h1>
-          <p className="text-gray-600 mt-2">Manage customer quote requests</p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Quote className="h-6 w-6" />
-          <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-sm">
-            {filteredQuotes.length}
-          </span>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <Input
-            placeholder="Search quotes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full md:w-48">
-            <Filter className="h-4 w-4 mr-2" />
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="processing">Processing</SelectItem>
-            <SelectItem value="quoted">Quoted</SelectItem>
-            <SelectItem value="accepted">Accepted</SelectItem>
-            <SelectItem value="declined">Declined</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Quotes List */}
-      <div className="space-y-6">
-        {filteredQuotes.map((quote) => (
-          <Card key={quote.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-lg">{quote.productName}</CardTitle>
-                  <CardDescription>Quote #{quote.id} • {quote.category}</CardDescription>
-                </div>
-                <Badge className={statusColors[quote.status]}>
-                  {quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
-                </Badge>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header Section */}
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">Quote Requests</h1>
+              <p className="text-xl text-gray-600">Manage customer quote requests efficiently</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3 bg-blue-600 text-white px-6 py-3 rounded-2xl shadow-lg">
+                <Quote className="h-6 w-6" />
+                <span className="text-lg font-semibold">{filteredQuotes.length}</span>
+                <span className="text-blue-100">Total</span>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Building className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm font-medium">{quote.company}</span>
+            </div>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-yellow-50 to-yellow-100">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-yellow-700 mb-1">Pending</p>
+                    <p className="text-2xl font-bold text-yellow-800">
+                      {quotes.filter(q => q.status === 'pending').length}
+                    </p>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <User className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">{quote.contactName}</span>
+                  <Clock className="h-8 w-8 text-yellow-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-blue-700 mb-1">Processing</p>
+                    <p className="text-2xl font-bold text-blue-800">
+                      {quotes.filter(q => q.status === 'processing').length}
+                    </p>
                   </div>
-                  <div className="text-sm text-gray-600">
-                    <p>Email: {quote.email}</p>
-                    <p>Phone: {quote.phone}</p>
+                  <Package className="h-8 w-8 text-blue-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-green-100">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-green-700 mb-1">Quoted</p>
+                    <p className="text-2xl font-bold text-green-800">
+                      {quotes.filter(q => q.status === 'quoted').length}
+                    </p>
+                  </div>
+                  <DollarSign className="h-8 w-8 text-green-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-purple-100">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-purple-700 mb-1">Accepted</p>
+                    <p className="text-2xl font-bold text-purple-800">
+                      {quotes.filter(q => q.status === 'accepted').length}
+                    </p>
+                  </div>
+                  <FileText className="h-8 w-8 text-purple-600" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Improved Filters */}
+        <Card className="mb-8 border-0 shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Input
+                  placeholder="Search by product, company, or contact name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-12 h-12 text-lg border-gray-200 focus:border-blue-500"
+                />
+              </div>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full md:w-64 h-12 border-gray-200">
+                  <Filter className="h-5 w-5 mr-2" />
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Statuses</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="processing">Processing</SelectItem>
+                  <SelectItem value="quoted">Quoted</SelectItem>
+                  <SelectItem value="accepted">Accepted</SelectItem>
+                  <SelectItem value="declined">Declined</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Enhanced Quotes List */}
+        <div className="space-y-6">
+          {filteredQuotes.map((quote) => (
+            <Card key={quote.id} className="hover:shadow-2xl transition-all duration-300 border-0 shadow-lg overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl text-gray-900 mb-2">{quote.productName}</CardTitle>
+                    <div className="flex items-center space-x-4">
+                      <CardDescription className="text-gray-600">Quote #{quote.id}</CardDescription>
+                      <Badge variant="outline" className="text-gray-600 border-gray-300">
+                        {quote.category}
+                      </Badge>
+                    </div>
+                  </div>
+                  <Badge className={`${statusColors[quote.status]} border font-medium px-4 py-2`}>
+                    {quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-gray-900 text-lg mb-4">Company Details</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3">
+                        <Building className="h-5 w-5 text-gray-500" />
+                        <span className="font-medium text-gray-900">{quote.company}</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <User className="h-5 w-5 text-gray-500" />
+                        <span className="text-gray-700">{quote.contactName}</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Mail className="h-5 w-5 text-gray-500" />
+                        <span className="text-gray-600">{quote.email}</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Phone className="h-5 w-5 text-gray-500" />
+                        <span className="text-gray-600">{quote.phone}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-gray-900 text-lg mb-4">Order Details</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Quantity:</span>
+                        <span className="font-semibold text-gray-900">{quote.quantity} units</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Calendar className="h-5 w-5 text-gray-500" />
+                        <div className="flex flex-col">
+                          <span className="text-sm text-gray-600">Expected Delivery</span>
+                          <span className="font-medium text-gray-900">{quote.expectedDelivery}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Clock className="h-5 w-5 text-gray-500" />
+                        <div className="flex flex-col">
+                          <span className="text-sm text-gray-600">Requested</span>
+                          <span className="text-gray-700">{quote.requestDate}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-gray-900 text-lg mb-4">Quote Info</h4>
+                    {quote.quoteAmount && (
+                      <div className="bg-green-50 p-4 rounded-xl border border-green-200">
+                        <div className="text-sm text-green-700 mb-1">Quote Amount</div>
+                        <div className="text-2xl font-bold text-green-800">
+                          ${quote.quoteAmount.toFixed(2)}
+                        </div>
+                      </div>
+                    )}
+                    {quote.requirements && (
+                      <div className="bg-gray-50 p-4 rounded-xl">
+                        <div className="text-sm font-medium text-gray-700 mb-2">Special Requirements</div>
+                        <p className="text-gray-600 text-sm leading-relaxed">{quote.requirements}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
-                <div className="space-y-2">
-                  <div className="text-sm">
-                    <span className="font-medium">Quantity:</span> {quote.quantity} units
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm">Expected: {quote.expectedDelivery}</span>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    Requested: {quote.requestDate}
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  {quote.quoteAmount && (
-                    <div className="text-lg font-bold text-green-600">
-                      ${quote.quoteAmount.toFixed(2)}
-                    </div>
+                <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-100">
+                  <Button variant="outline" size="sm" className="hover:bg-gray-50">
+                    <FileText className="h-4 w-4 mr-2" />
+                    View Details
+                  </Button>
+                  {quote.status === 'pending' && (
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                      <Package className="h-4 w-4 mr-2" />
+                      Process Quote
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
                   )}
-                  {quote.requirements && (
-                    <div className="text-sm">
-                      <span className="font-medium">Requirements:</span>
-                      <p className="text-gray-600 mt-1">{quote.requirements}</p>
-                    </div>
+                  {quote.status === 'quoted' && (
+                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Quote
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
                   )}
                 </div>
-              </div>
-              
-              <div className="flex justify-end space-x-2 mt-4 pt-4 border-t">
-                <Button variant="outline" size="sm">
-                  View Details
-                </Button>
-                {quote.status === 'pending' && (
-                  <Button size="sm">
-                    Process Quote
-                  </Button>
-                )}
-                {quote.status === 'quoted' && (
-                  <Button size="sm" variant="outline">
-                    Send Quote
-                  </Button>
-                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {filteredQuotes.length === 0 && (
+          <Card className="border-0 shadow-lg">
+            <CardContent className="text-center py-16">
+              <div className="mb-6">
+                <Quote className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500 text-xl mb-2">No quote requests found</p>
+                <p className="text-gray-400">Try adjusting your search criteria or filters.</p>
               </div>
             </CardContent>
           </Card>
-        ))}
+        )}
       </div>
-
-      {filteredQuotes.length === 0 && (
-        <div className="text-center py-12">
-          <Quote className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">No quote requests found matching your criteria.</p>
-        </div>
-      )}
     </div>
   );
 };
