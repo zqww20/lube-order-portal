@@ -8,18 +8,25 @@ import { ShoppingCart, Search, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 
+interface ProductOption {
+  id: string;
+  type: string;
+  price: number;
+  unit: string;
+  minOrder: number;
+  description: string;
+}
+
 interface Product {
   id: string;
   name: string;
   category: string;
   description: string;
-  price: number;
-  unit: string;
   viscosity: string;
   application: string;
   image: string;
   inStock: boolean;
-  minOrder: number;
+  options: ProductOption[];
 }
 
 const mockProducts: Product[] = [
@@ -28,52 +35,136 @@ const mockProducts: Product[] = [
     name: 'Premium Engine Oil 5W-30',
     category: 'Engine Oils',
     description: 'High-performance synthetic engine oil for modern vehicles',
-    price: 45.99,
-    unit: 'per liter',
     viscosity: '5W-30',
     application: 'Automotive',
     image: '/placeholder.svg',
     inStock: true,
-    minOrder: 4
+    options: [
+      {
+        id: '1-pail',
+        type: 'Pail',
+        price: 45.99,
+        unit: 'per liter',
+        minOrder: 4,
+        description: '20L Pail - Perfect for small garages'
+      },
+      {
+        id: '1-drum',
+        type: 'Drum',
+        price: 42.99,
+        unit: 'per liter',
+        minOrder: 1,
+        description: '205L Drum - Great for workshops'
+      },
+      {
+        id: '1-bulk',
+        type: 'Bulk Tank',
+        price: 38.99,
+        unit: 'per liter',
+        minOrder: 1000,
+        description: '1000L+ Bulk delivery - Best price for large operations'
+      }
+    ]
   },
   {
     id: '2',
     name: 'Industrial Hydraulic Fluid',
     category: 'Hydraulic Fluids',
     description: 'Premium quality hydraulic fluid for industrial machinery',
-    price: 89.99,
-    unit: 'per 5L container',
     viscosity: 'ISO 46',
     application: 'Industrial',
     image: '/placeholder.svg',
     inStock: true,
-    minOrder: 1
+    options: [
+      {
+        id: '2-container',
+        type: '5L Container',
+        price: 89.99,
+        unit: 'per 5L container',
+        minOrder: 1,
+        description: '5L Container - Convenient for small applications'
+      },
+      {
+        id: '2-drum',
+        type: 'Drum',
+        price: 16.50,
+        unit: 'per liter',
+        minOrder: 1,
+        description: '205L Drum - Industrial standard'
+      },
+      {
+        id: '2-bulk',
+        type: 'Bulk Tank',
+        price: 14.99,
+        unit: 'per liter',
+        minOrder: 2000,
+        description: '2000L+ Bulk delivery - Maximum savings'
+      }
+    ]
   },
   {
     id: '3',
     name: 'Marine Gear Oil',
     category: 'Marine Lubricants',
     description: 'Specialized gear oil for marine applications',
-    price: 67.50,
-    unit: 'per liter',
     viscosity: 'SAE 80W-90',
     application: 'Marine',
     image: '/placeholder.svg',
     inStock: true,
-    minOrder: 2
+    options: [
+      {
+        id: '3-bottle',
+        type: '1L Bottle',
+        price: 67.50,
+        unit: 'per liter',
+        minOrder: 2,
+        description: '1L Bottle - Perfect for small boats'
+      },
+      {
+        id: '3-case',
+        type: 'Case',
+        price: 62.50,
+        unit: 'per liter',
+        minOrder: 1,
+        description: '12x1L Case - Great for marine services'
+      },
+      {
+        id: '3-bulk',
+        type: 'Bulk Tank',
+        price: 55.99,
+        unit: 'per liter',
+        minOrder: 500,
+        description: '500L+ Bulk delivery - For large marine operations'
+      }
+    ]
   },
   {
     id: '4',
     name: 'Multi-Purpose Grease',
     category: 'Greases',
     description: 'Versatile lithium-based grease for various applications',
-    price: 25.99,
-    unit: 'per 500g tube',
     viscosity: 'NLGI 2',
     application: 'General Purpose',
     image: '/placeholder.svg',
     inStock: false,
-    minOrder: 6
+    options: [
+      {
+        id: '4-tube',
+        type: '500g Tube',
+        price: 25.99,
+        unit: 'per 500g tube',
+        minOrder: 6,
+        description: '500g Tube - Handy for maintenance'
+      },
+      {
+        id: '4-pail',
+        type: '18kg Pail',
+        price: 18.50,
+        unit: 'per kg',
+        minOrder: 1,
+        description: '18kg Pail - Workshop favorite'
+      }
+    ]
   }
 ];
 
@@ -104,16 +195,28 @@ const Products = () => {
     setFilteredProducts(filtered);
   }, [products, searchTerm, selectedCategory]);
 
-  const addToCart = (productId: string, quantity: number = 1) => {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-
-    const newQuantity = (cart[productId] || 0) + quantity;
+  const addToCart = (optionId: string, quantity: number = 1) => {
+    // Find the product and option
+    let foundProduct: Product | undefined;
+    let foundOption: ProductOption | undefined;
     
-    if (newQuantity < product.minOrder) {
+    for (const product of products) {
+      const option = product.options.find(opt => opt.id === optionId);
+      if (option) {
+        foundProduct = product;
+        foundOption = option;
+        break;
+      }
+    }
+
+    if (!foundProduct || !foundOption) return;
+
+    const newQuantity = (cart[optionId] || 0) + quantity;
+    
+    if (newQuantity < foundOption.minOrder) {
       toast({
         title: "Minimum Order Requirement",
-        description: `Minimum order quantity for ${product.name} is ${product.minOrder} units.`,
+        description: `Minimum order quantity for ${foundProduct.name} (${foundOption.type}) is ${foundOption.minOrder} units.`,
         variant: "destructive",
       });
       return;
@@ -121,12 +224,12 @@ const Products = () => {
 
     setCart(prev => ({
       ...prev,
-      [productId]: newQuantity
+      [optionId]: newQuantity
     }));
 
     toast({
       title: "Added to Cart",
-      description: `${product.name} has been added to your cart.`,
+      description: `${foundProduct.name} (${foundOption.type}) has been added to your cart.`,
     });
   };
 
@@ -191,7 +294,7 @@ const Products = () => {
               <CardDescription>{product.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
+              <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <Badge variant="secondary">{product.category}</Badge>
                   <Badge variant={product.inStock ? "default" : "destructive"}>
@@ -201,23 +304,41 @@ const Products = () => {
                 <div className="text-sm text-gray-600">
                   <p>Viscosity: {product.viscosity}</p>
                   <p>Application: {product.application}</p>
-                  <p>Min. Order: {product.minOrder} units</p>
                 </div>
-                <div className="text-2xl font-bold text-blue-600">
-                  ${product.price} <span className="text-sm font-normal text-gray-500">{product.unit}</span>
+                
+                {/* Product Options */}
+                <div className="space-y-3">
+                  <h4 className="font-medium text-gray-900">Available Options:</h4>
+                  {product.options.map((option) => (
+                    <div key={option.id} className="border rounded-lg p-3 bg-gray-50">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <Badge variant="outline" className="mb-1">{option.type}</Badge>
+                          <p className="text-sm text-gray-600">{option.description}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-blue-600">
+                            ${option.price} <span className="text-xs font-normal text-gray-500">{option.unit}</span>
+                          </p>
+                          <p className="text-xs text-gray-500">Min: {option.minOrder}</p>
+                        </div>
+                      </div>
+                      <Button 
+                        onClick={() => addToCart(option.id)}
+                        disabled={!product.inStock}
+                        size="sm"
+                        className="w-full"
+                      >
+                        <ShoppingCart className="h-4 w-4 mr-2" />
+                        Add {option.type}
+                      </Button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="space-y-2">
-              <Button 
-                onClick={() => addToCart(product.id)}
-                disabled={!product.inStock}
-                className="w-full"
-              >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Add to Cart
-              </Button>
-              
+            <CardFooter>
+              {/* Footer can be empty now since buttons are in options */}
             </CardFooter>
           </Card>
         ))}
