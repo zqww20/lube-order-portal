@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ShoppingCart, Search, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import QuoteRequest from '@/components/QuoteRequest';
 
 interface Product {
   id: string;
@@ -208,7 +208,7 @@ const Products = () => {
                 </div>
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="space-y-2">
               <Button 
                 onClick={() => addToCart(product.id)}
                 disabled={!product.inStock}
@@ -217,6 +217,7 @@ const Products = () => {
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 Add to Cart
               </Button>
+              <QuoteRequest product={product} />
             </CardFooter>
           </Card>
         ))}
