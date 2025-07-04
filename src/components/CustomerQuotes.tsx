@@ -53,15 +53,6 @@ const statusInfo = {
 const CustomerQuotes = () => {
   const [quotes] = useState<CustomerQuote[]>(mockCustomerQuotes);
 
-  const handleAcceptQuote = (quoteId: string) => {
-    console.log('Accepting quote:', quoteId);
-    // Add acceptance logic here
-  };
-
-  const handleDeclineQuote = (quoteId: string) => {
-    console.log('Declining quote:', quoteId);
-    // Add decline logic here
-  };
 
   return (
     <div className="space-y-6">
@@ -132,23 +123,10 @@ const CustomerQuotes = () => {
 
                 <div className="flex justify-end space-x-2 pt-2">
                   {quote.status === 'quoted' && (
-                    <>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleDeclineQuote(quote.id)}
-                      >
-                        <XCircle className="h-4 w-4 mr-1" />
-                        Decline
-                      </Button>
-                      <Button 
-                        size="sm"
-                        onClick={() => handleAcceptQuote(quote.id)}
-                      >
-                        <CheckCircle className="h-4 w-4 mr-1" />
-                        Accept Quote
-                      </Button>
-                    </>
+                    <Button size="sm" variant="outline">
+                      <Package className="h-4 w-4 mr-1" />
+                      Contact Sales
+                    </Button>
                   )}
                   {quote.status === 'accepted' && (
                     <Button size="sm" variant="outline">
