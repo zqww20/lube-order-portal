@@ -11,7 +11,7 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import ERPIntegration from "./components/ERPIntegration";
 import NotFound from "./pages/NotFound";
-import Quotes from "./pages/Quotes";
+import CustomerQuotes from "./components/CustomerQuotes";
 import Employee from "./pages/Employee";
 
 const queryClient = new QueryClient();
@@ -31,7 +31,7 @@ const App = () => (
               <Route path="/products/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/orders" element={<Orders />} />
-              <Route path="/quotes" element={<Quotes />} />
+              <Route path="/quotes" element={<CustomerQuotes />} />
               <Route path="/employee" element={<Employee />} />
               <Route path="/erp-integration" element={<ERPIntegration />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

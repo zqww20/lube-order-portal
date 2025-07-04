@@ -361,6 +361,25 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+              
+              {/* Cross-Sell Opportunities */}
+              <div className="mt-4 p-3 bg-primary/5 border border-primary/10 rounded-lg">
+                <h4 className="font-medium text-xs text-primary mb-2">Frequently Bought Together</h4>
+                <div className="flex flex-wrap gap-1">
+                  <Badge variant="outline" className="text-xs">
+                    Engine Oil + Filter Kit
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    Hydraulic Fluid + Grease
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    Marine Oil + Additives
+                  </Badge>
+                </div>
+                <Button size="sm" variant="outline" className="w-full h-6 text-xs mt-2">
+                  View Bundle Deals
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
