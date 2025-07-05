@@ -114,7 +114,7 @@ const Quotes = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Quote History</h1>
+          <h1 className="text-3xl font-bold text-gray-900">My Quote Requests</h1>
           <p className="text-gray-600 mt-2">Track and manage your lubricant quotes</p>
         </div>
         <div className="text-right">
@@ -128,7 +128,7 @@ const Quotes = () => {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input
-            placeholder="Search by quote number or ERP reference..."
+            placeholder="Search by quote number or product..."
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             className="pl-10"
@@ -142,7 +142,7 @@ const Quotes = () => {
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="processing">Processing</SelectItem>
-            <SelectItem value="ready">Ready</SelectItem>
+            <SelectItem value="ready">Quote Ready</SelectItem>
             <SelectItem value="accepted">Accepted</SelectItem>
             <SelectItem value="expired">Expired</SelectItem>
           </SelectContent>
@@ -157,29 +157,25 @@ const Quotes = () => {
               <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
                 <div className="flex-1">
                   <div className="flex items-center space-x-4 mb-2">
-                    <h3 className="font-semibold text-lg">{quote.quoteNumber}</h3>
-                    <Badge className={statusColorMap[quote.status]}>
-                      {quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
+                    <h3 className="font-semibold text-lg">{quote.id}</h3>
+                    <Badge className={quote.status === 'ready' || quote.status === 'accepted' ? 'bg-green-100 text-green-800' : statusColorMap[quote.status]}>
+                      {quote.status === 'ready' ? 'Quote Ready' : quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
                     </Badge>
                   </div>
-                  
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-600">
                     <p>Date: {new Date(quote.date).toLocaleDateString()}</p>
                     <p>Items: {quote.items}</p>
                     <p>Total: ${quote.total.toFixed(2)}</p>
                   </div>
-                  
                   <p className="text-sm text-gray-600 mt-1">
                     Ship to: {quote.shippingAddress}
                   </p>
-                  
                   {quote.erpReference && (
                     <p className="text-sm text-blue-600 mt-1">
                       ERP Ref: {quote.erpReference}
                     </p>
                   )}
                 </div>
-                
                 <div className="flex space-x-2">
                   <Button
                     variant="outline"
@@ -187,19 +183,16 @@ const Quotes = () => {
                     onClick={() => viewQuoteDetails(quote.id)}
                   >
                     <Eye className="h-4 w-4 mr-2" />
-                    View Details
+                    View Quote
                   </Button>
-                  
-                  {quote.status === 'accepted' && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => downloadQuote(quote.id)}
-                    >
-                      <Download className="h-4 w-4 mr-2" />
-                      Quote
-                    </Button>
-                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => console.log('Convert to order', quote.id)}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Convert to Order
+                  </Button>
                 </div>
               </div>
             </CardContent>
