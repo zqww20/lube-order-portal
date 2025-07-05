@@ -1,99 +1,70 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Eye, Quote } from 'lucide-react';
+import { Eye, Search, Download, Quote } from 'lucide-react';
 
-interface QuoteRequest {
+interface Quote {
   id: string;
-  productName: string;
-  category: string;
-  quantity: number;
-  company: string;
-  contactName: string;
-  email: string;
-  phone: string;
-  requirements: string;
-  expectedDelivery: string;
+  quoteNumber: string;
+  date: string;
   status: 'ready-for-review' | 'pending' | 'accepted' | 'expired';
-  requestDate: string;
-  quoteAmount?: number;
+  total: number;
+  items: number;
+  company: string;
 }
 
-const mockQuotes: QuoteRequest[] = [
+const mockQuotes: Quote[] = [
   {
-    id: 'Q001',
-    productName: 'Premium Engine Oil 5W-30',
-    category: 'Engine Oils',
-    quantity: 100,
-    company: 'ABC Motors',
-    contactName: 'John Smith',
-    email: 'john@abcmotors.com',
-    phone: '(555) 123-4567',
-    requirements: 'Bulk purchase for fleet maintenance',
-    expectedDelivery: '2024-02-15',
+    id: '1',
+    quoteNumber: 'QTE-2024-001',
+    date: '2024-01-15',
     status: 'ready-for-review',
-    requestDate: '2024-01-20',
-    quoteAmount: 4200.00
+    total: 275.96,
+    items: 3,
+    company: 'ABC Manufacturing'
   },
   {
-    id: 'Q002',
-    productName: 'Industrial Hydraulic Fluid',
-    category: 'Hydraulic Fluids',
-    quantity: 50,
-    company: 'Manufacturing Co',
-    contactName: 'Sarah Johnson',
-    email: 'sarah@manufacturing.com',
-    phone: '(555) 987-6543',
-    requirements: 'Monthly recurring order',
-    expectedDelivery: '2024-02-01',
+    id: '2',
+    quoteNumber: 'QTE-2024-002',
+    date: '2024-01-20',
     status: 'pending',
-    requestDate: '2024-01-18'
+    total: 189.98,
+    items: 2,
+    company: 'Industrial Solutions'
   },
   {
-    id: 'Q003',
-    productName: 'Marine Gear Oil',
-    category: 'Marine Lubricants',
-    quantity: 25,
-    company: 'Harbor Services',
-    contactName: 'Mike Davis',
-    email: 'mike@harborservices.com',
-    phone: '(555) 456-7890',
-    requirements: 'Urgent delivery needed',
-    expectedDelivery: '2024-01-30',
-    status: 'expired',
-    requestDate: '2024-01-22'
-  },
-  {
-    id: 'Q004',
-    productName: 'Transmission Fluid',
-    category: 'Automotive Fluids',
-    quantity: 75,
-    company: 'Fleet Services Inc',
-    contactName: 'Robert Wilson',
-    email: 'robert@fleetservices.com',
-    phone: '(555) 321-9876',
-    requirements: 'Standard delivery',
-    expectedDelivery: '2024-02-20',
+    id: '3',
+    quoteNumber: 'QTE-2024-003',
+    date: '2024-01-22',
     status: 'accepted',
-    requestDate: '2024-01-25',
-    quoteAmount: 3150.00
+    total: 567.45,
+    items: 5,
+    company: 'Fleet Services Inc'
+  },
+  {
+    id: '4',
+    quoteNumber: 'QTE-2024-004',
+    date: '2024-01-25',
+    status: 'expired',
+    total: 123.50,
+    items: 1,
+    company: 'Harbor Logistics'
   }
 ];
 
 const statusColorMap = {
-  'ready-for-review': 'bg-accent text-accent-foreground',
-  'pending': 'bg-yellow-100 text-yellow-800',
-  'accepted': 'bg-green-100 text-green-800',
-  'expired': 'bg-muted text-muted-foreground'
+  'ready-for-review': 'bg-blue-100 text-blue-800',
+  pending: 'bg-yellow-100 text-yellow-800',
+  accepted: 'bg-green-100 text-green-800',
+  expired: 'bg-red-100 text-red-800'
 };
 
 const Quotes = () => {
-  const [quotes] = useState<QuoteRequest[]>(mockQuotes);
-  const [filteredQuotes, setFilteredQuotes] = useState<QuoteRequest[]>(mockQuotes);
+  const [quotes, setQuotes] = useState<Quote[]>(mockQuotes);
+  const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>(mockQuotes);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -112,8 +83,7 @@ const Quotes = () => {
 
     if (search) {
       filtered = filtered.filter(quote =>
-        quote.id.toLowerCase().includes(search.toLowerCase()) ||
-        quote.productName.toLowerCase().includes(search.toLowerCase()) ||
+        quote.quoteNumber.toLowerCase().includes(search.toLowerCase()) ||
         quote.company.toLowerCase().includes(search.toLowerCase())
       );
     }
@@ -135,7 +105,7 @@ const Quotes = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Quotes</h1>
-          <p className="text-gray-600 mt-2">Track and manage customer quote requests</p>
+          <p className="text-gray-600 mt-2">Track and manage your lubricant quotes</p>
         </div>
         <div className="text-right">
           <p className="text-sm text-gray-600">Total Quotes</p>
@@ -148,7 +118,7 @@ const Quotes = () => {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input
-            placeholder="Search by quote number, product, or company..."
+            placeholder="Search by quote number or company..."
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             className="pl-10"
@@ -168,71 +138,46 @@ const Quotes = () => {
         </Select>
       </div>
 
-      {/* Quotes Table */}
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-semibold">Quote #</TableHead>
-                <TableHead className="font-semibold">Product</TableHead>
-                <TableHead className="font-semibold">Company</TableHead>
-                <TableHead className="font-semibold">Date Submitted</TableHead>
-                <TableHead className="font-semibold">Status</TableHead>
-                <TableHead className="font-semibold">Quoted Total</TableHead>
-                <TableHead className="font-semibold text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredQuotes.map((quote) => (
-                <TableRow key={quote.id} className="hover:bg-muted/50">
-                  <TableCell className="font-medium">{quote.id}</TableCell>
-                  <TableCell>
-                    <div>
-                      <p className="font-medium">{quote.productName}</p>
-                      <p className="text-sm text-muted-foreground">{quote.category}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div>
-                      <p className="font-medium">{quote.company}</p>
-                      <p className="text-sm text-muted-foreground">{quote.contactName}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>{new Date(quote.requestDate).toLocaleDateString()}</TableCell>
-                  <TableCell>
+      {/* Quotes List */}
+      <div className="space-y-4">
+        {filteredQuotes.map((quote) => (
+          <Card key={quote.id} className="hover:shadow-lg transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-4 mb-2">
+                    <h3 className="font-semibold text-lg">{quote.quoteNumber}</h3>
                     <Badge className={statusColorMap[quote.status]}>
-                      {quote.status === 'ready-for-review' 
-                        ? 'Ready for Review'
-                        : quote.status.charAt(0).toUpperCase() + quote.status.slice(1)
-                      }
+                      {quote.status === 'ready-for-review' ? 'Ready for Review' : quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
                     </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {quote.quoteAmount ? (
-                      <span className="font-semibold">${quote.quoteAmount.toFixed(2)}</span>
-                    ) : (
-                      <span className="text-muted-foreground">Pending</span>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => viewQuoteDetails(quote.id)}
-                      style={{ backgroundColor: '#4CC2E5', borderColor: '#4CC2E5', color: 'white' }}
-                      className="hover:opacity-90"
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      Review Quote
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-600">
+                    <p>Date: {new Date(quote.date).toLocaleDateString()}</p>
+                    <p>Items: {quote.items}</p>
+                    <p>Total: ${quote.total.toFixed(2)}</p>
+                  </div>
+                  
+                  <p className="text-sm text-gray-600 mt-1">
+                    Company: {quote.company}
+                  </p>
+                </div>
+                
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => viewQuoteDetails(quote.id)}
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    Review Quote
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
       {filteredQuotes.length === 0 && (
         <div className="text-center py-12">
