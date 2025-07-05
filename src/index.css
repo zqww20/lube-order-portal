@@ -24,8 +24,8 @@
     --secondary: 193 85% 54%; /* Vibrant accent #4CC2E5 */
     --secondary-foreground: 228 64% 18%;
 
-    --muted: 210 20% 98%;
-    --muted-foreground: 210 15% 46%;
+    --muted: 227 25% 97%;
+    --muted-foreground: 227 30% 45%;
 
     --accent: 193 85% 54%; /* Vibrant accent #4CC2E5 */
     --accent-foreground: 228 64% 18%;
@@ -34,25 +34,25 @@
     --destructive-foreground: 0 0% 100%;
 
     --success: 142 71% 45%; /* Green #28a745 */
-    --success-foreground: 0 0% 100%;
+    --success-foreground: 227 63% 18%;
 
     --warning: 45 100% 51%; /* Yellow #ffc107 */
-    --warning-foreground: 210 100% 20%;
+    --warning-foreground: 227 63% 18%;
 
-    --border: 210 20% 91%;
-    --input: 210 20% 91%;
-    --ring: 210 100% 20%;
+    --border: 227 20% 89%;
+    --input: 227 15% 92%;
+    --ring: 227 63% 18%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 210 100% 20%;
-    --sidebar-primary: 210 100% 20%;
+    --sidebar-background: 227 63% 96%;
+    --sidebar-foreground: 227 63% 18%;
+    --sidebar-primary: 227 63% 18%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 210 20% 96%;
-    --sidebar-accent-foreground: 210 100% 20%;
-    --sidebar-border: 210 20% 91%;
-    --sidebar-ring: 195 100% 47%;
+    --sidebar-accent: 227 63% 94%;
+    --sidebar-accent-foreground: 227 63% 18%;
+    --sidebar-border: 227 30% 90%;
+    --sidebar-ring: 227 63% 18%;
   }
 
   .dark {
@@ -133,5 +133,21 @@
   
   .border-warning {
     border-color: hsl(var(--warning));
+  }
+
+  .text-brand {
+    color: hsl(227 63% 18%);
+  }
+  
+  .bg-brand {
+    background-color: hsl(227 63% 18%);
+  }
+  
+  .border-brand {
+    border-color: hsl(227 63% 18%);
+  }
+
+  .bg-brand-light {
+    background-color: hsl(227 63% 96%);
   }
 }
