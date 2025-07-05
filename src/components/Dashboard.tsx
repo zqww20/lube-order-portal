@@ -189,32 +189,114 @@ const Dashboard = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
-        {/* Recent Orders */}
-        <div className="lg:col-span-3">
-          <Card>
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="font-heading text-base">Recent Orders</CardTitle>
-                <Button asChild variant="outline" size="sm" className="h-7">
-                  <Link to="/orders">
-                    View All <ArrowRight className="h-3 w-3 ml-1" />
-                  </Link>
-                </Button>
+      {/* Main Action Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {/* Orders Card */}
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Link to="/orders">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Package className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-sm">My Orders</h3>
+                  <p className="text-xs text-muted-foreground">Track shipments</p>
+                </div>
               </div>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-2xl font-bold text-primary">3</span>
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Active orders</p>
+            </CardContent>
+          </Link>
+        </Card>
+
+        {/* Quotes Card */}
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Link to="/quotes">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <FileText className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-sm">My Quotes</h3>
+                  <p className="text-xs text-muted-foreground">View pricing</p>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-2xl font-bold text-accent">2</span>
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Ready to review</p>
+            </CardContent>
+          </Link>
+        </Card>
+
+        {/* Emergency Delivery Card */}
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-3">
+              <div className="h-10 w-10 rounded-lg bg-warning/10 flex items-center justify-center">
+                <Zap className="h-5 w-5 text-warning" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-sm">Emergency</h3>
+                <p className="text-xs text-muted-foreground">Rush delivery</p>
+              </div>
+            </div>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-xs font-medium text-warning">24/7</span>
+              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">Available</p>
+          </CardContent>
+        </Card>
+
+        {/* Quick Order Card */}
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Link to="/products">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <div className="h-10 w-10 rounded-lg bg-success/10 flex items-center justify-center">
+                  <Plus className="h-5 w-5 text-success" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-sm">Quick Order</h3>
+                  <p className="text-xs text-muted-foreground">Browse products</p>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-xs font-medium text-success">Fast</span>
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Start shopping</p>
+            </CardContent>
+          </Link>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Recent Activity */}
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="font-heading text-lg">Recent Activity</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2 pt-0">
-              {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-2 border rounded-lg hover:bg-muted/30 transition-colors">
+            <CardContent className="space-y-3 pt-0">
+              {recentOrders.slice(0, 3).map((order) => (
+                <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/30 transition-colors">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-semibold text-primary text-xs">{order.id}</span>
+                      <span className="font-semibold text-primary text-sm">{order.id}</span>
                       <Badge className={`${getStatusColor(order.status)} flex items-center space-x-1 text-xs`}>
                         {getStatusIcon(order.status)}
                         <span>{order.status}</span>
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-1 line-clamp-1">{order.items}</p>
+                    <p className="text-sm text-muted-foreground mb-1 line-clamp-1">{order.items}</p>
                     <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                       <span>{order.date}</span>
                       {order.trackingNumber && (
@@ -223,7 +305,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-xs">${order.total.toFixed(2)}</p>
+                    <p className="font-semibold text-sm">${order.total.toFixed(2)}</p>
                     {order.status === 'Shipped' && (
                       <Button variant="link" size="sm" className="p-0 h-auto text-xs">
                         Track
@@ -232,68 +314,42 @@ const Dashboard = () => {
                   </div>
                 </div>
               ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quote Status & Delivery - Combined */}
-        <div className="lg:col-span-2 space-y-3">
-          {/* Quote Status */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="font-heading text-base">Quote Status</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 pt-0">
-              <div className="p-2 border rounded-lg">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-medium">Q001</span>
-                  <Badge className="bg-green-50 text-green-700 border-green-200 text-xs">Ready</Badge>
-                </div>
-                <p className="text-xs text-muted-foreground">Engine Oil 5W-30</p>
-                <p className="text-xs font-semibold">$4,200.00</p>
-              </div>
-              <div className="p-2 border rounded-lg">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-medium">Q003</span>
-                  <Badge className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs">Pending</Badge>
-                </div>
-                <p className="text-xs text-muted-foreground">Marine Gear Oil</p>
-                <p className="text-xs text-muted-foreground">Under review</p>
-              </div>
-              <Button asChild variant="outline" size="sm" className="w-full h-7">
-                <Link to="/quotes">View All</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Delivery Information */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="font-heading text-base flex items-center">
-                <Truck className="h-3 w-3 mr-2" />
-                Next Delivery
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 pt-0">
-              <div className="p-2 border rounded-lg">
-                <div className="flex items-center space-x-2 mb-1">
-                  <Calendar className="h-3 w-3 text-muted-foreground" />
-                  <span className="text-xs font-medium">{deliveryInfo.nextDelivery.date}</span>
-                </div>
-                <p className="text-xs text-muted-foreground mb-1">{deliveryInfo.nextDelivery.time}</p>
-                <div className="flex items-start space-x-2 mb-1">
-                  <MapPin className="h-3 w-3 text-muted-foreground mt-0.5" />
-                  <p className="text-xs text-muted-foreground line-clamp-2">{deliveryInfo.nextDelivery.address}</p>
-                </div>
-                <p className="text-xs text-muted-foreground line-clamp-1">{deliveryInfo.nextDelivery.items}</p>
-              </div>
-              <Button variant="outline" size="sm" className="w-full h-7">
-                <Zap className="h-3 w-3 mr-1" />
-                Emergency Delivery
+              <Button asChild variant="outline" className="w-full">
+                <Link to="/orders">
+                  View All Orders <ArrowRight className="h-4 w-4 ml-1" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
         </div>
+
+        {/* Next Delivery */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="font-heading text-lg flex items-center">
+              <Truck className="h-4 w-4 mr-2" />
+              Next Delivery
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 pt-0">
+            <div className="p-3 border rounded-lg">
+              <div className="flex items-center space-x-2 mb-2">
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">{deliveryInfo.nextDelivery.date}</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-2">{deliveryInfo.nextDelivery.time}</p>
+              <div className="flex items-start space-x-2 mb-2">
+                <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <p className="text-sm text-muted-foreground line-clamp-2">{deliveryInfo.nextDelivery.address}</p>
+              </div>
+              <p className="text-sm text-muted-foreground line-clamp-1">{deliveryInfo.nextDelivery.items}</p>
+            </div>
+            <Button variant="outline" className="w-full">
+              <Zap className="h-4 w-4 mr-1" />
+              Emergency Delivery
+            </Button>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Smart Re-Order Section with Predictive Analytics */}

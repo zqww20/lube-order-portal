@@ -8,27 +8,27 @@
 
 @layer base {
   :root {
-    /* Bluewater Group Brand Colors */
+    /* Bluewater Group Brand Colors - Updated */
     --background: 0 0% 100%;
-    --foreground: 210 100% 20%; /* Deep navy blue #003366 */
+    --foreground: 228 64% 18%; /* Deep professional blue #111D4A */
 
     --card: 0 0% 100%;
-    --card-foreground: 210 100% 20%;
+    --card-foreground: 228 64% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 100% 20%;
+    --popover-foreground: 228 64% 18%;
 
-    --primary: 210 100% 20%; /* Deep navy blue #003366 */
+    --primary: 228 64% 18%; /* Deep professional blue #111D4A */
     --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 195 100% 47%; /* Light blue accent #00AEEF */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 193 85% 54%; /* Vibrant accent #4CC2E5 */
+    --secondary-foreground: 228 64% 18%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 210 20% 46%;
+    --muted: 210 20% 98%;
+    --muted-foreground: 210 15% 46%;
 
-    --accent: 195 100% 47%; /* Light blue accent #00AEEF */
-    --accent-foreground: 0 0% 100%;
+    --accent: 193 85% 54%; /* Vibrant accent #4CC2E5 */
+    --accent-foreground: 228 64% 18%;
 
     --destructive: 0 84% 60%; /* Red #dc3545 */
     --destructive-foreground: 0 0% 100%;
@@ -56,20 +56,20 @@
   }
 
   .dark {
-    --background: 210 100% 6%;
+    --background: 228 64% 8%;
     --foreground: 0 0% 98%;
-    --card: 210 100% 8%;
+    --card: 228 64% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 210 100% 8%;
+    --popover: 228 64% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 195 100% 47%;
-    --primary-foreground: 210 100% 6%;
-    --secondary: 210 50% 15%;
+    --primary: 193 85% 54%;
+    --primary-foreground: 228 64% 8%;
+    --secondary: 228 40% 20%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 210 50% 15%;
+    --muted: 228 40% 15%;
     --muted-foreground: 210 20% 65%;
-    --accent: 210 50% 15%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 193 85% 54%;
+    --accent-foreground: 228 64% 8%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 50% 15%;
