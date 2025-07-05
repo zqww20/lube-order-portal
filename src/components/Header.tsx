@@ -108,7 +108,7 @@ const Header = () => {
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="flex items-center space-x-2 border-white/30 text-white hover:bg-white/10">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-white hover:bg-white/10 border border-white/30">
                   <div className="h-6 w-6 rounded-full bg-white/20 flex items-center justify-center">
                     <User className="h-3 w-3 text-white" />
                   </div>
