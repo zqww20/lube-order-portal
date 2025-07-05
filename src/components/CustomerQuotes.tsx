@@ -80,8 +80,8 @@ const CustomerQuotes = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center py-6 px-4">
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">My Quote Requests</h2>
-          <p className="text-muted-foreground">Track your quote requests and responses</p>
+          <h1 className="text-3xl font-bold text-gray-900">My Quote Requests</h1>
+          <p className="text-gray-600 mt-2">Track your quote requests and responses</p>
         </div>
         <div className="flex items-center space-x-3 bg-primary/10 text-primary px-6 py-3 rounded-lg">
           <Quote className="h-5 w-5" />
