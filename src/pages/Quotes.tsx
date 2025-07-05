@@ -10,7 +10,7 @@ interface Quote {
   id: string;
   quoteNumber: string;
   date: string;
-  status: 'ready-for-review' | 'pending' | 'accepted' | 'expired';
+  status: 'quote-ready' | 'pending' | 'accepted' | 'expired';
   total: number;
   items: number;
   company: string;
@@ -21,7 +21,7 @@ const mockQuotes: Quote[] = [
     id: '1',
     quoteNumber: 'QTE-2024-001',
     date: '2024-01-15',
-    status: 'ready-for-review',
+    status: 'quote-ready',
     total: 275.96,
     items: 3,
     company: 'ABC Manufacturing'
@@ -56,9 +56,9 @@ const mockQuotes: Quote[] = [
 ];
 
 const statusColorMap = {
-  'ready-for-review': 'bg-blue-100 text-blue-800',
+  'quote-ready': 'bg-green-100 text-green-800',
   pending: 'bg-yellow-100 text-yellow-800',
-  accepted: 'bg-green-100 text-green-800',
+  accepted: 'bg-blue-100 text-blue-800',
   expired: 'bg-red-100 text-red-800'
 };
 
@@ -104,7 +104,7 @@ const Quotes = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Quotes</h1>
+          <h1 className="text-3xl font-bold text-gray-900">My Quote Requests</h1>
           <p className="text-gray-600 mt-2">Track and manage your lubricant quotes</p>
         </div>
         <div className="text-right">
@@ -118,7 +118,7 @@ const Quotes = () => {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input
-            placeholder="Search by quote number or company..."
+            placeholder="Search by quote number or product..."
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             className="pl-10"
@@ -130,7 +130,7 @@ const Quotes = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="ready-for-review">Ready for Review</SelectItem>
+            <SelectItem value="quote-ready">Quote Ready</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="accepted">Accepted</SelectItem>
             <SelectItem value="expired">Expired</SelectItem>
@@ -148,7 +148,7 @@ const Quotes = () => {
                   <div className="flex items-center space-x-4 mb-2">
                     <h3 className="font-semibold text-lg">{quote.quoteNumber}</h3>
                     <Badge className={statusColorMap[quote.status]}>
-                      {quote.status === 'ready-for-review' ? 'Ready for Review' : quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
+                      {quote.status === 'quote-ready' ? 'Quote Ready' : quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
                     </Badge>
                   </div>
                   
@@ -170,8 +170,19 @@ const Quotes = () => {
                     onClick={() => viewQuoteDetails(quote.id)}
                   >
                     <Eye className="h-4 w-4 mr-2" />
-                    Review Quote
+                    View Quote
                   </Button>
+                  
+                  {quote.status === 'quote-ready' && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => console.log('Convert to order:', quote.id)}
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Convert to Order
+                    </Button>
+                  )}
                 </div>
               </div>
             </CardContent>
