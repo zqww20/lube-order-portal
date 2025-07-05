@@ -7,21 +7,21 @@ const ActionCards = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {/* Orders Card */}
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer border-brand/20">
         <Link to="/orders">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Package className="h-5 w-5 text-primary" />
+              <div className="h-10 w-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                <Package className="h-5 w-5 text-brand" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">My Orders</h3>
+                <h3 className="font-semibold text-sm text-brand">My Orders</h3>
                 <p className="text-xs text-muted-foreground">Track shipments</p>
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-2xl font-bold text-primary">3</span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              <span className="text-2xl font-bold text-brand">3</span>
+              <ArrowRight className="h-4 w-4 text-brand/60" />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Active orders</p>
           </CardContent>
@@ -29,21 +29,21 @@ const ActionCards = () => {
       </Card>
 
       {/* Quotes Card */}
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer border-brand/10">
         <Link to="/quotes">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                <FileText className="h-5 w-5 text-accent" />
+              <div className="h-10 w-10 rounded-lg bg-brand/5 flex items-center justify-center">
+                <FileText className="h-5 w-5 text-brand" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">My Quotes</h3>
+                <h3 className="font-semibold text-sm text-brand">My Quotes</h3>
                 <p className="text-xs text-muted-foreground">View pricing</p>
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-2xl font-bold text-accent">2</span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              <span className="text-2xl font-bold text-brand">2</span>
+              <ArrowRight className="h-4 w-4 text-brand/60" />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Ready to review</p>
           </CardContent>

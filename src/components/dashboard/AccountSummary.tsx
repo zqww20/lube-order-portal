@@ -17,9 +17,9 @@ interface AccountSummaryProps {
 const AccountSummary = ({ accountSummary }: AccountSummaryProps) => {
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="font-heading text-base flex items-center">
-          <CreditCard className="h-4 w-4 mr-2" />
+      <CardHeader className="pb-2 bg-brand-light/50">
+        <CardTitle className="font-heading text-base flex items-center text-brand">
+          <CreditCard className="h-4 w-4 mr-2 text-brand" />
           Account Summary
         </CardTitle>
       </CardHeader>
@@ -27,7 +27,7 @@ const AccountSummary = ({ accountSummary }: AccountSummaryProps) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Credit Limit</p>
-            <p className="font-semibold text-sm">${accountSummary.creditLimit.toLocaleString()}</p>
+            <p className="font-semibold text-sm text-brand">${accountSummary.creditLimit.toLocaleString()}</p>
           </div>
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Available</p>
@@ -35,7 +35,7 @@ const AccountSummary = ({ accountSummary }: AccountSummaryProps) => {
           </div>
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Balance</p>
-            <p className="font-semibold text-sm">${accountSummary.currentBalance.toLocaleString()}</p>
+            <p className="font-semibold text-sm text-brand">${accountSummary.currentBalance.toLocaleString()}</p>
           </div>
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Due Date</p>

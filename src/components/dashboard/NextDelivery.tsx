@@ -22,8 +22,8 @@ const NextDelivery = ({ deliveryInfo }: NextDeliveryProps) => {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="font-heading text-lg flex items-center">
-          <Truck className="h-4 w-4 mr-2" />
+        <CardTitle className="font-heading text-lg flex items-center text-brand">
+          <Truck className="h-4 w-4 mr-2 text-brand" />
           Next Delivery
         </CardTitle>
       </CardHeader>

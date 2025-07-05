@@ -64,8 +64,8 @@ const Header = () => {
               />
             </div>
             <div className="hidden md:block">
-              <span className="font-heading font-bold text-xl text-primary">Bluewater Group</span>
-              <div className="text-xs text-muted-foreground">Customer Portal</div>
+              <span className="font-heading font-bold text-xl text-brand">Bluewater Group</span>
+              <div className="text-xs text-brand/70">Customer Portal</div>
             </div>
           </Link>
 
@@ -90,8 +90,8 @@ const Header = () => {
                 to={item.href}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? 'bg-accent/10 text-accent font-semibold'
-                    : 'text-foreground hover:text-accent hover:bg-accent/5'
+                    ? 'bg-brand/10 text-brand font-semibold border-b-2 border-brand'
+                    : 'text-foreground hover:text-brand hover:bg-brand/5'
                 }`}
               >
                 {item.name}
