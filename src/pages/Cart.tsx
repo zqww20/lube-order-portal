@@ -253,8 +253,70 @@ const Cart = () => {
           </Card>
         </div>
         
-        {/* Order Summary */}
-        <div className="lg:col-span-1">
+        {/* Ship-To Selection */}
+        <div className="lg:col-span-1 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Ship To</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg bg-primary/5 border-primary/20">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <input 
+                        type="radio" 
+                        id="address1" 
+                        name="shipTo" 
+                        defaultChecked 
+                        className="text-primary focus:ring-primary"
+                      />
+                      <label htmlFor="address1" className="font-medium text-sm">Main Warehouse</label>
+                    </div>
+                    <p className="text-sm text-gray-600 ml-6">
+                      123 Industrial Blvd, Houston, TX 77001
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <input 
+                        type="radio" 
+                        id="address2" 
+                        name="shipTo" 
+                        className="text-primary focus:ring-primary"
+                      />
+                      <label htmlFor="address2" className="font-medium text-sm">Secondary Location</label>
+                    </div>
+                    <p className="text-sm text-gray-600 ml-6">
+                      456 Commerce St, Dallas, TX 75201
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <input 
+                        type="radio" 
+                        id="address3" 
+                        name="shipTo" 
+                        className="text-primary focus:ring-primary"
+                      />
+                      <label htmlFor="address3" className="font-medium text-sm">Port Facility</label>
+                    </div>
+                    <p className="text-sm text-gray-600 ml-6">
+                      789 Harbor Dr, Galveston, TX 77550
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Order Summary */}
           <Card>
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
