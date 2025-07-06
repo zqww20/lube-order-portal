@@ -8,10 +8,17 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, MapPin, Package, AlertTriangle, CheckCircle } from 'lucide-react';
 
+interface ProductOption {
+  productNumber: string;
+  containerType: string;
+  size: number;
+  unit: string;
+}
+
 interface ProductQuote {
   name: string;
+  selectedOption: ProductOption;
   quantity: number;
-  unit: string;
   wholesaleCost: number;
   markupPerLiter: number;
   finalPrice: number;
@@ -33,16 +40,26 @@ const QuotingWorkbench = () => {
   const [products, setProducts] = useState<ProductQuote[]>([
     { 
       name: 'Marine Gear Oil', 
-      quantity: 24, 
-      unit: 'L', 
+      selectedOption: {
+        productNumber: 'MGO-208D',
+        containerType: 'Drum',
+        size: 208,
+        unit: 'L'
+      },
+      quantity: 1, 
       wholesaleCost: 12.50,
       markupPerLiter: 0,
       finalPrice: 12.50
     },
     { 
       name: 'Hydraulic Fluid ISO 46', 
-      quantity: 12, 
-      unit: 'L', 
+      selectedOption: {
+        productNumber: 'HF46-22B',
+        containerType: 'Box',
+        size: 22.71,
+        unit: 'L'
+      },
+      quantity: 2, 
       wholesaleCost: 8.75,
       markupPerLiter: 0,
       finalPrice: 8.75
@@ -173,9 +190,11 @@ const QuotingWorkbench = () => {
                   <div key={index} className="flex justify-between items-center p-3 border rounded-lg">
                     <div>
                       <p className="font-medium">{product.name}</p>
+                      <p className="text-sm text-muted-foreground">Product #: {product.selectedOption.productNumber}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">{product.quantity} {product.unit}</p>
+                      <p className="font-semibold">{product.quantity} × {product.selectedOption.containerType}</p>
+                      <p className="text-sm text-muted-foreground">{product.selectedOption.size}{product.selectedOption.unit} each</p>
                     </div>
                   </div>
                 ))}
@@ -193,7 +212,10 @@ const QuotingWorkbench = () => {
                 <div key={index} className="border rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-center">
                     <h4 className="font-semibold">{product.name}</h4>
-                    <span className="text-sm text-muted-foreground">{product.quantity} {product.unit}</span>
+                    <div className="text-right">
+                      <span className="text-sm font-medium">{product.selectedOption.productNumber}</span>
+                      <p className="text-xs text-muted-foreground">{product.quantity} × {product.selectedOption.size}{product.selectedOption.unit}</p>
+                    </div>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
@@ -221,7 +243,7 @@ const QuotingWorkbench = () => {
                   </div>
                   
                   <div className="text-xs text-muted-foreground">
-                    Total: {product.quantity}L × ${product.finalPrice.toFixed(2)} = ${(product.quantity * product.finalPrice).toFixed(2)}
+                    Total: {product.quantity} × {product.selectedOption.size}L × ${product.finalPrice.toFixed(2)} = ${(product.quantity * product.selectedOption.size * product.finalPrice).toFixed(2)}
                   </div>
                 </div>
               ))}
