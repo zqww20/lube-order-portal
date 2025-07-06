@@ -247,6 +247,18 @@ const QuotingWorkbench = () => {
                   </div>
                 </div>
               ))}
+              
+              {/* Quote Summary */}
+              <div className="border-t pt-4 mt-4">
+                <div className="flex justify-between items-center text-lg font-semibold">
+                  <span>Total Volume:</span>
+                  <span>{products.reduce((total, product) => total + (product.quantity * product.selectedOption.size), 0).toFixed(2)}L</span>
+                </div>
+                <div className="flex justify-between items-center text-lg font-bold text-primary">
+                  <span>Quote Total:</span>
+                  <span>${products.reduce((total, product) => total + (product.quantity * product.selectedOption.size * product.finalPrice), 0).toFixed(2)}</span>
+                </div>
+              </div>
             </CardContent>
           </Card>
           {/* Notes */}
