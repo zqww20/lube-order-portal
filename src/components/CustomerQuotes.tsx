@@ -95,84 +95,73 @@ const CustomerQuotes = () => {
           const StatusIcon = statusConfig.icon;
           
           return (
-            <Card key={quote.id} className="hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-lg">{quote.productName}</CardTitle>
-                    <CardDescription>Quote #{quote.id} • {quote.category}</CardDescription>
-                  </div>
-                  <Badge className={`${statusConfig.color} border font-medium px-3 py-1`}>
-                    <StatusIcon className="h-3 w-3 mr-1" />
-                    {statusConfig.text}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Quantity</p>
-                    <p className="text-foreground">{quote.quantity} units</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Requested Date</p>
-                    <p className="text-foreground">{quote.requestDate}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Expected Delivery</p>
-                    <p className="text-foreground">{quote.expectedDelivery}</p>
-                  </div>
-                </div>
+            <Card key={quote.id} className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-4 mb-2">
+                      <h3 className="font-semibold text-lg">{quote.productName}</h3>
+                      <Badge className={`${statusConfig.color} border font-medium px-3 py-1`}>
+                        <StatusIcon className="h-3 w-3 mr-1" />
+                        {statusConfig.text}
+                      </Badge>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600 mb-2">Quote #{quote.id} • {quote.category}</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
+                      <p>Quantity: {quote.quantity} units</p>
+                      <p>Requested: {quote.requestDate}</p>
+                      <p>Expected: {quote.expectedDelivery}</p>
+                      {quote.quoteAmount && <p>Total: ${quote.quoteAmount.toFixed(2)}</p>}
+                    </div>
+                    
+                    {quote.requirements && (
+                      <p className="text-sm text-gray-600 mb-2">
+                        Requirements: {quote.requirements}
+                      </p>
+                    )}
 
-                {quote.requirements && (
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Requirements</p>
-                    <p className="text-sm text-foreground bg-muted p-3 rounded-md">{quote.requirements}</p>
-                  </div>
-                )}
-
-                {quote.quoteAmount ? (
-                  <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <div>
-                        <p className="font-semibold text-green-800">Your Custom Quote</p>
-                        <p className="text-xs text-green-600">Pricing specific to your order quantity</p>
+                    {quote.quoteAmount ? (
+                      <div className="bg-green-50 border border-green-200 p-3 rounded-md">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <p className="font-medium text-green-800">Custom Quote Ready</p>
+                            <p className="text-xs text-green-600">
+                              ${(quote.quoteAmount / quote.quantity).toFixed(2)} per unit
+                              {quote.validUntil && ` • Valid until: ${quote.validUntil}`}
+                            </p>
+                          </div>
+                          <p className="text-xl font-bold text-green-800">${quote.quoteAmount.toFixed(2)}</p>
+                        </div>
                       </div>
-                      <p className="text-2xl font-bold text-green-800">${quote.quoteAmount.toFixed(2)}</p>
-                    </div>
-                    <div className="flex justify-between items-center text-sm text-green-700 mb-2">
-                      <span>Per unit price:</span>
-                      <span className="font-medium">${(quote.quoteAmount / quote.quantity).toFixed(2)}</span>
-                    </div>
-                    {quote.validUntil && (
-                      <p className="text-sm text-green-600">Valid until: {quote.validUntil}</p>
+                    ) : (
+                      <div className="bg-muted/50 border border-muted p-3 rounded-md">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-muted-foreground">Quote Pending</p>
+                            <p className="text-xs text-muted-foreground">We're preparing your custom pricing</p>
+                          </div>
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      </div>
                     )}
                   </div>
-                ) : (
-                  <div className="bg-muted/50 border border-muted p-4 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-muted-foreground">Quote Pending</p>
-                        <p className="text-sm text-muted-foreground">We're preparing your custom pricing</p>
-                      </div>
-                      <Clock className="h-5 w-5 text-muted-foreground" />
-                    </div>
+                  
+                  <div className="flex space-x-2">
+                    {quote.status === 'quoted' && (
+                      <Button size="sm" variant="outline">
+                        <Package className="h-4 w-4 mr-2" />
+                        Contact Sales
+                      </Button>
+                    )}
+                    {quote.status === 'accepted' && (
+                      <Button size="sm" variant="outline">
+                        <Package className="h-4 w-4 mr-2" />
+                        Track Order
+                      </Button>
+                    )}
                   </div>
-                )}
-
-                <div className="flex justify-end space-x-2 pt-2">
-                  {quote.status === 'quoted' && (
-                    <Button size="sm" variant="outline">
-                      <Package className="h-4 w-4 mr-1" />
-                      Contact Sales
-                    </Button>
-                  )}
-                  {quote.status === 'accepted' && (
-                    <Button size="sm" variant="outline">
-                      <Package className="h-4 w-4 mr-1" />
-                      Track Order
-                    </Button>
-                  )}
                 </div>
               </CardContent>
             </Card>
