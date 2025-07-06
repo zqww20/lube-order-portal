@@ -104,13 +104,6 @@ const EmployeeDashboard = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Employee Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back! Here are your pending tasks.</p>
-        </div>
-      </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
