@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ShoppingCart, Search, Filter, Eye } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Search, Filter, Eye } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -131,50 +131,56 @@ const Products = () => {
         </Select>
       </div>
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <Card 
-            key={product.id} 
-            className="hover:shadow-lg transition-shadow cursor-pointer"
-            onClick={() => handleProductClick(product.id)}
-          >
-            <CardHeader>
-              <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-              <CardTitle className="text-lg">{product.name}</CardTitle>
-              <CardDescription>{product.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
+      {/* Products Table */}
+      <div className="bg-white rounded-lg border shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-semibold">Product Name</TableHead>
+              <TableHead className="font-semibold">Category</TableHead>
+              <TableHead className="font-semibold">Viscosity</TableHead>
+              <TableHead className="font-semibold">Application</TableHead>
+              <TableHead className="font-semibold">Status</TableHead>
+              <TableHead className="font-semibold text-right">Price</TableHead>
+              <TableHead className="font-semibold">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredProducts.map((product) => (
+              <TableRow 
+                key={product.id}
+                className="hover:bg-muted/50 cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
+              >
+                <TableCell>
+                  <div>
+                    <div className="font-semibold text-foreground">{product.name}</div>
+                    <div className="text-sm text-muted-foreground">{product.description}</div>
+                  </div>
+                </TableCell>
+                <TableCell>
                   <Badge variant="secondary">{product.category}</Badge>
+                </TableCell>
+                <TableCell className="font-medium">{product.viscosity}</TableCell>
+                <TableCell>{product.application}</TableCell>
+                <TableCell>
                   <Badge variant={product.inStock ? "default" : "destructive"}>
                     {product.inStock ? "In Stock" : "Out of Stock"}
                   </Badge>
-                </div>
-                <div className="text-sm text-gray-600">
-                  <p>Viscosity: {product.viscosity}</p>
-                  <p>Application: {product.application}</p>
-                </div>
-                <div className="text-xl font-bold text-blue-600">
+                </TableCell>
+                <TableCell className="text-right font-bold text-primary">
                   From ${product.startingPrice}
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full" variant="outline">
-                <Eye className="h-4 w-4 mr-2" />
-                View Details
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+                </TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline">
+                    <Eye className="h-4 w-4 mr-1" />
+                    View
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
 
       {filteredProducts.length === 0 && (
