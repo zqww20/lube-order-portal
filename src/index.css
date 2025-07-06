@@ -7,7 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap');
 
 @layer base {
-  :root {
+:root {
     /* Bluewater Group Brand Colors - Updated */
     --background: 0 0% 100%;
     --foreground: 228 64% 18%; /* Deep professional blue #111D4A */
@@ -38,6 +38,10 @@
 
     --warning: 45 100% 51%; /* Yellow #ffc107 */
     --warning-foreground: 227 63% 18%;
+
+    /* Bluewater Brand Red Accent */
+    --brand-red: 0 69% 55%; /* Corporate red accent */
+    --brand-red-foreground: 0 0% 100%;
 
     --border: 227 20% 89%;
     --input: 227 15% 92%;
@@ -145,6 +149,18 @@
   
   .border-brand {
     border-color: hsl(227 63% 18%);
+  }
+
+  .bg-brand-red {
+    background-color: hsl(var(--brand-red));
+  }
+  
+  .text-brand-red {
+    color: hsl(var(--brand-red));
+  }
+  
+  .border-brand-red {
+    border-color: hsl(var(--brand-red));
   }
 
   .bg-brand-light {
