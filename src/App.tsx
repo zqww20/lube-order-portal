@@ -14,6 +14,12 @@ import NotFound from "./pages/NotFound";
 import CustomerQuotes from "./components/CustomerQuotes";
 import Employee from "./pages/Employee";
 import Login from "./pages/Login";
+import EmployeeLayout from "./components/EmployeeLayout";
+import EmployeeDashboard from "./pages/employee/Dashboard";
+import QuotingWorkbench from "./pages/employee/Workbench";
+import EmployeeQuotes from "./pages/employee/Quotes";
+import EmployeeOrders from "./pages/employee/Orders";
+import AdminLogistics from "./pages/employee/AdminLogistics";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +31,17 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          
+          {/* Employee Routes - Secure and Separate */}
+          <Route path="/employee" element={<EmployeeLayout />}>
+            <Route path="dashboard" element={<EmployeeDashboard />} />
+            <Route path="workbench/:quoteId" element={<QuotingWorkbench />} />
+            <Route path="quotes" element={<EmployeeQuotes />} />
+            <Route path="orders" element={<EmployeeOrders />} />
+            <Route path="admin/logistics" element={<AdminLogistics />} />
+          </Route>
+
+          {/* Customer Routes */}
           <Route path="*" element={
             <div className="min-h-screen bg-background">
               <Header />
