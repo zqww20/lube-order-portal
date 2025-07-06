@@ -272,40 +272,6 @@ const QuotingWorkbench = () => {
 
         {/* Logistics Info & Actions */}
         <div className="space-y-6">
-          {/* Warehouse & Stock Status */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Logistics Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label className="text-sm font-medium flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  Servicing Warehouse
-                </Label>
-                <p className="text-lg font-semibold">{quoteData.warehouse}</p>
-              </div>
-              
-              <div>
-                <Label className="text-sm font-medium flex items-center gap-2">
-                  <Package className="h-4 w-4" />
-                  Stock Status
-                </Label>
-                <div className="flex items-center gap-2 mt-1">
-                  {getStockStatusIcon(quoteData.stockStatus)}
-                  <Badge variant={getStockStatusVariant(quoteData.stockStatus)}>
-                    {getStockStatusText(quoteData.stockStatus)}
-                  </Badge>
-                </div>
-                {quoteData.stockStatus === 'transfer_required' && (
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Inventory transfer needed from alternate warehouse
-                  </p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Submit Action */}
           <Card>
             <CardHeader>
