@@ -9,14 +9,12 @@ const Login = () => {
       <Card className="w-full max-w-md bg-white shadow-lg border-t-4 border-t-primary">
         <CardHeader className="text-center pb-6">
           {/* Logo */}
-          <div className="mb-6">
-            <div className="bg-primary/5 rounded-lg p-4 inline-block">
-              <img 
-                src="/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png" 
-                alt="Bluewater Group Logo" 
-                className="h-12 w-auto object-contain mx-auto"
-              />
-            </div>
+          <div className="mb-6 bg-primary rounded-lg p-4">
+            <img 
+              src="/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png" 
+              alt="Bluewater Group Logo" 
+              className="h-12 w-auto object-contain mx-auto"
+            />
           </div>
           
           {/* Heading */}
