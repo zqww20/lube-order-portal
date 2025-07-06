@@ -76,8 +76,9 @@ const QuotingWorkbench = () => {
     stockStatus: 'available'
   };
 
-  const updateProductMarkup = (index: number, markup: number) => {
+  const updateProductMarkup = (index: number, markupValue: string) => {
     const updatedProducts = [...products];
+    const markup = markupValue === '' ? 0 : parseFloat(markupValue) || 0;
     updatedProducts[index].markupPerLiter = markup;
     updatedProducts[index].finalPrice = updatedProducts[index].wholesaleCost + markup;
     setProducts(updatedProducts);
@@ -237,7 +238,7 @@ const QuotingWorkbench = () => {
                       step="0.01"
                       placeholder="0.00"
                       value={product.markupPerLiter}
-                      onChange={(e) => updateProductMarkup(index, parseFloat(e.target.value) || 0)}
+                      onChange={(e) => updateProductMarkup(index, e.target.value)}
                       className="mt-1"
                     />
                   </div>
