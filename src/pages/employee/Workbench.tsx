@@ -8,15 +8,20 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, MapPin, Package, AlertTriangle, CheckCircle } from 'lucide-react';
 
+interface ProductQuote {
+  name: string;
+  quantity: number;
+  unit: string;
+  wholesaleCost: number;
+  markupPerLiter: number;
+  finalPrice: number;
+}
+
 interface QuoteData {
   id: string;
   customerName: string;
   customerEmail: string;
-  products: Array<{
-    name: string;
-    quantity: number;
-    unit: string;
-  }>;
+  products: ProductQuote[];
   warehouse: 'Dartmouth' | 'Moncton';
   stockStatus: 'available' | 'transfer_required' | 'out_of_stock';
 }
@@ -24,20 +29,41 @@ interface QuoteData {
 const QuotingWorkbench = () => {
   const { quoteId } = useParams();
   const navigate = useNavigate();
-  const [pricePerUnit, setPricePerUnit] = useState('');
   const [notes, setNotes] = useState('');
+  const [products, setProducts] = useState<ProductQuote[]>([
+    { 
+      name: 'Marine Gear Oil', 
+      quantity: 24, 
+      unit: 'L', 
+      wholesaleCost: 12.50,
+      markupPerLiter: 0,
+      finalPrice: 12.50
+    },
+    { 
+      name: 'Hydraulic Fluid ISO 46', 
+      quantity: 12, 
+      unit: 'L', 
+      wholesaleCost: 8.75,
+      markupPerLiter: 0,
+      finalPrice: 8.75
+    }
+  ]);
 
   // Mock data - would be fetched based on quoteId
   const quoteData: QuoteData = {
     id: quoteId || 'Q-2024-001',
     customerName: 'Atlantic Marine Services',
     customerEmail: 'purchasing@atlanticmarine.ca',
-    products: [
-      { name: 'Marine Gear Oil', quantity: 24, unit: 'L' },
-      { name: 'Hydraulic Fluid ISO 46', quantity: 12, unit: 'L' }
-    ],
+    products: products,
     warehouse: 'Dartmouth',
     stockStatus: 'available'
+  };
+
+  const updateProductMarkup = (index: number, markup: number) => {
+    const updatedProducts = [...products];
+    updatedProducts[index].markupPerLiter = markup;
+    updatedProducts[index].finalPrice = updatedProducts[index].wholesaleCost + markup;
+    setProducts(updatedProducts);
   };
 
   // Auto-focus price input on mount
@@ -88,14 +114,11 @@ const QuotingWorkbench = () => {
   };
 
   const handleSubmitQuote = () => {
-    // Handle quote submission logic here
     console.log('Submitting quote:', {
       quoteId: quoteData.id,
-      pricePerUnit,
+      products,
       notes
     });
-    
-    // Navigate back to dashboard
     navigate('/employee/dashboard');
   };
 
@@ -160,34 +183,62 @@ const QuotingWorkbench = () => {
             </CardContent>
           </Card>
 
-          {/* Quote Form */}
+          {/* Product Pricing */}
           <Card>
             <CardHeader>
-              <CardTitle>Quote Details</CardTitle>
+              <CardTitle>Product Pricing</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="price-input">Price per Unit ($)</Label>
-                <Input
-                  id="price-input"
-                  type="number"
-                  step="0.01"
-                  placeholder="0.00"
-                  value={pricePerUnit}
-                  onChange={(e) => setPricePerUnit(e.target.value)}
-                  className="text-lg font-semibold"
-                />
-              </div>
-              <div>
-                <Label htmlFor="notes">Additional Notes (Optional)</Label>
-                <Textarea
-                  id="notes"
-                  placeholder="Add any special instructions or notes..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="min-h-20"
-                />
-              </div>
+              {products.map((product, index) => (
+                <div key={index} className="border rounded-lg p-4 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <h4 className="font-semibold">{product.name}</h4>
+                    <span className="text-sm text-muted-foreground">{product.quantity} {product.unit}</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs">Our Cost</Label>
+                      <p className="text-sm font-medium">${product.wholesaleCost.toFixed(2)}/L</p>
+                    </div>
+                    <div>
+                      <Label className="text-xs">Final Price</Label>
+                      <p className="text-sm font-semibold text-primary">${product.finalPrice.toFixed(2)}/L</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor={`markup-${index}`} className="text-sm">Markup per Liter ($)</Label>
+                    <Input
+                      id={`markup-${index}`}
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      value={product.markupPerLiter}
+                      onChange={(e) => updateProductMarkup(index, parseFloat(e.target.value) || 0)}
+                      className="mt-1"
+                    />
+                  </div>
+                  
+                  <div className="text-xs text-muted-foreground">
+                    Total: {product.quantity}L × ${product.finalPrice.toFixed(2)} = ${(product.quantity * product.finalPrice).toFixed(2)}
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+          {/* Notes */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Additional Notes</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                placeholder="Add any special instructions or notes..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="min-h-20"
+              />
             </CardContent>
           </Card>
         </div>
@@ -237,7 +288,7 @@ const QuotingWorkbench = () => {
               <Button 
                 onClick={handleSubmitQuote}
                 className="w-full bg-brand-red text-brand-red-foreground hover:bg-brand-red/90"
-                disabled={!pricePerUnit}
+                disabled={products.every(p => p.markupPerLiter === 0)}
               >
                 Submit Quote to Customer
               </Button>
