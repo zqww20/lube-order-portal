@@ -21,6 +21,7 @@ interface ProductQuote {
   quantity: number;
   wholesaleCost: number;
   markupPerLiter: number;
+  markupDisplay: string;
   finalPrice: number;
 }
 
@@ -49,6 +50,7 @@ const QuotingWorkbench = () => {
       quantity: 1, 
       wholesaleCost: 12.50,
       markupPerLiter: 0,
+      markupDisplay: '0',
       finalPrice: 12.50
     },
     { 
@@ -62,6 +64,7 @@ const QuotingWorkbench = () => {
       quantity: 2, 
       wholesaleCost: 8.75,
       markupPerLiter: 0,
+      markupDisplay: '0',
       finalPrice: 8.75
     }
   ]);
@@ -80,6 +83,7 @@ const QuotingWorkbench = () => {
     const updatedProducts = [...products];
     const markup = markupValue === '' ? 0 : parseFloat(markupValue) || 0;
     updatedProducts[index].markupPerLiter = markup;
+    updatedProducts[index].markupDisplay = markupValue;
     updatedProducts[index].finalPrice = updatedProducts[index].wholesaleCost + markup;
     setProducts(updatedProducts);
   };
@@ -237,7 +241,7 @@ const QuotingWorkbench = () => {
                       type="number"
                       step="0.01"
                       placeholder="0.00"
-                      value={product.markupPerLiter}
+                      value={product.markupDisplay}
                       onChange={(e) => updateProductMarkup(index, e.target.value)}
                       className="mt-1"
                     />
