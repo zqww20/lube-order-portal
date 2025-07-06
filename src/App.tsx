@@ -13,6 +13,7 @@ import ERPIntegration from "./components/ERPIntegration";
 import NotFound from "./pages/NotFound";
 import CustomerQuotes from "./components/CustomerQuotes";
 import Employee from "./pages/Employee";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/orders" element={<Orders />} />
               <Route path="/quotes" element={<CustomerQuotes />} />
               <Route path="/employee" element={<Employee />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/erp-integration" element={<ERPIntegration />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
