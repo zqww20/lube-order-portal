@@ -5,23 +5,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Login = () => {
   return (
-    <div className="min-h-screen bg-[#F3F4F6] flex flex-col items-center justify-center px-4 py-12">
-      {/* Logo Element - Brand Identity */}
-      <div className="mb-8">
-        <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center shadow-lg">
-          <img 
-            src="/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png" 
-            alt="Bluewater Group Logo" 
-            className="h-12 w-auto object-contain"
-          />
-        </div>
-      </div>
-
-      {/* Login Card - Action */}
-      <Card className="w-full max-w-[450px] bg-white shadow-lg">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      {/* Stripe-Inspired Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-secondary opacity-90"></div>
+      <div className="absolute inset-0 bg-gradient-radial from-secondary/30 via-transparent to-primary/20"></div>
+      
+      {/* Centered Login Card */}
+      <Card className="w-full max-w-[450px] bg-white shadow-2xl relative z-10">
         <CardContent className="p-12">
-          {/* Heading */}
+          {/* Logo */}
           <div className="text-center mb-8">
+            <img 
+              src="/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png" 
+              alt="Bluewater Group Logo" 
+              className="h-12 w-auto object-contain mx-auto mb-6"
+            />
             <h1 className="text-2xl font-heading font-bold text-primary">
               Portal Login
             </h1>
@@ -56,8 +54,7 @@ const Login = () => {
             {/* Action Button */}
             <div className="pt-4">
               <Button 
-                variant="brand-red" 
-                className="w-full h-11 text-base font-semibold"
+                className="w-full h-11 text-base font-semibold bg-secondary text-secondary-foreground hover:bg-secondary/90"
               >
                 Sign In
               </Button>

@@ -166,4 +166,8 @@
   .bg-brand-light {
     background-color: hsl(227 63% 96%);
   }
+
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+  }
 }
