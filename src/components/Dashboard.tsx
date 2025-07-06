@@ -98,8 +98,8 @@ const Dashboard = () => {
       {/* Compact Header & Quick Actions */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-2 lg:space-y-0">
         <div className="flex-1">
-          <h1 className="text-xl font-heading font-bold">Welcome back, John!</h1>
-          <p className="text-xs text-muted-foreground">Manage your lubricant orders and track shipments</p>
+          <h1 className="text-3xl font-bold text-gray-900">Welcome back, John!</h1>
+          <p className="text-gray-600 mt-2">Manage your lubricant orders and track shipments</p>
         </div>
         <div className="flex items-center space-x-2">
           <div className="relative">
