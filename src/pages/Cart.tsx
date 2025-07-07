@@ -1,5 +1,6 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,7 +42,21 @@ const mockCartItems: CartItem[] = [
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>(mockCartItems);
+  const [emergencyDelivery, setEmergencyDelivery] = useState(false);
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
+
+  // Check for emergency delivery parameter on component mount
+  useEffect(() => {
+    const isEmergency = searchParams.get('emergency') === 'true';
+    if (isEmergency) {
+      setEmergencyDelivery(true);
+      toast({
+        title: "Emergency Delivery Selected",
+        description: "Emergency delivery surcharge ($75) has been added to your order.",
+      });
+    }
+  }, [searchParams, toast]);
 
   const updateQuantity = (id: string, newQuantity: number) => {
     const item = cartItems.find(item => item.id === id);
@@ -84,8 +99,12 @@ const Cart = () => {
     return getSubtotal() * 0.08; // 8% tax
   };
 
+  const getEmergencyDeliveryFee = () => {
+    return emergencyDelivery ? 75.00 : 0;
+  };
+
   const getTotal = () => {
-    return getSubtotal() + getTax();
+    return getSubtotal() + getTax() + getEmergencyDeliveryFee();
   };
 
   const handleCheckout = () => {
@@ -323,13 +342,14 @@ const Cart = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 border rounded-lg bg-primary/5 border-primary/20">
+                <div className={`flex items-center justify-between p-3 border rounded-lg ${!emergencyDelivery ? 'bg-primary/5 border-primary/20' : 'hover:bg-gray-50'}`}>
                   <div className="flex items-center space-x-2">
                     <input 
                       type="radio" 
                       id="standard" 
                       name="delivery" 
-                      defaultChecked 
+                      checked={!emergencyDelivery}
+                      onChange={() => setEmergencyDelivery(false)}
                       className="text-primary focus:ring-primary"
                     />
                     <label htmlFor="standard" className="font-medium text-sm">Standard Delivery</label>
@@ -337,12 +357,14 @@ const Cart = () => {
                   <span className="text-sm font-medium">Free</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                <div className={`flex items-center justify-between p-3 border rounded-lg ${emergencyDelivery ? 'bg-primary/5 border-primary/20' : 'hover:bg-gray-50'}`}>
                   <div className="flex items-center space-x-2">
                     <input 
                       type="radio" 
                       id="emergency" 
                       name="delivery" 
+                      checked={emergencyDelivery}
+                      onChange={() => setEmergencyDelivery(true)}
                       className="text-primary focus:ring-primary"
                     />
                     <label htmlFor="emergency" className="font-medium text-sm">Emergency Delivery</label>
@@ -369,6 +391,13 @@ const Cart = () => {
                 <span>Tax (8%)</span>
                 <span>${getTax().toFixed(2)}</span>
               </div>
+              
+              {emergencyDelivery && (
+                <div className="flex justify-between">
+                  <span>Emergency Delivery</span>
+                  <span className="text-red-600">${getEmergencyDeliveryFee().toFixed(2)}</span>
+                </div>
+              )}
               
               <Separator />
               

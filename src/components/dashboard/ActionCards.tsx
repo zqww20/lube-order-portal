@@ -52,22 +52,24 @@ const ActionCards = () => {
 
       {/* Emergency Delivery Card */}
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-        <CardContent className="p-4">
-          <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-lg bg-warning/10 flex items-center justify-center">
-              <Zap className="h-5 w-5 text-warning" />
+        <Link to="/products?emergency=true">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-3">
+              <div className="h-10 w-10 rounded-lg bg-warning/10 flex items-center justify-center">
+                <Zap className="h-5 w-5 text-warning" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-sm">Emergency</h3>
+                <p className="text-xs text-muted-foreground">Rush delivery</p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-sm">Emergency</h3>
-              <p className="text-xs text-muted-foreground">Rush delivery</p>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-xs font-medium text-warning">24/7</span>
+              <ArrowRight className="h-4 w-4 text-muted-foreground" />
             </div>
-          </div>
-          <div className="mt-3 flex items-center justify-between">
-            <span className="text-xs font-medium text-warning">24/7</span>
-            <ArrowRight className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">Available</p>
-        </CardContent>
+            <p className="text-xs text-muted-foreground mt-1">Available</p>
+          </CardContent>
+        </Link>
       </Card>
 
       {/* Quick Order Card */}
