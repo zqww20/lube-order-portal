@@ -3,6 +3,13 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { 
   LayoutDashboard, 
   FileText, 
   Package, 
@@ -91,16 +98,39 @@ const EmployeeLayout = () => {
               ))}
             </nav>
 
-            {/* User Menu */}
+            {/* User Info and Account Menu */}
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-2 text-sm">
                 <User className="h-4 w-4 text-white/80" />
                 <span className="text-white/80">employee@bluewatergroup.ca</span>
               </div>
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-white hover:bg-white/10 border border-white/30">
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 border border-white/30">
+                    <User className="h-4 w-4 mr-2" />
+                    Account
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-3 py-2 border-b">
+                    <p className="font-medium">Employee</p>
+                    <p className="text-sm text-muted-foreground">Bluewater Group</p>
+                  </div>
+                  <DropdownMenuItem>
+                    <User className="h-4 w-4 mr-2" />
+                    My Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
