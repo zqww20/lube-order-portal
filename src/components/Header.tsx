@@ -91,18 +91,6 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            {/* Cart */}
-            <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
-              <Link to="/cart">
-                <ShoppingCart className="h-5 w-5" />
-                {cartItems > 0 && (
-                  <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white">
-                    {cartItems}
-                  </Badge>
-                )}
-              </Link>
-            </Button>
-
             {/* User Info and Logout - matching employee layout */}
             <div className="hidden md:flex items-center space-x-2 text-sm">
               <User className="h-4 w-4 text-white/80" />
@@ -147,6 +135,18 @@ const Header = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            {/* Cart - moved to rightmost position */}
+            <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
+              <Link to="/cart">
+                <ShoppingCart className="h-5 w-5" />
+                {cartItems > 0 && (
+                  <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white">
+                    {cartItems}
+                  </Badge>
+                )}
+              </Link>
+            </Button>
 
             {/* Mobile menu button */}
             <Button
