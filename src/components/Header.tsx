@@ -86,12 +86,6 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            {/* Quick Quote Button */}
-            <Button asChild className="bg-accent hover:bg-accent/90 text-white font-medium px-4">
-              <Link to="/quotes">
-                Quick Quote
-              </Link>
-            </Button>
 
             {/* Cart */}
             <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
