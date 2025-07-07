@@ -170,19 +170,4 @@
   .bg-gradient-radial {
     background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
   }
-
-  /* Hide scrollbar for navigation slider */
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
-  }
-
-  /* Smooth scrolling for navigation */
-  .scrollbar-hide {
-    scroll-behavior: smooth;
-  }
 }
