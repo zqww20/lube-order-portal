@@ -50,30 +50,58 @@ const Header = () => {
     return location.pathname.startsWith(path);
   };
 
-  // Check for navigation overflow
+  // Check for navigation overflow with proper cleanup
   useEffect(() => {
     const checkNavOverflow = () => {
       if (!navRef.current || !actionsRef.current) return;
       
+      // Force layout recalculation
       const container = navRef.current.parentElement;
       if (!container) return;
       
-      const containerWidth = container.offsetWidth;
-      const logoWidth = 250; // Approximate logo + badge width
-      const actionsWidth = actionsRef.current.offsetWidth;
-      const navWidth = navRef.current.scrollWidth;
+      // Get real-time measurements
+      const containerRect = container.getBoundingClientRect();
+      const actionsRect = actionsRef.current.getBoundingClientRect();
       
-      const availableSpace = containerWidth - logoWidth - actionsWidth - 32; // 32px for margins
-      const needsDropdown = navWidth > availableSpace;
+      // Calculate actual available space
+      const logoWidth = 280; // Account for logo + badge + margins
+      const actionsWidth = actionsRect.width + 16; // Add margin
+      const availableSpace = containerRect.width - logoWidth - actionsWidth;
       
-      setShowDropdownNav(needsDropdown);
+      // Measure navigation width by temporarily showing it
+      const wasHidden = showDropdownNav;
+      if (wasHidden) setShowDropdownNav(false);
+      
+      // Small delay to ensure DOM update
+      setTimeout(() => {
+        if (navRef.current) {
+          const navWidth = navRef.current.scrollWidth + 32; // Add margin buffer
+          const needsDropdown = navWidth > availableSpace;
+          
+          if (needsDropdown !== showDropdownNav) {
+            setShowDropdownNav(needsDropdown);
+          }
+        }
+      }, 10);
     };
 
-    checkNavOverflow();
-    window.addEventListener('resize', checkNavOverflow);
+    // Initial check
+    setTimeout(checkNavOverflow, 100);
     
-    return () => window.removeEventListener('resize', checkNavOverflow);
-  }, [navigation]);
+    // Add resize listener with debounce
+    let timeoutId: NodeJS.Timeout;
+    const debouncedCheck = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(checkNavOverflow, 50);
+    };
+    
+    window.addEventListener('resize', debouncedCheck);
+    
+    return () => {
+      window.removeEventListener('resize', debouncedCheck);
+      clearTimeout(timeoutId);
+    };
+  }, [showDropdownNav]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -223,25 +251,33 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-white/20 bg-brand">
-            <div className="px-2 py-3 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center space-x-2 ${
-                    isActive(item.href)
-                      ? 'bg-white/10 text-white font-semibold'
-                      : 'text-white/90 hover:text-white hover:bg-white/5'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
+          <>
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 bg-black/20 z-40 md:hidden" 
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            {/* Menu */}
+            <div className="absolute top-full left-0 right-0 z-50 md:hidden border-t border-white/20 bg-brand shadow-lg">
+              <div className="px-2 py-3 space-y-1">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center space-x-2 ${
+                      isActive(item.href)
+                        ? 'bg-white/10 text-white font-semibold'
+                        : 'text-white/90 hover:text-white hover:bg-white/5'
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.name}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </header>
