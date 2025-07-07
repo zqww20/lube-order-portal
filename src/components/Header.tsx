@@ -60,7 +60,7 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png" 
+                src="/lovable-uploads/fe3190ea-9ce7-4559-8b4e-f3aebf733b9d.png" 
                 alt="Bluewater Group Logo" 
                 className="h-10 w-auto object-contain"
               />
