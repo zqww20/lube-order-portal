@@ -1,9 +1,5 @@
 
 import React from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search, ShoppingCart, FileText } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import AccountSummary from './dashboard/AccountSummary';
 import ActionCards from './dashboard/ActionCards';
 import RecentActivity from './dashboard/RecentActivity';
@@ -95,33 +91,10 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-3">
-      {/* Compact Header & Quick Actions */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-2 lg:space-y-0">
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back, John!</h1>
-          <p className="text-gray-600 mt-2">Manage your lubricant orders and track shipments</p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <div className="relative">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-            <Input 
-              placeholder="Search..."
-              className="pl-7 h-8 w-32 text-xs"
-            />
-          </div>
-          <Button asChild size="sm" className="h-8">
-            <Link to="/products">
-              <ShoppingCart className="h-3 w-3 mr-1" />
-              Browse
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm" className="h-8">
-            <Link to="/products">
-              <FileText className="h-3 w-3 mr-1" />
-              Quote
-            </Link>
-          </Button>
-        </div>
+      {/* Dashboard Header */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">Welcome back, John!</h1>
+        <p className="text-gray-600 mt-2">Manage your lubricant orders and track shipments</p>
       </div>
 
       <AccountSummary accountSummary={accountSummary} />
