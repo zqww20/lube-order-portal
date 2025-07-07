@@ -153,9 +153,16 @@ const Products = () => {
                 onClick={() => handleProductClick(product.id)}
               >
                 <TableCell>
-                  <div>
-                    <div className="font-semibold text-foreground">{product.name}</div>
-                    <div className="text-sm text-muted-foreground">{product.description}</div>
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="h-10 w-10 rounded-md object-cover bg-muted"
+                    />
+                    <div>
+                      <div className="font-semibold text-foreground">{product.name}</div>
+                      <div className="text-sm text-muted-foreground">{product.description}</div>
+                    </div>
                   </div>
                 </TableCell>
                 <TableCell>
