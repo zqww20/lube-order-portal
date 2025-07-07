@@ -3,8 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, ArrowLeft, Package } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, Package, Quote } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import QuoteRequest from '@/components/QuoteRequest';
 
 interface ProductOption {
   id: string;
@@ -338,14 +339,27 @@ const ProductDetail = () => {
                     <div className="text-2xl font-bold text-blue-600">
                       Request Quote
                     </div>
-                    <Button 
-                      onClick={() => addToCart(option.id)}
-                      disabled={!product.inStock}
-                      className="flex items-center"
-                    >
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Add to Cart
-                    </Button>
+                    <QuoteRequest 
+                      product={{
+                        id: product.id,
+                        name: product.name,
+                        category: product.category,
+                        description: product.description,
+                        price: option.price,
+                        unit: option.unit,
+                        viscosity: product.viscosity,
+                        application: product.application
+                      }}
+                      trigger={
+                        <Button 
+                          disabled={!product.inStock}
+                          className="flex items-center"
+                        >
+                          <Quote className="h-4 w-4 mr-2" />
+                          Request Quote
+                        </Button>
+                      }
+                    />
                   </div>
                 </CardContent>
               </Card>
@@ -381,20 +395,28 @@ const ProductDetail = () => {
                 <div className="text-lg font-bold text-blue-600 mb-2">
                   Request Quote
                 </div>
-                <Button 
-                  size="sm" 
-                  className="w-full"
-                  disabled={!crossProduct.inStock}
-                  onClick={() => {
-                    toast({
-                      title: "Added to Cart",
-                      description: `${crossProduct.name} has been added to your cart.`,
-                    });
+                <QuoteRequest 
+                  product={{
+                    id: crossProduct.id,
+                    name: crossProduct.name,
+                    category: crossProduct.category,
+                    description: crossProduct.description,
+                    price: crossProduct.price,
+                    unit: crossProduct.unit,
+                    viscosity: '',
+                    application: 'General Purpose'
                   }}
-                >
-                  <ShoppingCart className="h-3 w-3 mr-1" />
-                  Add to Cart
-                </Button>
+                  trigger={
+                    <Button 
+                      size="sm" 
+                      className="w-full"
+                      disabled={!crossProduct.inStock}
+                    >
+                      <Quote className="h-3 w-3 mr-1" />
+                      Request Quote
+                    </Button>
+                  }
+                />
               </CardContent>
             </Card>
           ))}

@@ -5,7 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Eye } from 'lucide-react';
+import { Search, Filter, Eye, Quote } from 'lucide-react';
+import QuoteRequest from '@/components/QuoteRequest';
 
 interface Product {
   id: string;
@@ -141,7 +142,7 @@ const Products = () => {
               <TableHead className="font-semibold">Viscosity</TableHead>
               <TableHead className="font-semibold">Application</TableHead>
               <TableHead className="font-semibold">Status</TableHead>
-              <TableHead className="font-semibold text-right">Price</TableHead>
+              <TableHead className="font-semibold text-right">Quote</TableHead>
               <TableHead className="font-semibold">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -182,8 +183,25 @@ const Products = () => {
                     )}
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-bold text-primary">
-                  Request Quote
+                <TableCell className="text-right">
+                  <QuoteRequest 
+                    product={{
+                      id: product.id,
+                      name: product.name,
+                      category: product.category,
+                      description: product.description,
+                      price: product.startingPrice,
+                      unit: 'per liter',
+                      viscosity: product.viscosity,
+                      application: product.application
+                    }}
+                    trigger={
+                      <Button size="sm" variant="outline">
+                        <Quote className="h-4 w-4 mr-1" />
+                        Request Quote
+                      </Button>
+                    }
+                  />
                 </TableCell>
                 <TableCell>
                   <Button size="sm" variant="outline">
