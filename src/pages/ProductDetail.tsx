@@ -336,10 +336,7 @@ const ProductDetail = () => {
                 <CardContent>
                   <div className="flex justify-between items-center">
                     <div className="text-2xl font-bold text-blue-600">
-                      ${option.price} 
-                      <span className="text-sm font-normal text-gray-500 ml-1">
-                        {option.unit}
-                      </span>
+                      Request Quote
                     </div>
                     <Button 
                       onClick={() => addToCart(option.id)}
@@ -382,10 +379,7 @@ const ProductDetail = () => {
                   </Badge>
                 </div>
                 <div className="text-lg font-bold text-blue-600 mb-2">
-                  ${crossProduct.price} 
-                  <span className="text-xs font-normal text-gray-500 ml-1">
-                    {crossProduct.unit}
-                  </span>
+                  Request Quote
                 </div>
                 <Button 
                   size="sm" 

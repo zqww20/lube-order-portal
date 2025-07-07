@@ -183,7 +183,7 @@ const Products = () => {
                   </div>
                 </TableCell>
                 <TableCell className="text-right font-bold text-primary">
-                  From ${product.startingPrice}
+                  Request Quote
                 </TableCell>
                 <TableCell>
                   <Button size="sm" variant="outline">
