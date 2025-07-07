@@ -105,7 +105,7 @@ const Dashboard = () => {
       {/* Dashboard Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Welcome back, John!</h1>
-        <p className="text-gray-600 mt-2">Manage your orders and track shipments securely and efficiently</p>
+        <p className="text-gray-600 mt-2">Manage your orders and track shipments</p>
       </div>
 
       <AccountSummary accountSummary={accountSummary} />
