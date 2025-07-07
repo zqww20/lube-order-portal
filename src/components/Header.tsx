@@ -103,14 +103,16 @@ const Header = () => {
               </Link>
             </Button>
 
-            {/* User Menu */}
+            {/* User Info and Logout - matching employee layout */}
+            <div className="hidden md:flex items-center space-x-2 text-sm">
+              <User className="h-4 w-4 text-white/80" />
+              <span className="text-white/80">john.smith@acmecorp.com</span>
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-white hover:bg-white/10 border border-white/30">
-                  <div className="h-6 w-6 rounded-full bg-white/20 flex items-center justify-center">
-                    <User className="h-3 w-3 text-white" />
-                  </div>
-                  <span className="hidden md:block font-medium">John Smith</span>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 border border-white/30">
+                  <User className="h-4 w-4 mr-2" />
+                  Account
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
