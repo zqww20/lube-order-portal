@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -69,6 +70,7 @@ const statusColorMap = {
 };
 
 const Orders = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>(mockOrders);
   const [filteredOrders, setFilteredOrders] = useState<Order[]>(mockOrders);
   const [searchTerm, setSearchTerm] = useState('');
@@ -102,8 +104,7 @@ const Orders = () => {
   };
 
   const viewOrderDetails = (orderId: string) => {
-    console.log('Viewing order details for:', orderId);
-    // Here you would navigate to order details or open a modal
+    navigate(`/orders/${orderId}`);
   };
 
   const downloadInvoice = (orderId: string) => {

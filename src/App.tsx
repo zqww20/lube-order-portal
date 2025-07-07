@@ -9,6 +9,7 @@ import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
 import ERPIntegration from "./components/ERPIntegration";
 import NotFound from "./pages/NotFound";
 import CustomerQuotes from "./components/CustomerQuotes";
@@ -52,6 +53,7 @@ const App = () => (
                   <Route path="/products/:id" element={<ProductDetail />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/orders" element={<Orders />} />
+                  <Route path="/orders/:id" element={<OrderDetail />} />
                   <Route path="/quotes" element={<CustomerQuotes />} />
                   <Route path="/employee" element={<Employee />} />
                   <Route path="/erp-integration" element={<ERPIntegration />} />
