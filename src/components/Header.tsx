@@ -55,17 +55,20 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full bg-brand shadow-lg">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="h-12 w-auto flex items-center">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo & Customer Indicator */}
+          <div className="flex items-center space-x-4">
+            <Link to="/" className="flex items-center">
               <img 
                 src="/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png" 
                 alt="Bluewater Group Logo" 
                 className="h-10 w-auto object-contain"
               />
-            </div>
-          </Link>
+            </Link>
+            <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
+              CUSTOMER PORTAL
+            </Badge>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -86,7 +89,6 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-
             {/* Cart */}
             <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
               <Link to="/cart">
@@ -161,7 +163,6 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-white/20 bg-brand">
-            {/* Mobile Menu Items */}
             <div className="px-2 py-3 space-y-1">
               {navigation.map((item) => (
                 <Link
