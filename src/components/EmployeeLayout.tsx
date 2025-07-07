@@ -48,11 +48,6 @@ const EmployeeLayout = () => {
       icon: Package
     },
     {
-      label: 'ERP Integration',
-      path: '/employee/erp-integration',
-      icon: Database
-    },
-    {
       label: 'Logistics Admin',
       path: '/employee/admin/logistics',
       icon: Settings
@@ -129,6 +124,10 @@ const EmployeeLayout = () => {
                   <DropdownMenuItem>
                     <Settings className="h-4 w-4 mr-2" />
                     Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/employee/erp-integration')}>
+                    <Database className="h-4 w-4 mr-2" />
+                    ERP Integration
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
