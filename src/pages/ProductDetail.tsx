@@ -216,6 +216,8 @@ const ProductDetail = () => {
   const [cart, setCart] = useState<{[key: string]: number}>({});
   const { toast } = useToast();
 
+  const quoteRequestText = "Request Quote";
+
   const product = mockProducts.find(p => p.id === id);
 
   if (!product) {
@@ -337,7 +339,7 @@ const ProductDetail = () => {
                 <CardContent>
                   <div className="flex justify-between items-center">
                     <div className="text-2xl font-bold text-blue-600">
-                      Request Quote
+                      {quoteRequestText}
                     </div>
                     <QuoteRequest 
                       product={{
