@@ -2,10 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 const Login = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+  return <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Stripe-Inspired Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-secondary opacity-90"></div>
       <div className="absolute inset-0 bg-gradient-radial from-secondary/30 via-transparent to-primary/20"></div>
@@ -15,9 +13,7 @@ const Login = () => {
         <CardContent className="p-12">
           {/* Logo */}
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-heading font-bold text-primary">
-              Portal Login
-            </h1>
+            <h1 className="text-2xl font-heading font-bold text-primary">Bluewater Portal Login</h1>
           </div>
           
           {/* Form Fields */}
@@ -26,31 +22,19 @@ const Login = () => {
               <Label htmlFor="email" className="text-sm font-medium text-foreground">
                 Customer Code / Email
               </Label>
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="Enter your customer code or email"
-                className="h-11 px-4"
-              />
+              <Input id="email" type="email" placeholder="Enter your customer code or email" className="h-11 px-4" />
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium text-foreground">
                 Password
               </Label>
-              <Input 
-                id="password" 
-                type="password" 
-                placeholder="Enter your password"
-                className="h-11 px-4"
-              />
+              <Input id="password" type="password" placeholder="Enter your password" className="h-11 px-4" />
             </div>
             
             {/* Action Button */}
             <div className="pt-4">
-              <Button 
-                className="w-full h-11 text-base font-semibold bg-secondary text-secondary-foreground hover:bg-secondary/90"
-              >
+              <Button className="w-full h-11 text-base font-semibold bg-secondary text-secondary-foreground hover:bg-secondary/90">
                 Sign In
               </Button>
             </div>
@@ -70,8 +54,6 @@ const Login = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default Login;
