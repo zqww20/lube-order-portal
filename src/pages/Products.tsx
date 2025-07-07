@@ -27,7 +27,7 @@ const mockProducts: Product[] = [
     description: 'High-performance synthetic engine oil for modern vehicles',
     viscosity: '5W-30',
     application: 'Automotive',
-    image: '/placeholder.svg',
+    image: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
     inStock: true,
     startingPrice: 38.99
   },
@@ -38,7 +38,7 @@ const mockProducts: Product[] = [
     description: 'Premium quality hydraulic fluid for industrial machinery',
     viscosity: 'ISO 46',
     application: 'Industrial',
-    image: '/placeholder.svg',
+    image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: true,
     startingPrice: 14.99
   },
@@ -49,7 +49,7 @@ const mockProducts: Product[] = [
     description: 'Specialized gear oil for marine applications',
     viscosity: 'SAE 80W-90',
     application: 'Marine',
-    image: '/placeholder.svg',
+    image: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
     inStock: true,
     startingPrice: 55.99
   },
@@ -60,7 +60,7 @@ const mockProducts: Product[] = [
     description: 'Versatile lithium-based grease for various applications',
     viscosity: 'NLGI 2',
     application: 'General Purpose',
-    image: '/placeholder.svg',
+    image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: false,
     startingPrice: 18.50
   }
