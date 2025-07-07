@@ -171,9 +171,16 @@ const Products = () => {
                 <TableCell className="font-medium">{product.viscosity}</TableCell>
                 <TableCell>{product.application}</TableCell>
                 <TableCell>
-                  <Badge variant={product.inStock ? "default" : "destructive"}>
-                    {product.inStock ? "In Stock" : "Out of Stock"}
-                  </Badge>
+                  <div className="space-y-1">
+                    <Badge variant={product.inStock ? "default" : "destructive"}>
+                      {product.inStock ? "In Stock" : "Out of Stock"}
+                    </Badge>
+                    {!product.inStock && (
+                      <p className="text-xs text-muted-foreground">
+                        10-12 days to fulfill
+                      </p>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell className="text-right font-bold text-primary">
                   From ${product.startingPrice}
