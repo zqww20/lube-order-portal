@@ -21,7 +21,9 @@ import {
   Menu,
   X,
   FileText,
-  Users
+  Users,
+  LayoutDashboard,
+  Package2
 } from 'lucide-react';
 
 const Header = () => {
@@ -31,10 +33,10 @@ const Header = () => {
   const cartItems = 6; // This would come from your cart state
 
   const navigation = [
-    { name: 'Dashboard', href: '/' },
-    { name: 'Products', href: '/products' },
-    { name: 'Orders', href: '/orders' },
-    { name: 'Quotes', href: '/quotes' },
+    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { name: 'Products', href: '/products', icon: Package2 },
+    { name: 'Orders', href: '/orders', icon: Package },
+    { name: 'Quotes', href: '/quotes', icon: FileText },
   ];
 
   const isActive = (path: string) => {
@@ -76,13 +78,14 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center ${
+                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 ${
                   isActive(item.href)
                     ? 'text-white font-semibold border-b-2 border-accent'
                     : 'text-white/90 hover:text-white hover:text-accent'
                 }`}
               >
-                {item.name}
+                <item.icon className="h-4 w-4" />
+                <span>{item.name}</span>
               </Link>
             ))}
           </nav>
@@ -168,14 +171,15 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center space-x-2 ${
                     isActive(item.href)
                       ? 'bg-white/10 text-white font-semibold'
                       : 'text-white/90 hover:text-white hover:bg-white/5'
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.name}
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.name}</span>
                 </Link>
               ))}
             </div>
