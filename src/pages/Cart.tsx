@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -42,9 +41,7 @@ const mockCartItems: CartItem[] = [
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>(mockCartItems);
-  const [deliveryType, setDeliveryType] = useState('standard');
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const updateQuantity = (id: string, newQuantity: number) => {
     const item = cartItems.find(item => item.id === id);
@@ -87,21 +84,8 @@ const Cart = () => {
     return getSubtotal() * 0.08; // 8% tax
   };
 
-  const getEmergencyDeliveryFee = () => {
-    return deliveryType === 'emergency' ? 75 : 0;
-  };
-
   const getTotal = () => {
-    return getSubtotal() + getTax() + getEmergencyDeliveryFee();
-  };
-
-  const handleDeliveryChange = (type: string) => {
-    setDeliveryType(type);
-    if (type === 'emergency') {
-      // Store emergency delivery selection and redirect to products
-      localStorage.setItem('emergencyDelivery', 'true');
-      navigate('/products');
-    }
+    return getSubtotal() + getTax();
   };
 
   const handleCheckout = () => {
@@ -345,8 +329,7 @@ const Cart = () => {
                       type="radio" 
                       id="standard" 
                       name="delivery" 
-                      checked={deliveryType === 'standard'}
-                      onChange={() => handleDeliveryChange('standard')}
+                      defaultChecked 
                       className="text-primary focus:ring-primary"
                     />
                     <label htmlFor="standard" className="font-medium text-sm">Standard Delivery</label>
@@ -360,8 +343,6 @@ const Cart = () => {
                       type="radio" 
                       id="emergency" 
                       name="delivery" 
-                      checked={deliveryType === 'emergency'}
-                      onChange={() => handleDeliveryChange('emergency')}
                       className="text-primary focus:ring-primary"
                     />
                     <label htmlFor="emergency" className="font-medium text-sm">Emergency Delivery</label>
@@ -388,13 +369,6 @@ const Cart = () => {
                 <span>Tax (8%)</span>
                 <span>${getTax().toFixed(2)}</span>
               </div>
-              
-              {deliveryType === 'emergency' && (
-                <div className="flex justify-between">
-                  <span>Emergency Delivery</span>
-                  <span>${getEmergencyDeliveryFee().toFixed(2)}</span>
-                </div>
-              )}
               
               <Separator />
               
