@@ -316,6 +316,44 @@ const Cart = () => {
             </CardContent>
           </Card>
           
+          {/* Delivery Options */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Delivery Options</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg bg-primary/5 border-primary/20">
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="standard" 
+                      name="delivery" 
+                      defaultChecked 
+                      className="text-primary focus:ring-primary"
+                    />
+                    <label htmlFor="standard" className="font-medium text-sm">Standard Delivery</label>
+                  </div>
+                  <span className="text-sm font-medium">Free</span>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                  <div className="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      id="emergency" 
+                      name="delivery" 
+                      className="text-primary focus:ring-primary"
+                    />
+                    <label htmlFor="emergency" className="font-medium text-sm">Emergency Delivery</label>
+                  </div>
+                  <span className="text-sm font-medium text-red-600">+$75.00</span>
+                </div>
+                <p className="text-xs text-gray-600 ml-6">Same-day or next-day delivery available</p>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Order Summary */}
           <Card>
             <CardHeader>
