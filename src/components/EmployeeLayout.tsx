@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,13 +16,18 @@ import {
   Settings, 
   LogOut,
   User,
-  Database
+  Database,
+  Menu,
+  ChevronDown
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const EmployeeLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [showDropdownNav, setShowDropdownNav] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
 
   // Mock authentication check - replace with real auth
   const isEmployeeAuthenticated = true; // Would check for @bluewatergroup.ca email
@@ -58,6 +63,31 @@ const EmployeeLayout = () => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
   };
 
+  // Check for navigation overflow
+  useEffect(() => {
+    const checkNavOverflow = () => {
+      if (!navRef.current || !actionsRef.current) return;
+      
+      const container = navRef.current.parentElement;
+      if (!container) return;
+      
+      const containerWidth = container.offsetWidth;
+      const logoWidth = 300; // Approximate logo + badge width for employee
+      const actionsWidth = actionsRef.current.offsetWidth;
+      const navWidth = navRef.current.scrollWidth;
+      
+      const availableSpace = containerWidth - logoWidth - actionsWidth - 32; // 32px for margins
+      const needsDropdown = navWidth > availableSpace;
+      
+      setShowDropdownNav(needsDropdown);
+    };
+
+    checkNavOverflow();
+    window.addEventListener('resize', checkNavOverflow);
+    
+    return () => window.removeEventListener('resize', checkNavOverflow);
+  }, [navItems]);
+
   const handleLogout = () => {
     // Handle logout logic
     navigate('/login');
@@ -81,14 +111,14 @@ const EmployeeLayout = () => {
               </Badge>
             </div>
 
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center flex-1 min-w-0 mx-4">
-              <div className="flex items-center space-x-8 min-w-max overflow-x-auto scrollbar-hide">
+            {/* Navigation - Conditional Rendering */}
+            {!showDropdownNav ? (
+              <nav ref={navRef} className="hidden md:flex items-center space-x-8">
                 {navItems.map((item) => (
                   <button
                     key={item.path}
                     onClick={() => navigate(item.path)}
-                    className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap flex-shrink-0 ${
+                    className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
                       isActivePath(item.path)
                         ? 'text-white font-semibold border-b-2 border-accent'
                         : 'text-white/90 hover:text-white hover:text-accent'
@@ -98,11 +128,29 @@ const EmployeeLayout = () => {
                     <span>{item.label}</span>
                   </button>
                 ))}
-              </div>
-            </nav>
+              </nav>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="hidden md:flex text-white hover:bg-white/10 border border-white/30">
+                    <Menu className="h-4 w-4 mr-2" />
+                    Navigation
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="w-56 z-50 bg-white dark:bg-gray-800">
+                  {navItems.map((item) => (
+                    <DropdownMenuItem key={item.path} onClick={() => navigate(item.path)}>
+                      <item.icon className="h-4 w-4 mr-2" />
+                      <span>{item.label}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
 
             {/* User Info and Account Menu */}
-            <div className="flex items-center space-x-4">
+            <div ref={actionsRef} className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-2 text-sm">
                 <User className="h-4 w-4 text-white/80" />
                 <span className="text-white/80">employee@bluewatergroup.ca</span>

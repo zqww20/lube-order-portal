@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,14 +23,18 @@ import {
   FileText,
   Users,
   LayoutDashboard,
-  Package2
+  Package2,
+  ChevronDown
 } from 'lucide-react';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showDropdownNav, setShowDropdownNav] = useState(false);
   const location = useLocation();
   const cartItems = 6; // This would come from your cart state
+  const navRef = useRef<HTMLElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -45,6 +49,31 @@ const Header = () => {
     }
     return location.pathname.startsWith(path);
   };
+
+  // Check for navigation overflow
+  useEffect(() => {
+    const checkNavOverflow = () => {
+      if (!navRef.current || !actionsRef.current) return;
+      
+      const container = navRef.current.parentElement;
+      if (!container) return;
+      
+      const containerWidth = container.offsetWidth;
+      const logoWidth = 250; // Approximate logo + badge width
+      const actionsWidth = actionsRef.current.offsetWidth;
+      const navWidth = navRef.current.scrollWidth;
+      
+      const availableSpace = containerWidth - logoWidth - actionsWidth - 32; // 32px for margins
+      const needsDropdown = navWidth > availableSpace;
+      
+      setShowDropdownNav(needsDropdown);
+    };
+
+    checkNavOverflow();
+    window.addEventListener('resize', checkNavOverflow);
+    
+    return () => window.removeEventListener('resize', checkNavOverflow);
+  }, [navigation]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,13 +101,14 @@ const Header = () => {
             </Badge>
           </div>
 
-          <nav className="hidden md:flex items-center flex-1 min-w-0 mx-4">
-            <div className="flex items-center space-x-8 min-w-max overflow-x-auto scrollbar-hide">
+          {/* Navigation - Conditional Rendering */}
+          {!showDropdownNav ? (
+            <nav ref={navRef} className="hidden md:flex items-center space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap flex-shrink-0 ${
+                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
                     isActive(item.href)
                       ? 'text-white font-semibold border-b-2 border-accent'
                       : 'text-white/90 hover:text-white hover:text-accent'
@@ -88,11 +118,36 @@ const Header = () => {
                   <span>{item.name}</span>
                 </Link>
               ))}
-            </div>
-          </nav>
+            </nav>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="hidden md:flex text-white hover:bg-white/10 border border-white/30">
+                  <Menu className="h-4 w-4 mr-2" />
+                  Navigation
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-56 z-50 bg-white dark:bg-gray-800">
+                {navigation.map((item) => (
+                  <DropdownMenuItem key={item.name} asChild>
+                    <Link
+                      to={item.href}
+                      className={`flex items-center space-x-2 ${
+                        isActive(item.href) ? 'bg-accent text-accent-foreground' : ''
+                      }`}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.name}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
 
           {/* Actions */}
-          <div className="flex items-center space-x-4">
+          <div ref={actionsRef} className="flex items-center space-x-4">
             {/* User Info and Logout - matching employee layout */}
             <div className="hidden md:flex items-center space-x-2 text-sm">
               <User className="h-4 w-4 text-white/80" />
