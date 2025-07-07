@@ -45,77 +45,234 @@ interface OrderDetail {
   internalNotes?: string;
 }
 
-// Mock data for the order detail
-const mockOrderDetail: OrderDetail = {
-  id: '1',
-  orderNumber: 'ORD-2024-001',
-  date: '2024-01-15',
-  status: 'delivered',
-  subtotal: 255.96,
-  tax: 20.48,
-  shippingCost: 0.00,
-  emergencyDelivery: false,
-  total: 276.44,
-  shippingAddress: '123 Industrial Park, Manufacturing District, Houston, TX 77001',
-  billingAddress: '123 Industrial Park, Manufacturing District, Houston, TX 77001',
-  erpReference: 'ERP-SO-2024-001',
-  trackingNumber: 'TRK123456789',
-  carrier: 'FedEx',
-  estimatedDelivery: '2024-01-18',
-  customerNotes: 'Please deliver to dock 3',
-  internalNotes: 'Priority customer - expedite processing',
-  items: [
-    {
-      id: '1',
-      name: 'Premium Engine Oil 5W-30',
-      category: 'Engine Oils',
-      quantity: 4,
-      unitPrice: 45.99,
-      totalPrice: 183.96,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '2',
-      name: 'Industrial Hydraulic Fluid',
-      category: 'Hydraulic Fluids',
-      quantity: 2,
-      unitPrice: 36.00,
-      totalPrice: 72.00,
-      image: '/placeholder.svg'
-    }
-  ],
-  tracking: [
-    {
-      date: '2024-01-18T14:30:00Z',
-      status: 'Delivered',
-      location: 'Houston, TX',
-      description: 'Package delivered to dock 3'
-    },
-    {
-      date: '2024-01-18T09:15:00Z',
-      status: 'Out for delivery',
-      location: 'Houston, TX',
-      description: 'Package is out for delivery'
-    },
-    {
-      date: '2024-01-17T16:45:00Z',
-      status: 'In transit',
-      location: 'Dallas, TX',
-      description: 'Package departed facility'
-    },
-    {
-      date: '2024-01-16T10:20:00Z',
-      status: 'Processing',
-      location: 'Warehouse, TX',
-      description: 'Package processed at warehouse'
-    },
-    {
-      date: '2024-01-15T08:00:00Z',
-      status: 'Order placed',
-      location: 'Online',
-      description: 'Order confirmed and submitted to ERP'
-    }
-  ]
+// Mock data for different orders
+const mockOrderDetails: Record<string, OrderDetail> = {
+  '1': {
+    id: '1',
+    orderNumber: 'ORD-2024-001',
+    date: '2024-01-15',
+    status: 'delivered',
+    subtotal: 255.96,
+    tax: 20.48,
+    shippingCost: 0.00,
+    emergencyDelivery: false,
+    total: 276.44,
+    shippingAddress: '123 Industrial Park, Manufacturing District, Houston, TX 77001',
+    billingAddress: '123 Industrial Park, Manufacturing District, Houston, TX 77001',
+    erpReference: 'ERP-SO-2024-001',
+    trackingNumber: 'TRK123456789',
+    carrier: 'FedEx',
+    estimatedDelivery: '2024-01-18',
+    customerNotes: 'Please deliver to dock 3',
+    internalNotes: 'Priority customer - expedite processing',
+    items: [
+      {
+        id: '1',
+        name: 'Premium Engine Oil 5W-30',
+        category: 'Engine Oils',
+        quantity: 4,
+        unitPrice: 45.99,
+        totalPrice: 183.96,
+        image: '/placeholder.svg'
+      },
+      {
+        id: '2',
+        name: 'Industrial Hydraulic Fluid',
+        category: 'Hydraulic Fluids',
+        quantity: 2,
+        unitPrice: 36.00,
+        totalPrice: 72.00,
+        image: '/placeholder.svg'
+      }
+    ],
+    tracking: [
+      {
+        date: '2024-01-18T14:30:00Z',
+        status: 'Delivered',
+        location: 'Houston, TX',
+        description: 'Package delivered to dock 3'
+      },
+      {
+        date: '2024-01-18T09:15:00Z',
+        status: 'Out for delivery',
+        location: 'Houston, TX',
+        description: 'Package is out for delivery'
+      },
+      {
+        date: '2024-01-17T16:45:00Z',
+        status: 'In transit',
+        location: 'Dallas, TX',
+        description: 'Package departed facility'
+      },
+      {
+        date: '2024-01-16T10:20:00Z',
+        status: 'Processing',
+        location: 'Warehouse, TX',
+        description: 'Package processed at warehouse'
+      },
+      {
+        date: '2024-01-15T08:00:00Z',
+        status: 'Order placed',
+        location: 'Online',
+        description: 'Order confirmed and submitted to ERP'
+      }
+    ]
+  },
+  '2': {
+    id: '2',
+    orderNumber: 'ORD-2024-002',
+    date: '2024-01-20',
+    status: 'shipped',
+    subtotal: 175.98,
+    tax: 14.08,
+    shippingCost: 0.00,
+    emergencyDelivery: false,
+    total: 190.06,
+    shippingAddress: '456 Factory Lane, Industrial Zone, Dallas, TX 75201',
+    billingAddress: '456 Factory Lane, Industrial Zone, Dallas, TX 75201',
+    erpReference: 'ERP-SO-2024-002',
+    trackingNumber: 'TRK987654321',
+    carrier: 'UPS',
+    estimatedDelivery: '2024-01-22',
+    customerNotes: 'Call before delivery',
+    items: [
+      {
+        id: '3',
+        name: 'Marine Gear Oil',
+        category: 'Marine Lubricants',
+        quantity: 3,
+        unitPrice: 55.99,
+        totalPrice: 167.97,
+        image: '/placeholder.svg'
+      },
+      {
+        id: '4',
+        name: 'Multi-Purpose Grease',
+        category: 'Greases',
+        quantity: 1,
+        unitPrice: 18.50,
+        totalPrice: 18.50,
+        image: '/placeholder.svg'
+      }
+    ],
+    tracking: [
+      {
+        date: '2024-01-21T16:20:00Z',
+        status: 'In transit',
+        location: 'Austin, TX',
+        description: 'Package in transit to destination'
+      },
+      {
+        date: '2024-01-20T14:15:00Z',
+        status: 'Shipped',
+        location: 'Warehouse, TX',
+        description: 'Package shipped via UPS'
+      },
+      {
+        date: '2024-01-20T08:30:00Z',
+        status: 'Processing',
+        location: 'Warehouse, TX',
+        description: 'Order processed and packed'
+      },
+      {
+        date: '2024-01-20T07:00:00Z',
+        status: 'Order placed',
+        location: 'Online',
+        description: 'Order confirmed and submitted to ERP'
+      }
+    ]
+  },
+  '3': {
+    id: '3',
+    orderNumber: 'ORD-2024-003',
+    date: '2024-01-22',
+    status: 'processing',
+    subtotal: 524.55,
+    tax: 41.96,
+    shippingCost: 0.00,
+    emergencyDelivery: true,
+    total: 641.51,
+    shippingAddress: '789 Workshop Road, Manufacturing Hub, San Antonio, TX 78201',
+    billingAddress: '789 Workshop Road, Manufacturing Hub, San Antonio, TX 78201',
+    erpReference: 'ERP-SO-2024-003',
+    customerNotes: 'Emergency delivery needed for production line',
+    internalNotes: 'Rush order - expedite all processes',
+    items: [
+      {
+        id: '1',
+        name: 'Premium Engine Oil 5W-30',
+        category: 'Engine Oils',
+        quantity: 8,
+        unitPrice: 45.99,
+        totalPrice: 367.92,
+        image: '/placeholder.svg'
+      },
+      {
+        id: '2',
+        name: 'Industrial Hydraulic Fluid',
+        category: 'Hydraulic Fluids',
+        quantity: 4,
+        unitPrice: 36.00,
+        totalPrice: 144.00,
+        image: '/placeholder.svg'
+      },
+      {
+        id: '4',
+        name: 'Multi-Purpose Grease',
+        category: 'Greases',
+        quantity: 3,
+        unitPrice: 18.50,
+        totalPrice: 55.50,
+        image: '/placeholder.svg'
+      }
+    ],
+    tracking: [
+      {
+        date: '2024-01-22T10:45:00Z',
+        status: 'Processing',
+        location: 'Warehouse, TX',
+        description: 'Emergency order being expedited'
+      },
+      {
+        date: '2024-01-22T09:15:00Z',
+        status: 'Order placed',
+        location: 'Online',
+        description: 'Emergency order confirmed and submitted to ERP'
+      }
+    ]
+  },
+  '4': {
+    id: '4',
+    orderNumber: 'ORD-2024-004',
+    date: '2024-01-25',
+    status: 'pending',
+    subtotal: 114.35,
+    tax: 9.15,
+    shippingCost: 0.00,
+    emergencyDelivery: false,
+    total: 123.50,
+    shippingAddress: '321 Service Center, Industrial Area, Austin, TX 73301',
+    billingAddress: '321 Service Center, Industrial Area, Austin, TX 73301',
+    items: [
+      {
+        id: '4',
+        name: 'Multi-Purpose Grease',
+        category: 'Greases',
+        quantity: 6,
+        unitPrice: 18.50,
+        totalPrice: 111.00,
+        image: '/placeholder.svg'
+      }
+    ],
+    tracking: [
+      {
+        date: '2024-01-25T11:30:00Z',
+        status: 'Order placed',
+        location: 'Online',
+        description: 'Order received and awaiting processing'
+      }
+    ]
+  }
 };
 
 const statusColorMap = {
@@ -133,7 +290,11 @@ const OrderDetail = () => {
 
   useEffect(() => {
     // In a real app, fetch order details from API using the id
-    setOrder(mockOrderDetail);
+    if (id && mockOrderDetails[id]) {
+      setOrder(mockOrderDetails[id]);
+    } else {
+      setOrder(null);
+    }
   }, [id]);
 
   const downloadInvoice = () => {
