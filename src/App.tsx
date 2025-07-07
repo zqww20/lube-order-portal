@@ -40,6 +40,7 @@ const App = () => (
             <Route path="quotes" element={<EmployeeQuotes />} />
             <Route path="orders" element={<EmployeeOrders />} />
             <Route path="admin/logistics" element={<AdminLogistics />} />
+            <Route path="erp-integration" element={<ERPIntegration />} />
           </Route>
 
           {/* Customer Routes */}
@@ -56,7 +57,6 @@ const App = () => (
                   <Route path="/orders/:id" element={<OrderDetail />} />
                   <Route path="/quotes" element={<CustomerQuotes />} />
                   <Route path="/employee" element={<Employee />} />
-                  <Route path="/erp-integration" element={<ERPIntegration />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

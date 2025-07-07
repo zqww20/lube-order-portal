@@ -15,7 +15,8 @@ import {
   Package, 
   Settings, 
   LogOut,
-  User
+  User,
+  Database
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,6 +46,11 @@ const EmployeeLayout = () => {
       label: 'All Orders',
       path: '/employee/orders',
       icon: Package
+    },
+    {
+      label: 'ERP Integration',
+      path: '/employee/erp-integration',
+      icon: Database
     },
     {
       label: 'Logistics Admin',
