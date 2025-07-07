@@ -82,21 +82,23 @@ const EmployeeLayout = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.path}
-                  onClick={() => navigate(item.path)}
-                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 ${
-                    isActivePath(item.path)
-                      ? 'text-white font-semibold border-b-2 border-accent'
-                      : 'text-white/90 hover:text-white hover:text-accent'
-                  }`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </button>
-              ))}
+            <nav className="hidden md:flex items-center overflow-x-auto scrollbar-hide max-w-2xl">
+              <div className="flex items-center space-x-8 min-w-max px-2">
+                {navItems.map((item) => (
+                  <button
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
+                      isActivePath(item.path)
+                        ? 'text-white font-semibold border-b-2 border-accent'
+                        : 'text-white/90 hover:text-white hover:text-accent'
+                    }`}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
             </nav>
 
             {/* User Info and Account Menu */}

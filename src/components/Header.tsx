@@ -72,21 +72,23 @@ const Header = () => {
             </Badge>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 ${
-                  isActive(item.href)
-                    ? 'text-white font-semibold border-b-2 border-accent'
-                    : 'text-white/90 hover:text-white hover:text-accent'
-                }`}
-              >
-                <item.icon className="h-4 w-4" />
-                <span>{item.name}</span>
-              </Link>
-            ))}
+          <nav className="hidden md:flex items-center overflow-x-auto scrollbar-hide max-w-2xl">
+            <div className="flex items-center space-x-8 min-w-max px-2">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
+                    isActive(item.href)
+                      ? 'text-white font-semibold border-b-2 border-accent'
+                      : 'text-white/90 hover:text-white hover:text-accent'
+                  }`}
+                >
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.name}</span>
+                </Link>
+              ))}
+            </div>
           </nav>
 
           {/* Actions */}
