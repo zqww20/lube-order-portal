@@ -338,9 +338,6 @@ const ProductDetail = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="flex justify-between items-center">
-                    <div className="text-2xl font-bold text-blue-600">
-                      {quoteRequestText}
-                    </div>
                     <QuoteRequest 
                       product={{
                         id: product.id,
