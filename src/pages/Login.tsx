@@ -15,11 +15,6 @@ const Login = () => {
         <CardContent className="p-12">
           {/* Logo */}
           <div className="text-center mb-8">
-            <img 
-              src="/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png" 
-              alt="Bluewater Group Logo" 
-              className="h-12 w-auto object-contain mx-auto mb-6"
-            />
             <h1 className="text-2xl font-heading font-bold text-primary">
               Portal Login
             </h1>
