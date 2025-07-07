@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -23,6 +30,8 @@ import { useNavigate } from 'react-router-dom';
 const EmployeeLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const navRef = useRef<HTMLElement>(null);
+  const [useSlider, setUseSlider] = useState(false);
 
   // Mock authentication check - replace with real auth
   const isEmployeeAuthenticated = true; // Would check for @bluewatergroup.ca email
@@ -63,6 +72,59 @@ const EmployeeLayout = () => {
     navigate('/login');
   };
 
+  // Check if navigation needs slider
+  useEffect(() => {
+    const checkNavOverflow = () => {
+      if (!navRef.current) return;
+      
+      const nav = navRef.current;
+      const parent = nav.parentElement;
+      if (!parent) return;
+      
+      // Calculate available space
+      const parentWidth = parent.offsetWidth;
+      const logoSection = parent.querySelector('.flex.items-center.space-x-4') as HTMLElement;
+      const accountSection = parent.querySelector('.flex.items-center.space-x-4:last-child') as HTMLElement;
+      
+      const logoWidth = logoSection?.offsetWidth || 0;
+      const accountWidth = accountSection?.offsetWidth || 0;
+      const availableWidth = parentWidth - logoWidth - accountWidth - 96; // 96px for padding
+      
+      // Calculate natural navigation width
+      const tempNav = nav.cloneNode(true) as HTMLElement;
+      tempNav.style.position = 'absolute';
+      tempNav.style.visibility = 'hidden';
+      tempNav.style.width = 'auto';
+      document.body.appendChild(tempNav);
+      
+      const naturalWidth = tempNav.scrollWidth;
+      document.body.removeChild(tempNav);
+      
+      setUseSlider(naturalWidth > availableWidth);
+    };
+
+    checkNavOverflow();
+    window.addEventListener('resize', checkNavOverflow);
+    return () => window.removeEventListener('resize', checkNavOverflow);
+  }, []);
+
+  const renderNavItems = () => {
+    return navItems.map((item) => (
+      <button
+        key={item.path}
+        onClick={() => navigate(item.path)}
+        className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
+          isActivePath(item.path)
+            ? 'text-white font-semibold border-b-2 border-accent'
+            : 'text-white/90 hover:text-white hover:text-accent'
+        }`}
+      >
+        <item.icon className="h-4 w-4" />
+        <span>{item.label}</span>
+      </button>
+    ));
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Employee Header */}
@@ -82,22 +144,35 @@ const EmployeeLayout = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.path}
-                  onClick={() => navigate(item.path)}
-                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 ${
-                    isActivePath(item.path)
-                      ? 'text-white font-semibold border-b-2 border-accent'
-                      : 'text-white/90 hover:text-white hover:text-accent'
-                  }`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </nav>
+            {useSlider ? (
+              <div className="hidden md:block flex-1 max-w-md mx-4">
+                <Carousel className="w-full">
+                  <CarouselContent className="-ml-2">
+                    {navItems.map((item) => (
+                      <CarouselItem key={item.path} className="pl-2 basis-auto">
+                        <button
+                          onClick={() => navigate(item.path)}
+                          className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
+                            isActivePath(item.path)
+                              ? 'text-white font-semibold border-b-2 border-accent'
+                              : 'text-white/90 hover:text-white hover:text-accent'
+                          }`}
+                        >
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </button>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="text-white border-white/30 hover:bg-white/10" />
+                  <CarouselNext className="text-white border-white/30 hover:bg-white/10" />
+                </Carousel>
+              </div>
+            ) : (
+              <nav ref={navRef} className="hidden md:flex items-center space-x-8">
+                {renderNavItems()}
+              </nav>
+            )}
 
             {/* User Info and Account Menu */}
             <div className="flex items-center space-x-4">
