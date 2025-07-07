@@ -72,13 +72,13 @@ const Header = () => {
             </Badge>
           </div>
 
-          <nav className="hidden md:flex items-center overflow-x-auto scrollbar-hide max-w-2xl">
-            <div className="flex items-center space-x-8 min-w-max px-2">
+          <nav className="hidden md:flex items-center flex-1 min-w-0 mx-4">
+            <div className="flex items-center space-x-8 min-w-max overflow-x-auto scrollbar-hide">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap ${
+                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 whitespace-nowrap flex-shrink-0 ${
                     isActive(item.href)
                       ? 'text-white font-semibold border-b-2 border-accent'
                       : 'text-white/90 hover:text-white hover:text-accent'
