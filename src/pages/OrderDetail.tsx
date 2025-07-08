@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Download, Truck, Package, MapPin, Calendar, Receipt, Phone, Mail } from 'lucide-react';
+import { ArrowLeft, Download, Truck, Package, MapPin, Calendar, Receipt, Phone, Mail, Link as LinkIcon, Clock } from 'lucide-react';
 
 interface OrderItem {
   id: string;
@@ -27,7 +27,7 @@ interface OrderDetail {
   id: string;
   orderNumber: string;
   date: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'backordered';
   total: number;
   subtotal: number;
   tax: number;
@@ -43,6 +43,8 @@ interface OrderDetail {
   tracking: TrackingEvent[];
   customerNotes?: string;
   internalNotes?: string;
+  type?: 'sales' | 'backorder';
+  relatedOrderId?: string;
 }
 
 // Mock data for different orders
@@ -272,6 +274,103 @@ const mockOrderDetails: Record<string, OrderDetail> = {
         description: 'Order received and awaiting processing'
       }
     ]
+  },
+  // Backorder examples
+  '2b': {
+    id: '2b',
+    orderNumber: 'BO-2024-002',
+    date: '2024-01-20',
+    status: 'backordered',
+    subtotal: 83.18,
+    tax: 6.65,
+    shippingCost: 0.00,
+    emergencyDelivery: false,
+    total: 89.83,
+    shippingAddress: '456 Factory Lane, Industrial Zone, Dallas, TX 75201',
+    billingAddress: '456 Factory Lane, Industrial Zone, Dallas, TX 75201',
+    erpReference: 'ERP-BO-2024-002',
+    estimatedDelivery: '2024-02-05',
+    type: 'backorder',
+    relatedOrderId: '2',
+    customerNotes: 'Waiting for supplier delivery',
+    internalNotes: 'Backorder due to insufficient inventory. Expected restocking: Feb 3rd',
+    items: [
+      {
+        id: '2',
+        name: 'Industrial Hydraulic Fluid',
+        category: 'Hydraulic Fluids',
+        quantity: 2,
+        unitPrice: 36.00,
+        totalPrice: 72.00,
+        image: '/placeholder.svg'
+      }
+    ],
+    tracking: [
+      {
+        date: '2024-01-20T14:15:00Z',
+        status: 'Backordered',
+        location: 'Warehouse, TX',
+        description: 'Items placed on backorder - insufficient inventory'
+      },
+      {
+        date: '2024-01-20T08:30:00Z',
+        status: 'Order split',
+        location: 'Warehouse, TX',
+        description: 'Order partially fulfilled - remaining items backordered'
+      }
+    ]
+  },
+  '5b': {
+    id: '5b',
+    orderNumber: 'BO-2024-005',
+    date: '2024-01-26',
+    status: 'backordered',
+    subtotal: 144.27,
+    tax: 11.54,
+    shippingCost: 0.00,
+    emergencyDelivery: false,
+    total: 155.81,
+    shippingAddress: 'Main Warehouse, Halifax, NS B3H 4R2',
+    billingAddress: 'Main Warehouse, Halifax, NS B3H 4R2',
+    erpReference: 'ERP-BO-2024-005',
+    estimatedDelivery: '2024-02-10',
+    type: 'backorder',
+    relatedOrderId: '5',
+    internalNotes: 'Partial shipment backordered due to insufficient inventory',
+    items: [
+      {
+        id: '3',
+        name: 'Marine Gear Oil',
+        category: 'Marine Lubricants',
+        quantity: 2,
+        unitPrice: 55.99,
+        totalPrice: 111.98,
+        image: '/placeholder.svg'
+      },
+      {
+        id: '4',
+        name: 'Multi-Purpose Grease',
+        category: 'Greases',
+        quantity: 1,
+        unitPrice: 18.50,
+        totalPrice: 18.50,
+        image: '/placeholder.svg'
+      }
+    ],
+    tracking: [
+      {
+        date: '2024-01-26T16:30:00Z',
+        status: 'Backordered',
+        location: 'Warehouse, Halifax',
+        description: 'Items placed on backorder - awaiting supplier shipment'
+      },
+      {
+        date: '2024-01-26T12:15:00Z',
+        status: 'Order split',
+        location: 'Warehouse, Halifax',
+        description: 'Available items shipped separately - remaining items backordered'
+      }
+    ]
   }
 };
 
@@ -280,7 +379,8 @@ const statusColorMap = {
   processing: 'bg-blue-100 text-blue-800',
   shipped: 'bg-purple-100 text-purple-800',
   delivered: 'bg-green-100 text-green-800',
-  cancelled: 'bg-red-100 text-red-800'
+  cancelled: 'bg-red-100 text-red-800',
+  backordered: 'bg-orange-100 text-orange-800'
 };
 
 const OrderDetail = () => {
@@ -331,19 +431,52 @@ const OrderDetail = () => {
             <p className="text-gray-600">Order placed on {new Date(order.date).toLocaleDateString()}</p>
           </div>
         </div>
-        <div className="flex space-x-2">
-          <Button variant="outline" onClick={downloadInvoice}>
-            <Download className="h-4 w-4 mr-2" />
-            Invoice
-          </Button>
-          {order.status === 'delivered' && (
-            <Button variant="outline" onClick={downloadPOD}>
-              <Receipt className="h-4 w-4 mr-2" />
-              Proof of Delivery
-            </Button>
+        <div className="flex items-center space-x-3">
+          <Badge className={statusColorMap[order.status]} variant="secondary">
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+          </Badge>
+          {order.type === 'backorder' && (
+            <Badge variant="outline" className="text-orange-700 border-orange-300 bg-orange-50">
+              Backorder
+            </Badge>
           )}
+          <div className="flex space-x-2">
+            <Button variant="outline" onClick={downloadInvoice}>
+              <Download className="h-4 w-4 mr-2" />
+              Invoice
+            </Button>
+            {order.status === 'delivered' && (
+              <Button variant="outline" onClick={downloadPOD}>
+                <Receipt className="h-4 w-4 mr-2" />
+                Proof of Delivery
+              </Button>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Backorder Association Alert */}
+      {order.type === 'backorder' && order.relatedOrderId && (
+        <Card className="mb-6 border-orange-300 bg-orange-50/50">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-3">
+              <LinkIcon className="h-5 w-5 text-orange-600 flex-shrink-0" />
+              <div>
+                <p className="font-medium text-orange-800">Associated with Additional Order</p>
+                <p className="text-sm text-orange-700">
+                  This backorder is related to sales order 
+                  <Link 
+                    to={`/orders/${order.relatedOrderId}`} 
+                    className="font-medium underline ml-1 hover:text-orange-900"
+                  >
+                    ORD-2024-{order.relatedOrderId.padStart(3, '0')}
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
