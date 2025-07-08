@@ -17,6 +17,7 @@ interface CartItem {
   quantity: number;
   image: string;
   minOrder: number;
+  availableStock: number;
 }
 
 const mockCartItems: CartItem[] = [
@@ -27,16 +28,18 @@ const mockCartItems: CartItem[] = [
     unit: 'per liter',
     quantity: 4,
     image: '/placeholder.svg',
-    minOrder: 4
+    minOrder: 4,
+    availableStock: 6
   },
   {
     id: '2',
     name: 'Industrial Hydraulic Fluid',
     price: 89.99,
     unit: 'per 5L container',
-    quantity: 2,
+    quantity: 5,
     image: '/placeholder.svg',
-    minOrder: 1
+    minOrder: 1,
+    availableStock: 3
   }
 ];
 
@@ -148,7 +151,7 @@ const Cart = () => {
           {cartItems.map((item) => (
             <Card key={item.id}>
               <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
+                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
                     <img 
                       src={item.image} 
@@ -206,6 +209,22 @@ const Cart = () => {
                     </Button>
                   </div>
                 </div>
+                
+                {/* Partial Fulfillment Notice */}
+                {item.quantity > item.availableStock && (
+                  <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <div>
+                        <p className="font-medium text-orange-800 text-sm">Limited Availability</p>
+                        <p className="text-orange-700 text-sm">
+                          <span className="font-medium">{item.availableStock} units</span> will ship now. 
+                          The remaining <span className="font-medium">{item.quantity - item.availableStock} units</span> will be placed on backorder.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}

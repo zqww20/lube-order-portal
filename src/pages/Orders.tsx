@@ -12,11 +12,13 @@ interface Order {
   id: string;
   orderNumber: string;
   date: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'backordered';
   total: number;
   items: number;
   shippingAddress: string;
   erpReference?: string;
+  type: 'sales' | 'backorder';
+  relatedOrderId?: string;
 }
 
 const mockOrders: Order[] = [
@@ -28,7 +30,8 @@ const mockOrders: Order[] = [
     total: 275.96,
     items: 3,
     shippingAddress: '123 Industrial Park, Manufacturing District',
-    erpReference: 'ERP-SO-2024-001'
+    erpReference: 'ERP-SO-2024-001',
+    type: 'sales'
   },
   {
     id: '2',
@@ -38,7 +41,21 @@ const mockOrders: Order[] = [
     total: 189.98,
     items: 2,
     shippingAddress: '456 Factory Lane, Industrial Zone',
-    erpReference: 'ERP-SO-2024-002'
+    erpReference: 'ERP-SO-2024-002',
+    type: 'sales'
+  },
+  // Backorder example - related to ORD-2024-002
+  {
+    id: '2b',
+    orderNumber: 'BO-2024-002',
+    date: '2024-01-20',
+    status: 'backordered',
+    total: 89.99,
+    items: 1,
+    shippingAddress: '456 Factory Lane, Industrial Zone',
+    erpReference: 'ERP-BO-2024-002',
+    type: 'backorder',
+    relatedOrderId: '2'
   },
   {
     id: '3',
@@ -48,7 +65,8 @@ const mockOrders: Order[] = [
     total: 567.45,
     items: 5,
     shippingAddress: '789 Workshop Road, Manufacturing Hub',
-    erpReference: 'ERP-SO-2024-003'
+    erpReference: 'ERP-SO-2024-003',
+    type: 'sales'
   },
   {
     id: '4',
@@ -57,7 +75,32 @@ const mockOrders: Order[] = [
     status: 'pending',
     total: 123.50,
     items: 1,
-    shippingAddress: '321 Service Center, Industrial Area'
+    shippingAddress: '321 Service Center, Industrial Area',
+    type: 'sales'
+  },
+  // Another backorder example
+  {
+    id: '5',
+    orderNumber: 'ORD-2024-005',
+    date: '2024-01-26',
+    status: 'shipped',
+    total: 345.00,
+    items: 2,
+    shippingAddress: 'Main Warehouse, Halifax, NS',
+    erpReference: 'ERP-SO-2024-005',
+    type: 'sales'
+  },
+  {
+    id: '5b',
+    orderNumber: 'BO-2024-005',
+    date: '2024-01-26',
+    status: 'backordered',
+    total: 155.97,
+    items: 2,
+    shippingAddress: 'Main Warehouse, Halifax, NS',
+    erpReference: 'ERP-BO-2024-005',
+    type: 'backorder',
+    relatedOrderId: '5'
   }
 ];
 
@@ -66,7 +109,8 @@ const statusColorMap = {
   processing: 'bg-blue-100 text-blue-800',
   shipped: 'bg-purple-100 text-purple-800',
   delivered: 'bg-green-100 text-green-800',
-  cancelled: 'bg-red-100 text-red-800'
+  cancelled: 'bg-red-100 text-red-800',
+  backordered: 'bg-orange-100 text-orange-800'
 };
 
 const Orders = () => {
@@ -147,6 +191,7 @@ const Orders = () => {
             <SelectItem value="shipped">Shipped</SelectItem>
             <SelectItem value="delivered">Delivered</SelectItem>
             <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value="backordered">Backordered</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -154,7 +199,14 @@ const Orders = () => {
       {/* Orders List */}
       <div className="space-y-4">
         {filteredOrders.map((order) => (
-          <Card key={order.id} className="hover:shadow-lg transition-shadow">
+          <Card 
+            key={order.id} 
+            className={`hover:shadow-lg transition-shadow ${
+              order.type === 'backorder' 
+                ? 'border-orange-300 bg-orange-50/50' 
+                : 'hover:shadow-lg'
+            }`}
+          >
             <CardContent className="p-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
                 <div className="flex-1">
@@ -163,6 +215,11 @@ const Orders = () => {
                     <Badge className={statusColorMap[order.status]}>
                       {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                     </Badge>
+                    {order.type === 'backorder' && (
+                      <Badge variant="outline" className="text-orange-700 border-orange-300">
+                        Backorder
+                      </Badge>
+                    )}
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-600">
@@ -178,6 +235,12 @@ const Orders = () => {
                   {order.erpReference && (
                     <p className="text-sm text-blue-600 mt-1">
                       ERP Ref: {order.erpReference}
+                    </p>
+                  )}
+                  
+                  {order.type === 'backorder' && order.relatedOrderId && (
+                    <p className="text-sm text-orange-700 mt-1">
+                      Related to: ORD-2024-{order.relatedOrderId.padStart(3, '0')}
                     </p>
                   )}
                 </div>
