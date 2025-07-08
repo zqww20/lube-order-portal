@@ -16,6 +16,11 @@ import CustomerQuotes from "./components/CustomerQuotes";
 import Employee from "./pages/Employee";
 import Guest from "./pages/Guest";
 import Login from "./pages/Login";
+import GuestLayout from "./components/GuestLayout";
+import GuestDashboard from "./pages/guest/Dashboard";
+import GuestProducts from "./pages/guest/Products";
+import GuestCart from "./pages/guest/Cart";
+import GuestLocation from "./pages/guest/Location";
 import EmployeeLayout from "./components/EmployeeLayout";
 import EmployeeDashboard from "./pages/employee/Dashboard";
 import QuotingWorkbench from "./pages/employee/Workbench";
@@ -33,6 +38,14 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          
+          {/* Guest Routes - Separate Portal */}
+          <Route path="/guest" element={<GuestLayout />}>
+            <Route path="dashboard" element={<GuestDashboard />} />
+            <Route path="products" element={<GuestProducts />} />
+            <Route path="cart" element={<GuestCart />} />
+            <Route path="location" element={<GuestLocation />} />
+          </Route>
           
           {/* Employee Routes - Secure and Separate */}
           <Route path="/employee" element={<EmployeeLayout />}>
@@ -57,7 +70,6 @@ const App = () => (
                   <Route path="/orders" element={<Orders />} />
                   <Route path="/orders/:id" element={<OrderDetail />} />
                   <Route path="/quotes" element={<CustomerQuotes />} />
-                  <Route path="/guest" element={<Guest />} />
                   <Route path="/employee" element={<Employee />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
