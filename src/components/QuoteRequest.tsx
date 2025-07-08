@@ -29,10 +29,7 @@ interface QuoteRequestProps {
 interface QuoteFormData {
   quantity: number;
   requirements: string;
-  company: string;
-  contactName: string;
-  email: string;
-  phone: string;
+  shipToAddress: string;
   expectedDelivery: string;
   emergencyDelivery: string;
 }
@@ -45,14 +42,30 @@ const QuoteRequest = ({ product, trigger }: QuoteRequestProps) => {
     defaultValues: {
       quantity: 1,
       requirements: '',
-      company: '',
-      contactName: '',
-      email: '',
-      phone: '',
+      shipToAddress: '',
       expectedDelivery: '',
       emergencyDelivery: 'standard'
     }
   });
+
+  // Mock ship-to addresses - would come from ERP system
+  const shipToAddresses = [
+    {
+      id: '1',
+      name: 'Main Warehouse',
+      address: '123 Industrial Drive, Halifax, NS B3H 4R2'
+    },
+    {
+      id: '2', 
+      name: 'Secondary Location',
+      address: '456 Marine Blvd, Dartmouth, NS B2Y 3Z8'
+    },
+    {
+      id: '3',
+      name: 'Distribution Center',
+      address: '789 Port Road, Sydney, NS B1P 6K5'
+    }
+  ];
 
   const onSubmit = (data: QuoteFormData) => {
     console.log('Quote request submitted:', { product, ...data });
@@ -128,65 +141,29 @@ const QuoteRequest = ({ product, trigger }: QuoteRequestProps) => {
               )}
             />
             
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your company" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="contactName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="your@email.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input placeholder="(555) 123-4567" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="shipToAddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ship-To Address</FormLabel>
+                  <FormControl>
+                    <select 
+                      {...field} 
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <option value="">Select ship-to address...</option>
+                      {shipToAddresses.map((address) => (
+                        <option key={address.id} value={address.id}>
+                          {address.name} - {address.address}
+                        </option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
             <div className="grid grid-cols-2 gap-4">
               <FormField
