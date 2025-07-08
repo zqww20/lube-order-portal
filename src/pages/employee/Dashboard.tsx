@@ -170,7 +170,6 @@ const EmployeeDashboard = () => {
                   <div className="ml-4">
                     <Button 
                       onClick={() => handleCreateQuote(quote.id)}
-                      className="bg-brand-red text-brand-red-foreground hover:bg-brand-red/90"
                     >
                       Create Quote
                     </Button>
