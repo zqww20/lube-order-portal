@@ -11,7 +11,7 @@ const Login = () => {
           <img 
             src="/lovable-uploads/85a47f68-5b7a-442a-89b1-43de0ae350ac.png" 
             alt="Bluewater Group Logo" 
-            className="w-16 h-16 mx-auto mb-4"
+            className="w-16 h-16 mx-auto mb-4 rounded-full"
           />
           <h1 className="text-3xl font-heading font-bold text-primary mb-2">
             Bluewater Portal
