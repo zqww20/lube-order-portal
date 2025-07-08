@@ -8,9 +8,11 @@ const Login = () => {
       <div className="w-full max-w-md">
         {/* Logo Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-4">
-            <div className="text-primary-foreground font-bold text-xl">BW</div>
-          </div>
+          <img 
+            src="/placeholder.svg" 
+            alt="Bluewater Group Logo" 
+            className="w-16 h-16 mx-auto mb-4"
+          />
           <h1 className="text-3xl font-heading font-bold text-primary mb-2">
             Bluewater Portal
           </h1>
