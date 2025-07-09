@@ -14,6 +14,7 @@ import OrderDetail from "./pages/OrderDetail";
 import ERPIntegration from "./components/ERPIntegration";
 import NotFound from "./pages/NotFound";
 import CustomerQuotes from "./pages/Quotes";
+import QuoteBasket from "./pages/QuoteBasket";
 import Employee from "./pages/Employee";
 import Guest from "./pages/Guest";
 import Login from "./pages/Login";
@@ -72,6 +73,7 @@ const App = () => (
                   <Route path="/orders" element={<Orders />} />
                   <Route path="/orders/:id" element={<OrderDetail />} />
                   <Route path="/quotes" element={<CustomerQuotes />} />
+                  <Route path="/quote-basket" element={<QuoteBasket />} />
                   <Route path="/employee" element={<Employee />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

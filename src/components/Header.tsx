@@ -138,9 +138,9 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Quote List */}
+            {/* Quote Basket */}
             <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
-              <Link to="/quotes">
+              <Link to="/quote-basket">
                 <FileText className="h-5 w-5" />
                 {quoteState.totalItems > 0 && (
                   <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white">
