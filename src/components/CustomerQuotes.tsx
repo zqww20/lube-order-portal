@@ -192,11 +192,14 @@ const CustomerQuotes = () => {
                 <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
                   <div className="flex items-start space-x-4">
                     {isReady && (
-                      <Checkbox
-                        checked={isSelected}
-                        onCheckedChange={(checked) => handleQuoteSelect(quote.id, checked as boolean)}
-                        className="mt-1"
-                      />
+                      <div className="flex flex-col items-center space-y-1 pt-1">
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={(checked) => handleQuoteSelect(quote.id, checked as boolean)}
+                          className="h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <span className="text-xs text-muted-foreground font-medium">Select</span>
+                      </div>
                     )}
                     <div className="flex-1">
                       <div className="flex items-center space-x-4 mb-2">
