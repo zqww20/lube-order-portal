@@ -65,7 +65,7 @@ const GuestProducts = () => {
             <div>
               <h4 className="font-medium text-orange-800 mb-1">Guest Purchase Limitations</h4>
               <ul className="text-sm text-orange-700 space-y-1">
-                <li>• Maximum 5 units per item</li>
+                <li>• Maximum 5 unique items per transaction</li>
                 <li>• Cash payment only at pickup</li>
                 <li>• No bulk discounts available</li>
                 <li>• Limited product selection</li>
@@ -98,7 +98,7 @@ const GuestProducts = () => {
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Max: 5 units</span>
+                  <span className="text-sm text-muted-foreground">Max: 5 items</span>
                   <Button 
                     size="sm" 
                     disabled={!product.inStock}
