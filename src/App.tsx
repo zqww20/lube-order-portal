@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QuoteProvider } from "@/contexts/QuoteContext";
 import Header from "@/components/Header";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -12,7 +13,7 @@ import Orders from "./pages/Orders";
 import OrderDetail from "./pages/OrderDetail";
 import ERPIntegration from "./components/ERPIntegration";
 import NotFound from "./pages/NotFound";
-import CustomerQuotes from "./components/CustomerQuotes";
+import CustomerQuotes from "./pages/Quotes";
 import Employee from "./pages/Employee";
 import Guest from "./pages/Guest";
 import Login from "./pages/Login";
@@ -32,10 +33,11 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <QuoteProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
           
@@ -80,6 +82,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
+    </QuoteProvider>
   </QueryClientProvider>
 );
 
