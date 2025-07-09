@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Quote, Calendar, Package, DollarSign, CheckCircle, XCircle, Clock, ShoppingCart } from 'lucide-react';
 import { useQuote } from '@/contexts/QuoteContext';
-import QuoteSelectionModal from './QuoteSelectionModal';
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface CustomerQuote {
   id: string;
@@ -75,8 +77,9 @@ const statusInfo = {
 };
 
 const CustomerQuotes = () => {
-  const { state } = useQuote();
-  const [showSelectionModal, setShowSelectionModal] = useState(false);
+  const { state, dispatch } = useQuote();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Convert QuoteItem to CustomerQuote format for compatibility
   const quotes: CustomerQuote[] = state.quotes.map(quote => ({
@@ -93,9 +96,53 @@ const CustomerQuotes = () => {
   }));
 
   const readyQuotes = state.quotes.filter(quote => quote.status === 'quoted' && quote.quoteAmount);
+  const selectedCount = state.selectedQuotes.length;
+  const selectedTotal = state.selectedQuotes.reduce((total, quote) => total + (quote.quoteAmount || 0), 0);
 
-  const handleSelectQuotes = () => {
-    setShowSelectionModal(true);
+  const handleQuoteSelect = (quoteId: string, selected: boolean) => {
+    if (selected) {
+      dispatch({ type: 'SELECT_QUOTE', payload: quoteId });
+    } else {
+      dispatch({ type: 'DESELECT_QUOTE', payload: quoteId });
+    }
+  };
+
+  const handleMoveToCart = () => {
+    if (selectedCount === 0) {
+      toast({
+        title: "No Quotes Selected",
+        description: "Please select at least one quote to move to cart.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Accept selected quotes and update their status
+    dispatch({ type: 'ACCEPT_SELECTED_QUOTES' });
+
+    // Create cart items from selected quotes
+    const cartItems = state.selectedQuotes.map(quote => ({
+      id: quote.productId,
+      name: quote.productName,
+      price: quote.unitPrice,
+      quantity: quote.quantity,
+      unit: 'per unit',
+      image: '/placeholder.svg',
+      minOrder: 1,
+      availableStock: quote.quantity + 10,
+      fromQuote: true,
+      quoteId: quote.id
+    }));
+
+    // Store cart items in localStorage
+    localStorage.setItem('quotedCartItems', JSON.stringify(cartItems));
+
+    toast({
+      title: "Quotes Moved to Cart",
+      description: `${selectedCount} quotes have been accepted and moved to your cart.`,
+    });
+
+    navigate('/cart?from=quotes');
   };
 
 
@@ -112,10 +159,21 @@ const CustomerQuotes = () => {
             <span className="font-semibold">{quotes.length} Active</span>
           </div>
           {readyQuotes.length > 0 && (
-            <Button onClick={handleSelectQuotes} className="flex items-center gap-2">
-              <ShoppingCart className="h-4 w-4" />
-              Select Quotes ({readyQuotes.length})
-            </Button>
+            <div className="flex items-center space-x-4">
+              {selectedCount > 0 && (
+                <div className="text-sm text-muted-foreground">
+                  {selectedCount} selected • ${selectedTotal.toFixed(2)}
+                </div>
+              )}
+              <Button 
+                onClick={handleMoveToCart}
+                disabled={selectedCount === 0}
+                className="flex items-center gap-2"
+              >
+                <ShoppingCart className="h-4 w-4" />
+                Move to Cart ({selectedCount})
+              </Button>
+            </div>
           )}
         </div>
       </div>
@@ -124,59 +182,76 @@ const CustomerQuotes = () => {
         {quotes.map((quote) => {
           const statusConfig = statusInfo[quote.status];
           const StatusIcon = statusConfig.icon;
+          const isReady = quote.status === 'quoted' && quote.quoteAmount;
+          const quoteState = state.quotes.find(q => q.id === quote.id);
+          const isSelected = quoteState?.selected || false;
           
           return (
-            <Card key={quote.id} className="hover:shadow-lg transition-shadow">
+            <Card key={quote.id} className={`hover:shadow-lg transition-all duration-200 ${isSelected ? 'ring-2 ring-primary' : ''}`}>
               <CardContent className="p-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-4 mb-2">
-                      <h3 className="font-semibold text-lg">{quote.productName}</h3>
-                      <Badge className={`${statusConfig.color} border font-medium px-3 py-1`}>
-                        <StatusIcon className="h-3 w-3 mr-1" />
-                        {statusConfig.text}
-                      </Badge>
-                    </div>
-                    
-                    <p className="text-sm text-gray-600 mb-2">Quote #{quote.id} • {quote.category}</p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
-                      <p>Quantity: {quote.quantity} units</p>
-                      <p>Requested: {quote.requestDate}</p>
-                      <p>Expected: {quote.expectedDelivery}</p>
-                      {quote.quoteAmount && <p>Total: ${quote.quoteAmount.toFixed(2)}</p>}
-                    </div>
-                    
-                    {quote.requirements && (
-                      <p className="text-sm text-gray-600 mb-2">
-                        Requirements: {quote.requirements}
-                      </p>
+                  <div className="flex items-start space-x-4">
+                    {isReady && (
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={(checked) => handleQuoteSelect(quote.id, checked as boolean)}
+                        className="mt-1"
+                      />
                     )}
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-4 mb-2">
+                        <h3 className="font-semibold text-lg">{quote.productName}</h3>
+                        <Badge className={`${statusConfig.color} border font-medium px-3 py-1`}>
+                          <StatusIcon className="h-3 w-3 mr-1" />
+                          {statusConfig.text}
+                        </Badge>
+                        {isReady && (
+                          <Badge variant="outline" className="text-green-600 border-green-200">
+                            Ready for Selection
+                          </Badge>
+                        )}
+                      </div>
+                    
+                      <p className="text-sm text-gray-600 mb-2">Quote #{quote.id} • {quote.category}</p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
+                        <p>Quantity: {quote.quantity} units</p>
+                        <p>Requested: {quote.requestDate}</p>
+                        <p>Expected: {quote.expectedDelivery}</p>
+                        {quote.quoteAmount && <p>Total: ${quote.quoteAmount.toFixed(2)}</p>}
+                      </div>
+                      
+                      {quote.requirements && (
+                        <p className="text-sm text-gray-600 mb-2">
+                          Requirements: {quote.requirements}
+                        </p>
+                      )}
 
-                    {quote.quoteAmount ? (
-                      <div className="bg-green-50 border border-green-200 p-3 rounded-md">
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <p className="font-medium text-green-800">Custom Quote Ready</p>
-                            <p className="text-xs text-green-600">
-                              ${(quote.quoteAmount / quote.quantity).toFixed(2)} per unit
-                              {quote.validUntil && ` • Valid until: ${quote.validUntil}`}
-                            </p>
+                      {quote.quoteAmount ? (
+                        <div className="bg-green-50 border border-green-200 p-3 rounded-md">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="font-medium text-green-800">Custom Quote Ready</p>
+                              <p className="text-xs text-green-600">
+                                ${(quote.quoteAmount / quote.quantity).toFixed(2)} per unit
+                                {quote.validUntil && ` • Valid until: ${quote.validUntil}`}
+                              </p>
+                            </div>
+                            <p className="text-xl font-bold text-green-800">${quote.quoteAmount.toFixed(2)}</p>
                           </div>
-                          <p className="text-xl font-bold text-green-800">${quote.quoteAmount.toFixed(2)}</p>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="bg-muted/50 border border-muted p-3 rounded-md">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium text-muted-foreground">Quote Pending</p>
-                            <p className="text-xs text-muted-foreground">We're preparing your custom pricing</p>
+                      ) : (
+                        <div className="bg-muted/50 border border-muted p-3 rounded-md">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium text-muted-foreground">Quote Pending</p>
+                              <p className="text-xs text-muted-foreground">We're preparing your custom pricing</p>
+                            </div>
+                            <Clock className="h-4 w-4 text-muted-foreground" />
                           </div>
-                          <Clock className="h-4 w-4 text-muted-foreground" />
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                   
                   <div className="flex space-x-2">
@@ -211,12 +286,6 @@ const CustomerQuotes = () => {
           </CardContent>
         </Card>
       )}
-
-      <QuoteSelectionModal
-        open={showSelectionModal}
-        onClose={() => setShowSelectionModal(false)}
-        readyQuotes={readyQuotes}
-      />
     </div>
   );
 };
