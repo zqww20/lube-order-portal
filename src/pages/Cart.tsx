@@ -49,6 +49,23 @@ const Cart = () => {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
 
+  // Load quoted items from localStorage if coming from quotes
+  useEffect(() => {
+    const quotedItems = localStorage.getItem('quotedCartItems');
+    const isFromQuotes = searchParams.get('from') === 'quotes';
+    
+    if (quotedItems && isFromQuotes) {
+      const parsedItems = JSON.parse(quotedItems);
+      setCartItems(prevItems => [...prevItems, ...parsedItems]);
+      localStorage.removeItem('quotedCartItems');
+      
+      toast({
+        title: "Quotes Added to Cart",
+        description: `${parsedItems.length} quoted items have been added to your cart with accepted pricing.`,
+      });
+    }
+  }, [searchParams, toast]);
+
   // Check for emergency delivery parameter on component mount
   useEffect(() => {
     const isEmergency = searchParams.get('emergency') === 'true';

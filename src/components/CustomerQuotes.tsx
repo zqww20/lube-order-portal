@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Quote, Calendar, Package, DollarSign, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Quote, Calendar, Package, DollarSign, CheckCircle, XCircle, Clock, ShoppingCart } from 'lucide-react';
+import { useQuote } from '@/contexts/QuoteContext';
+import QuoteSelectionModal from './QuoteSelectionModal';
 
 interface CustomerQuote {
   id: string;
@@ -73,7 +75,28 @@ const statusInfo = {
 };
 
 const CustomerQuotes = () => {
-  const [quotes] = useState<CustomerQuote[]>(mockCustomerQuotes);
+  const { state } = useQuote();
+  const [showSelectionModal, setShowSelectionModal] = useState(false);
+
+  // Convert QuoteItem to CustomerQuote format for compatibility
+  const quotes: CustomerQuote[] = state.quotes.map(quote => ({
+    id: quote.id,
+    productName: quote.productName,
+    category: quote.category,
+    quantity: quote.quantity,
+    requirements: quote.requirements,
+    expectedDelivery: quote.expectedDelivery,
+    status: quote.status,
+    requestDate: quote.requestDate,
+    quoteAmount: quote.quoteAmount,
+    validUntil: quote.validUntil
+  }));
+
+  const readyQuotes = state.quotes.filter(quote => quote.status === 'quoted' && quote.quoteAmount);
+
+  const handleSelectQuotes = () => {
+    setShowSelectionModal(true);
+  };
 
 
   return (
@@ -83,9 +106,17 @@ const CustomerQuotes = () => {
           <h1 className="text-3xl font-bold text-gray-900">My Quote Requests</h1>
           <p className="text-gray-600 mt-2">Track your quote requests and responses</p>
         </div>
-        <div className="flex items-center space-x-3 bg-primary/10 text-primary px-6 py-3 rounded-lg">
-          <Quote className="h-5 w-5" />
-          <span className="font-semibold">{quotes.length} Active</span>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3 bg-primary/10 text-primary px-6 py-3 rounded-lg">
+            <Quote className="h-5 w-5" />
+            <span className="font-semibold">{quotes.length} Active</span>
+          </div>
+          {readyQuotes.length > 0 && (
+            <Button onClick={handleSelectQuotes} className="flex items-center gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              Select Quotes ({readyQuotes.length})
+            </Button>
+          )}
         </div>
       </div>
 
@@ -180,6 +211,12 @@ const CustomerQuotes = () => {
           </CardContent>
         </Card>
       )}
+
+      <QuoteSelectionModal
+        open={showSelectionModal}
+        onClose={() => setShowSelectionModal(false)}
+        readyQuotes={readyQuotes}
+      />
     </div>
   );
 };
