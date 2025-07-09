@@ -127,6 +127,15 @@ const Cart = () => {
     return getSubtotal() + getTax() + getEmergencyDeliveryFee();
   };
 
+  const getTotalLiters = () => {
+    return cartItems.reduce((total, item) => {
+      // Extract liters from unit string (e.g., "per liter" = 1, "per 5L container" = 5)
+      const litersMatch = item.unit.match(/(\d+)L/);
+      const litersPerUnit = litersMatch ? parseInt(litersMatch[1]) : 1;
+      return total + (item.quantity * litersPerUnit);
+    }, 0);
+  };
+
   const handleCheckout = () => {
     toast({
       title: "Order Placed",
@@ -408,6 +417,44 @@ const Cart = () => {
                   <span className="text-sm font-medium text-red-600">+$75.00</span>
                 </div>
                 <p className="text-xs text-gray-600 ml-6">Same-day or next-day delivery available</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Minimum Order Quantity Counter */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Minimum Order Quantity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Current Order</span>
+                  <span className="font-semibold">{getTotalLiters().toFixed(1)}L</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Minimum Required</span>
+                  <span className="font-semibold">200.0L</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-primary h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${Math.min((getTotalLiters() / 200) * 100, 100)}%` }}
+                  ></div>
+                </div>
+                {getTotalLiters() >= 200 ? (
+                  <div className="flex items-center space-x-2 text-green-600">
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                    <span className="text-sm font-medium">Freight charges waived!</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2 text-orange-600">
+                    <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                    <span className="text-sm font-medium">
+                      Add {(200 - getTotalLiters()).toFixed(1)}L more to avoid freight charges
+                    </span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
