@@ -35,8 +35,8 @@ const Header = () => {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Products', href: '/products', icon: Package2 },
-    { name: 'Orders', href: '/orders', icon: Package },
     { name: 'Quotes', href: '/quotes', icon: FileText },
+    { name: 'Orders', href: '/orders', icon: Package },
   ];
 
   const isActive = (path: string) => {
