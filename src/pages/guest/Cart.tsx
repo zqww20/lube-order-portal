@@ -31,11 +31,11 @@ const GuestCart = () => {
             <MapPin className="h-5 w-5 text-blue-600 mt-0.5" />
             <div>
               <h4 className="font-medium text-blue-800 mb-1">Pickup Information</h4>
-              <p className="text-sm text-blue-700 mb-2">All guest orders are for store pickup only with cash payment.</p>
+              <p className="text-sm text-blue-700 mb-2">All guest orders are for store pickup with cash or e-transfer payment.</p>
               <div className="text-sm text-blue-700">
                 <p><strong>Store Hours:</strong> Mon-Fri 8AM-6PM, Sat 8AM-4PM</p>
                 <p><strong>Location:</strong> 1234 Industrial Blvd, Suite 100</p>
-                <p><strong>Payment:</strong> Cash only at time of pickup</p>
+                <p><strong>Payment:</strong> Cash or E-transfer at pickup</p>
               </div>
             </div>
           </div>

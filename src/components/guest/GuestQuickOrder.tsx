@@ -84,7 +84,7 @@ const GuestQuickOrder = () => {
               <h4 className="font-medium text-orange-800 mb-1">Guest Purchase Policy</h4>
               <ul className="text-sm text-orange-700 space-y-1">
                 <li>• Maximum 5 unique items per transaction</li>
-                <li>• Cash payment required at time of pickup</li>
+                <li>• Cash or E-transfer payment at pickup</li>
                 <li>• All orders must be picked up within 48 hours</li>
                 <li>• No delivery options available</li>
               </ul>

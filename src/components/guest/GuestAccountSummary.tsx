@@ -16,7 +16,7 @@ const GuestAccountSummary = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Payment Method</p>
-            <p className="font-semibold text-sm text-brand">Cash Only</p>
+            <p className="font-semibold text-sm text-brand">Cash or E-transfer</p>
           </div>
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Fulfillment</p>
@@ -26,7 +26,7 @@ const GuestAccountSummary = () => {
             <p className="text-xs text-muted-foreground">SKU Limit</p>
             <p className="font-semibold text-xs">Max 5 unique items</p>
             <Badge className="bg-orange-100 text-orange-800 border-orange-200 text-xs">
-              Cash Sales Only
+              Cash/E-transfer Sales
             </Badge>
           </div>
         </div>
@@ -34,8 +34,8 @@ const GuestAccountSummary = () => {
           <div className="flex items-center space-x-2">
             <MapPin className="h-4 w-4 text-blue-600" />
             <div>
-              <p className="text-sm font-medium text-blue-800">Store Hours</p>
-              <p className="text-xs text-blue-700">Mon-Fri 8AM-6PM, Sat 8AM-4PM</p>
+              <p className="text-sm font-medium text-blue-800">Payment Options</p>
+              <p className="text-xs text-blue-700">Cash or E-transfer accepted at pickup</p>
             </div>
           </div>
         </div>

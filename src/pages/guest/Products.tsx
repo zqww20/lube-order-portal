@@ -66,7 +66,7 @@ const GuestProducts = () => {
               <h4 className="font-medium text-orange-800 mb-1">Guest Purchase Limitations</h4>
               <ul className="text-sm text-orange-700 space-y-1">
                 <li>• Maximum 5 unique items per transaction</li>
-                <li>• Cash payment only at pickup</li>
+                <li>• Cash or E-transfer payment at pickup</li>
                 <li>• No bulk discounts available</li>
                 <li>• Limited product selection</li>
               </ul>
