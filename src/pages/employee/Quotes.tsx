@@ -5,73 +5,32 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Eye, FileText } from 'lucide-react';
-
-interface Quote {
-  id: string;
-  customerName: string;
-  products: string[];
-  totalValue: number;
-  status: 'pending' | 'accepted' | 'rejected' | 'expired';
-  createdDate: string;
-  responseDate?: string;
-  employeeName: string;
-}
+import { Search, Filter, Eye, FileText, ShoppingCart } from 'lucide-react';
+import { useQuotes } from '@/contexts/QuoteContext';
+import { QuoteSelectionModal } from '@/components/QuoteSelectionModal';
 
 const EmployeeQuotes = () => {
+  const { quotes } = useQuotes();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-
-  // Mock data - would be fetched from API
-  const quotes: Quote[] = [
-    {
-      id: 'Q-2024-001',
-      customerName: 'Atlantic Marine Services',
-      products: ['Marine Gear Oil', 'Hydraulic Fluid ISO 46'],
-      totalValue: 1250.00,
-      status: 'accepted',
-      createdDate: '2024-01-15',
-      responseDate: '2024-01-16',
-      employeeName: 'Sarah Johnson'
-    },
-    {
-      id: 'Q-2024-002',
-      customerName: 'Industrial Solutions Ltd',
-      products: ['Premium Engine Oil 5W-30'],
-      totalValue: 890.50,
-      status: 'pending',
-      createdDate: '2024-01-14',
-      employeeName: 'Mike Chen'
-    },
-    {
-      id: 'Q-2024-003',
-      customerName: 'Maritime Transport Co',
-      products: ['Multi-Purpose Grease', 'Engine Oil 10W-40'],
-      totalValue: 2150.75,
-      status: 'rejected',
-      createdDate: '2024-01-12',
-      responseDate: '2024-01-13',
-      employeeName: 'David Smith'
-    },
-    {
-      id: 'Q-2024-004',
-      customerName: 'Coastal Construction',
-      products: ['Hydraulic Fluid ISO 68'],
-      totalValue: 675.25,
-      status: 'expired',
-      createdDate: '2024-01-10',
-      employeeName: 'Sarah Johnson'
-    }
-  ];
+  const [selectedQuote, setSelectedQuote] = useState<any>(null);
+  const [showSelectionModal, setShowSelectionModal] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'accepted': return 'default';
-      case 'pending': return 'secondary';
+      case 'partially-accepted': return 'default';
+      case 'ready': return 'secondary';
+      case 'pending': return 'outline';
+      case 'processing': return 'outline';
       case 'rejected': return 'destructive';
-      case 'expired': return 'outline';
       default: return 'secondary';
     }
+  };
+
+  const handleAcceptItems = (quote: any) => {
+    setSelectedQuote(quote);
+    setShowSelectionModal(true);
   };
 
   const filteredQuotes = quotes.filter(quote => {
@@ -112,9 +71,11 @@ const EmployeeQuotes = () => {
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="processing">Processing</SelectItem>
+                <SelectItem value="ready">Ready</SelectItem>
                 <SelectItem value="accepted">Accepted</SelectItem>
+                <SelectItem value="partially-accepted">Partially Accepted</SelectItem>
                 <SelectItem value="rejected">Rejected</SelectItem>
-                <SelectItem value="expired">Expired</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -146,14 +107,14 @@ const EmployeeQuotes = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {quote.products.slice(0, 2).map((product, idx) => (
+                      {quote.items.slice(0, 2).map((item, idx) => (
                         <Badge key={idx} variant="outline" className="text-xs">
-                          {product}
+                          {item.productName}
                         </Badge>
                       ))}
-                      {quote.products.length > 2 && (
+                      {quote.items.length > 2 && (
                         <Badge variant="outline" className="text-xs">
-                          +{quote.products.length - 2} more
+                          +{quote.items.length - 2} more
                         </Badge>
                       )}
                     </div>
@@ -169,10 +130,22 @@ const EmployeeQuotes = () => {
                   <TableCell>{quote.createdDate}</TableCell>
                   <TableCell className="text-sm">{quote.employeeName}</TableCell>
                   <TableCell>
-                    <Button size="sm" variant="outline">
-                      <Eye className="h-4 w-4 mr-1" />
-                      View
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline">
+                        <Eye className="h-4 w-4 mr-1" />
+                        View
+                      </Button>
+                      {quote.status === 'ready' && (
+                        <Button 
+                          size="sm" 
+                          onClick={() => handleAcceptItems(quote)}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          <ShoppingCart className="h-4 w-4 mr-1" />
+                          Accept Items
+                        </Button>
+                      )}
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -186,6 +159,14 @@ const EmployeeQuotes = () => {
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <p className="text-muted-foreground text-lg">No quotes found matching your criteria.</p>
         </div>
+      )}
+
+      {selectedQuote && (
+        <QuoteSelectionModal
+          quote={selectedQuote}
+          open={showSelectionModal}
+          onOpenChange={setShowSelectionModal}
+        />
       )}
     </div>
   );
