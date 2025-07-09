@@ -5,93 +5,89 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Eye, FileText, ShoppingCart, Package } from 'lucide-react';
-import { useQuotes } from '@/contexts/QuoteContext';
-import { QuoteSelectionModal } from '@/components/QuoteSelectionModal';
+import { Search, Filter, Eye, FileText } from 'lucide-react';
+
+interface Quote {
+  id: string;
+  customerName: string;
+  products: string[];
+  totalValue: number;
+  status: 'pending' | 'accepted' | 'rejected' | 'expired';
+  createdDate: string;
+  responseDate?: string;
+  employeeName: string;
+}
 
 const EmployeeQuotes = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
-  
-  const { quotes, consolidatedOrders } = useQuotes();
 
-  // Group quotes by customer and calculate totals
-  const customerQuoteSummary = quotes.reduce((acc, quote) => {
-    const key = quote.customerName;
-    if (!acc[key]) {
-      acc[key] = {
-        customerName: quote.customerName,
-        totalItems: 0,
-        totalValue: 0,
-        readyItems: 0,
-        statuses: new Set(),
-        latestDate: quote.createdDate,
-        employees: new Set()
-      };
+  // Mock data - would be fetched from API
+  const quotes: Quote[] = [
+    {
+      id: 'Q-2024-001',
+      customerName: 'Atlantic Marine Services',
+      products: ['Marine Gear Oil', 'Hydraulic Fluid ISO 46'],
+      totalValue: 1250.00,
+      status: 'accepted',
+      createdDate: '2024-01-15',
+      responseDate: '2024-01-16',
+      employeeName: 'Sarah Johnson'
+    },
+    {
+      id: 'Q-2024-002',
+      customerName: 'Industrial Solutions Ltd',
+      products: ['Premium Engine Oil 5W-30'],
+      totalValue: 890.50,
+      status: 'pending',
+      createdDate: '2024-01-14',
+      employeeName: 'Mike Chen'
+    },
+    {
+      id: 'Q-2024-003',
+      customerName: 'Maritime Transport Co',
+      products: ['Multi-Purpose Grease', 'Engine Oil 10W-40'],
+      totalValue: 2150.75,
+      status: 'rejected',
+      createdDate: '2024-01-12',
+      responseDate: '2024-01-13',
+      employeeName: 'David Smith'
+    },
+    {
+      id: 'Q-2024-004',
+      customerName: 'Coastal Construction',
+      products: ['Hydraulic Fluid ISO 68'],
+      totalValue: 675.25,
+      status: 'expired',
+      createdDate: '2024-01-10',
+      employeeName: 'Sarah Johnson'
     }
-    
-    acc[key].totalItems += 1;
-    acc[key].totalValue += quote.totalPrice;
-    acc[key].statuses.add(quote.status);
-    acc[key].employees.add(quote.employeeName);
-    
-    if (quote.status === 'ready') {
-      acc[key].readyItems += 1;
-    }
-    
-    if (quote.createdDate > acc[key].latestDate) {
-      acc[key].latestDate = quote.createdDate;
-    }
-    
-    return acc;
-  }, {} as Record<string, {
-    customerName: string;
-    totalItems: number;
-    totalValue: number;
-    readyItems: number;
-    statuses: Set<string>;
-    latestDate: string;
-    employees: Set<string>;
-  }>);
+  ];
 
-  const customerSummaries = Object.values(customerQuoteSummary);
-
-  const getStatusColor = (statuses: Set<string>) => {
-    if (statuses.has('ready')) return 'default';
-    if (statuses.has('pending')) return 'secondary';
-    if (statuses.has('accepted')) return 'default';
-    if (statuses.has('rejected')) return 'destructive';
-    return 'outline';
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'accepted': return 'default';
+      case 'pending': return 'secondary';
+      case 'rejected': return 'destructive';
+      case 'expired': return 'outline';
+      default: return 'secondary';
+    }
   };
 
-  const filteredCustomers = customerSummaries.filter(customer => {
-    const matchesSearch = customer.customerName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || customer.statuses.has(statusFilter);
+  const filteredQuotes = quotes.filter(quote => {
+    const matchesSearch = quote.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         quote.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || quote.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
-
-  const handleSelectQuotes = (customerName: string) => {
-    setSelectedCustomer(customerName);
-  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Customer Quotes</h1>
-          <p className="text-muted-foreground">Select and consolidate quote items into orders</p>
-        </div>
-        <div className="flex gap-2">
-          <Badge variant="outline" className="flex items-center gap-1">
-            <Package className="h-3 w-3" />
-            {quotes.filter(q => q.status === 'ready').length} Ready
-          </Badge>
-          <Badge variant="outline" className="flex items-center gap-1">
-            <ShoppingCart className="h-3 w-3" />
-            {consolidatedOrders.length} Orders Created
-          </Badge>
+          <h1 className="text-3xl font-bold text-foreground">All Quotes</h1>
+          <p className="text-muted-foreground">Manage and track all customer quotes</p>
         </div>
       </div>
 
@@ -131,64 +127,52 @@ const EmployeeQuotes = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Quote ID</TableHead>
                 <TableHead>Customer</TableHead>
-                <TableHead>Quote Items</TableHead>
-                <TableHead>Total Value</TableHead>
+                <TableHead>Products</TableHead>
+                <TableHead>Value</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Latest Date</TableHead>
-                <TableHead>Employees</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Employee</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCustomers.map((customer) => (
-                <TableRow key={customer.customerName} className="hover:bg-muted/50">
+              {filteredQuotes.map((quote) => (
+                <TableRow key={quote.id} className="hover:bg-muted/50">
+                  <TableCell className="font-medium">{quote.id}</TableCell>
                   <TableCell>
-                    <div className="font-medium">{customer.customerName}</div>
+                    <div className="font-medium">{quote.customerName}</div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{customer.totalItems} items</span>
-                      {customer.readyItems > 0 && (
-                        <Badge variant="secondary" className="text-xs">
-                          {customer.readyItems} ready
+                    <div className="flex flex-wrap gap-1">
+                      {quote.products.slice(0, 2).map((product, idx) => (
+                        <Badge key={idx} variant="outline" className="text-xs">
+                          {product}
+                        </Badge>
+                      ))}
+                      {quote.products.length > 2 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{quote.products.length - 2} more
                         </Badge>
                       )}
                     </div>
                   </TableCell>
                   <TableCell className="font-semibold">
-                    ${customer.totalValue.toFixed(2)}
+                    ${quote.totalValue.toFixed(2)}
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {Array.from(customer.statuses).map((status) => (
-                        <Badge key={status} variant={getStatusColor(new Set([status]))} className="text-xs">
-                          {status}
-                        </Badge>
-                      ))}
-                    </div>
+                    <Badge variant={getStatusColor(quote.status)}>
+                      {quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
+                    </Badge>
                   </TableCell>
-                  <TableCell>{customer.latestDate}</TableCell>
-                  <TableCell className="text-sm">
-                    {Array.from(customer.employees).join(', ')}
-                  </TableCell>
+                  <TableCell>{quote.createdDate}</TableCell>
+                  <TableCell className="text-sm">{quote.employeeName}</TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        <Eye className="h-4 w-4 mr-1" />
-                        View
-                      </Button>
-                      {customer.readyItems > 0 && (
-                        <Button 
-                          size="sm" 
-                          onClick={() => handleSelectQuotes(customer.customerName)}
-                          className="bg-primary hover:bg-primary/90"
-                        >
-                          <ShoppingCart className="h-4 w-4 mr-1" />
-                          Select ({customer.readyItems})
-                        </Button>
-                      )}
-                    </div>
+                    <Button size="sm" variant="outline">
+                      <Eye className="h-4 w-4 mr-1" />
+                      View
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -197,19 +181,12 @@ const EmployeeQuotes = () => {
         </CardContent>
       </Card>
 
-      {filteredCustomers.length === 0 && (
+      {filteredQuotes.length === 0 && (
         <div className="text-center py-12">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-muted-foreground text-lg">No customer quotes found matching your criteria.</p>
+          <p className="text-muted-foreground text-lg">No quotes found matching your criteria.</p>
         </div>
       )}
-
-      {/* Quote Selection Modal */}
-      <QuoteSelectionModal
-        isOpen={selectedCustomer !== null}
-        onClose={() => setSelectedCustomer(null)}
-        customerName={selectedCustomer || ''}
-      />
     </div>
   );
 };
