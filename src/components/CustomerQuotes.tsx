@@ -208,11 +208,6 @@ const CustomerQuotes = () => {
                           <StatusIcon className="h-3 w-3 mr-1" />
                           {statusConfig.text}
                         </Badge>
-                        {isReady && (
-                          <Badge variant="outline" className="text-green-600 border-green-200">
-                            Ready for Selection
-                          </Badge>
-                        )}
                       </div>
                     
                       <p className="text-sm text-gray-600 mb-2">Quote #{quote.id} • {quote.category}</p>
