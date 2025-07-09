@@ -7,9 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { Quote, MessageSquare, Plus, ListPlus } from 'lucide-react';
+import { Quote, MessageSquare } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useQuotes } from '@/contexts/QuoteContext';
 
 interface Product {
   id: string;
@@ -38,7 +37,6 @@ interface QuoteFormData {
 const QuoteRequest = ({ product, trigger }: QuoteRequestProps) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
-  const { addItem } = useQuotes();
   
   const form = useForm<QuoteFormData>({
     defaultValues: {
@@ -77,32 +75,6 @@ const QuoteRequest = ({ product, trigger }: QuoteRequestProps) => {
       description: `Your quote request for ${product.name} has been submitted. We'll contact you within 24 hours.`,
     });
     
-    setOpen(false);
-    form.reset();
-  };
-
-  const addToQuoteList = (data: QuoteFormData) => {
-    addItem({
-      productId: product.id,
-      productName: product.name,
-      category: product.category,
-      description: product.description,
-      price: product.price,
-      unit: product.unit,
-      viscosity: product.viscosity,
-      application: product.application,
-      quantity: data.quantity,
-      requirements: data.requirements,
-      shipToAddress: data.shipToAddress,
-      expectedDelivery: data.expectedDelivery,
-      emergencyDelivery: data.emergencyDelivery,
-    });
-
-    toast({
-      title: "Added to Quote List",
-      description: `${product.name} has been added to your quote list.`,
-    });
-
     setOpen(false);
     form.reset();
   };
@@ -232,14 +204,6 @@ const QuoteRequest = ({ product, trigger }: QuoteRequestProps) => {
             <div className="flex justify-end space-x-2 pt-4">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
-              </Button>
-              <Button 
-                type="button" 
-                variant="secondary"
-                onClick={() => form.handleSubmit(addToQuoteList)()}
-              >
-                <ListPlus className="h-4 w-4 mr-2" />
-                Add to Quote List
               </Button>
               <Button type="submit">
                 <MessageSquare className="h-4 w-4 mr-2" />

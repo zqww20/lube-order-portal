@@ -25,14 +25,12 @@ import {
   LayoutDashboard,
   Package2
 } from 'lucide-react';
-import { useQuotes } from '@/contexts/QuoteContext';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const cartItems = 6; // This would come from your cart state
-  const { state: quoteState } = useQuotes();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -137,18 +135,6 @@ const Header = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* Quote Basket */}
-            <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
-              <Link to="/quote-basket">
-                <FileText className="h-5 w-5" />
-                {quoteState.totalItems > 0 && (
-                  <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white">
-                    {quoteState.totalItems}
-                  </Badge>
-                )}
-              </Link>
-            </Button>
 
             {/* Cart - moved to rightmost position */}
             <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
