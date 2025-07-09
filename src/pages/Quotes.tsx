@@ -6,15 +6,25 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Eye, Search, Download, Package } from 'lucide-react';
 
+interface QuoteLineItem {
+  id: string;
+  productName: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  selected?: boolean;
+}
+
 interface Quote {
   id: string;
   quoteNumber: string;
   date: string;
-  status: 'pending' | 'processing' | 'ready' | 'accepted' | 'expired';
+  status: 'pending' | 'processing' | 'ready' | 'accepted' | 'expired' | 'partially-accepted';
   total: number;
-  items: number;
+  items: QuoteLineItem[];
   shippingAddress: string;
   erpReference?: string;
+  validUntil?: string;
 }
 
 const mockQuotes: Quote[] = [
@@ -24,9 +34,14 @@ const mockQuotes: Quote[] = [
     date: '2024-01-15',
     status: 'accepted',
     total: 275.96,
-    items: 3,
+    items: [
+      { id: '1-1', productName: 'Premium Engine Oil 5W-30', quantity: 2, unitPrice: 45.99, totalPrice: 91.98 },
+      { id: '1-2', productName: 'Hydraulic Fluid ISO 46', quantity: 1, unitPrice: 89.99, totalPrice: 89.99 },
+      { id: '1-3', productName: 'Multi-Purpose Grease', quantity: 3, unitPrice: 31.33, totalPrice: 93.99 }
+    ],
     shippingAddress: '123 Industrial Park, Manufacturing District',
-    erpReference: 'ERP-QTE-2024-001'
+    erpReference: 'ERP-QTE-2024-001',
+    validUntil: '2024-02-15'
   },
   {
     id: '2',
@@ -34,9 +49,13 @@ const mockQuotes: Quote[] = [
     date: '2024-01-20',
     status: 'ready',
     total: 189.98,
-    items: 2,
+    items: [
+      { id: '2-1', productName: 'Marine Gear Oil', quantity: 1, unitPrice: 125.50, totalPrice: 125.50 },
+      { id: '2-2', productName: 'Engine Oil 10W-40', quantity: 2, unitPrice: 32.24, totalPrice: 64.48 }
+    ],
     shippingAddress: '456 Factory Lane, Industrial Zone',
-    erpReference: 'ERP-QTE-2024-002'
+    erpReference: 'ERP-QTE-2024-002',
+    validUntil: '2024-02-20'
   },
   {
     id: '3',
@@ -44,9 +63,14 @@ const mockQuotes: Quote[] = [
     date: '2024-01-22',
     status: 'processing',
     total: 567.45,
-    items: 5,
+    items: [
+      { id: '3-1', productName: 'Hydraulic System Cleaner', quantity: 3, unitPrice: 75.99, totalPrice: 227.97 },
+      { id: '3-2', productName: 'Industrial Grease', quantity: 2, unitPrice: 89.50, totalPrice: 179.00 },
+      { id: '3-3', productName: 'Cutting Fluid', quantity: 4, unitPrice: 40.12, totalPrice: 160.48 }
+    ],
     shippingAddress: '789 Workshop Road, Manufacturing Hub',
-    erpReference: 'ERP-QTE-2024-003'
+    erpReference: 'ERP-QTE-2024-003',
+    validUntil: '2024-02-22'
   },
   {
     id: '4',
@@ -54,8 +78,11 @@ const mockQuotes: Quote[] = [
     date: '2024-01-25',
     status: 'pending',
     total: 123.50,
-    items: 1,
-    shippingAddress: '321 Service Center, Industrial Area'
+    items: [
+      { id: '4-1', productName: 'Brake Fluid DOT 4', quantity: 5, unitPrice: 24.70, totalPrice: 123.50 }
+    ],
+    shippingAddress: '321 Service Center, Industrial Area',
+    validUntil: '2024-02-25'
   }
 ];
 
@@ -64,6 +91,7 @@ const statusColorMap = {
   processing: 'bg-blue-100 text-blue-800',
   ready: 'bg-purple-100 text-purple-800',
   accepted: 'bg-green-100 text-green-800',
+  'partially-accepted': 'bg-orange-100 text-orange-800',
   expired: 'bg-red-100 text-red-800'
 };
 
@@ -72,6 +100,7 @@ const Quotes = () => {
   const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>(mockQuotes);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -110,6 +139,54 @@ const Quotes = () => {
     // Here you would trigger quote download from ERP system
   };
 
+  const acceptSelectedItems = (quote: Quote) => {
+    const selectedItems = quote.items.filter(item => item.selected);
+    if (selectedItems.length === 0) return;
+
+    // Create consolidated order from selected items
+    const orderNumber = `ORD-${Date.now()}`;
+    const orderTotal = selectedItems.reduce((sum, item) => sum + item.totalPrice, 0);
+    
+    console.log('Creating order:', {
+      orderNumber,
+      items: selectedItems,
+      total: orderTotal,
+      shippingAddress: quote.shippingAddress
+    });
+
+    // Update quote status
+    const hasUnselectedItems = quote.items.some(item => !item.selected);
+    const newStatus = hasUnselectedItems ? 'partially-accepted' : 'accepted';
+    
+    setQuotes(prev => prev.map(q => 
+      q.id === quote.id 
+        ? { ...q, status: newStatus as Quote['status'] }
+        : q
+    ));
+
+    // Update pricing defaults for customer (would be API call)
+    selectedItems.forEach(item => {
+      console.log(`Setting new default price for ${item.productName}: $${item.unitPrice}`);
+    });
+
+    setSelectedQuote(null);
+  };
+
+  const toggleItemSelection = (quoteId: string, itemId: string) => {
+    setQuotes(prev => prev.map(quote => 
+      quote.id === quoteId 
+        ? {
+            ...quote,
+            items: quote.items.map(item => 
+              item.id === itemId 
+                ? { ...item, selected: !item.selected }
+                : item
+            )
+          }
+        : quote
+    ));
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
@@ -144,6 +221,7 @@ const Quotes = () => {
             <SelectItem value="processing">Processing</SelectItem>
             <SelectItem value="ready">Quote Ready</SelectItem>
             <SelectItem value="accepted">Accepted</SelectItem>
+            <SelectItem value="partially-accepted">Partially Accepted</SelectItem>
             <SelectItem value="expired">Expired</SelectItem>
           </SelectContent>
         </Select>
@@ -162,10 +240,11 @@ const Quotes = () => {
                       {quote.status === 'ready' ? 'Quote Ready' : quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
                     </Badge>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-600">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-gray-600">
                     <p>Date: {new Date(quote.date).toLocaleDateString()}</p>
-                    <p>Items: {quote.items}</p>
+                    <p>Items: {quote.items.length}</p>
                     <p>Total: ${quote.total.toFixed(2)}</p>
+                    {quote.validUntil && <p>Valid Until: {new Date(quote.validUntil).toLocaleDateString()}</p>}
                   </div>
                   <p className="text-sm text-gray-600 mt-1">
                     Ship to: {quote.shippingAddress}
@@ -185,14 +264,26 @@ const Quotes = () => {
                     <Eye className="h-4 w-4 mr-2" />
                     View Quote
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => console.log('Convert to order', quote.id)}
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Convert to Order
-                  </Button>
+                  {quote.status === 'ready' && (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => setSelectedQuote(quote)}
+                    >
+                      <Package className="h-4 w-4 mr-2" />
+                      Accept Items
+                    </Button>
+                  )}
+                  {quote.status === 'accepted' && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => downloadQuote(quote.id)}
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Download
+                    </Button>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -205,6 +296,70 @@ const Quotes = () => {
           <Package className="mx-auto h-24 w-24 text-gray-400 mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">No quotes found</h2>
           <p className="text-gray-600">Try adjusting your search or filter criteria.</p>
+        </div>
+      )}
+
+      {/* Quote Selection Modal */}
+      {selectedQuote && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="p-6 border-b">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold">Accept Quote Items - {selectedQuote.quoteNumber}</h2>
+                <Button variant="outline" onClick={() => setSelectedQuote(null)}>×</Button>
+              </div>
+              <p className="text-gray-600 mt-2">Select the items you want to accept and create an order</p>
+            </div>
+            
+            <div className="p-6">
+              <div className="space-y-4">
+                {selectedQuote.items.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center space-x-4">
+                      <input
+                        type="checkbox"
+                        checked={item.selected || false}
+                        onChange={() => toggleItemSelection(selectedQuote.id, item.id)}
+                        className="w-4 h-4"
+                      />
+                      <div>
+                        <h4 className="font-medium">{item.productName}</h4>
+                        <p className="text-sm text-gray-600">Quantity: {item.quantity} @ ${item.unitPrice}/unit</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold">${item.totalPrice.toFixed(2)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-6 pt-4 border-t">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm text-gray-600">Selected Items Total:</p>
+                    <p className="text-2xl font-bold">
+                      ${selectedQuote.items
+                        .filter(item => item.selected)
+                        .reduce((sum, item) => sum + item.totalPrice, 0)
+                        .toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="space-x-2">
+                    <Button variant="outline" onClick={() => setSelectedQuote(null)}>
+                      Cancel
+                    </Button>
+                    <Button 
+                      onClick={() => acceptSelectedItems(selectedQuote)}
+                      disabled={!selectedQuote.items.some(item => item.selected)}
+                    >
+                      Create Order
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
