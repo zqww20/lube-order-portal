@@ -9,6 +9,7 @@ import { Search, Filter, Eye } from 'lucide-react';
 
 interface Product {
   id: string;
+  itemCode: string;
   name: string;
   category: string;
   description: string;
@@ -22,6 +23,7 @@ interface Product {
 const mockProducts: Product[] = [
   {
     id: '1',
+    itemCode: 'EO-5W30-001',
     name: 'Premium Engine Oil 5W-30',
     category: 'Engine Oils',
     description: 'High-performance synthetic engine oil for modern vehicles',
@@ -33,6 +35,7 @@ const mockProducts: Product[] = [
   },
   {
     id: '2',
+    itemCode: 'HF-ISO46-002',
     name: 'Industrial Hydraulic Fluid',
     category: 'Hydraulic Fluids',
     description: 'Premium quality hydraulic fluid for industrial machinery',
@@ -44,6 +47,7 @@ const mockProducts: Product[] = [
   },
   {
     id: '3',
+    itemCode: 'MGO-80W90-003',
     name: 'Marine Gear Oil',
     category: 'Marine Lubricants',
     description: 'Specialized gear oil for marine applications',
@@ -55,6 +59,7 @@ const mockProducts: Product[] = [
   },
   {
     id: '4',
+    itemCode: 'GR-NLGI2-004',
     name: 'Multi-Purpose Grease',
     category: 'Greases',
     description: 'Versatile lithium-based grease for various applications',
@@ -136,6 +141,7 @@ const GuestProducts = () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="font-semibold">Item Code</TableHead>
               <TableHead className="font-semibold">Product Name</TableHead>
               <TableHead className="font-semibold">Category</TableHead>
               <TableHead className="font-semibold">Viscosity</TableHead>
@@ -151,6 +157,11 @@ const GuestProducts = () => {
                 className="hover:bg-muted/50 cursor-pointer"
                 onClick={() => handleProductClick(product.id)}
               >
+                <TableCell>
+                  <div className="font-mono text-sm text-muted-foreground">
+                    {product.itemCode}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <img 
