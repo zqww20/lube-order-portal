@@ -30,49 +30,6 @@ interface Product {
   options: ProductOption[];
 }
 
-const crossSellProducts = [
-  {
-    id: 'cs1',
-    name: 'Diesel Exhaust Fluid (DEF)',
-    category: 'Consumables',
-    description: 'High-quality DEF for diesel engines',
-    price: 12.99,
-    unit: 'per 10L',
-    image: '/placeholder.svg',
-    inStock: true
-  },
-  {
-    id: 'cs2',
-    name: 'Windshield Wiper Fluid',
-    category: 'Consumables', 
-    description: 'All-season windshield washer fluid',
-    price: 8.99,
-    unit: 'per 4L',
-    image: '/placeholder.svg',
-    inStock: true
-  },
-  {
-    id: 'cs3',
-    name: 'Varsol Solvent',
-    category: 'Consumables',
-    description: 'Industrial grade cleaning solvent',
-    price: 24.99,
-    unit: 'per 20L',
-    image: '/placeholder.svg',
-    inStock: true
-  },
-  {
-    id: 'cs4',
-    name: 'Shop Rags',
-    category: 'Consumables',
-    description: 'Absorbent cleaning rags for workshops',
-    price: 15.99,
-    unit: 'per box',
-    image: '/placeholder.svg',
-    inStock: true
-  }
-];
-
 const mockProducts: Product[] = [
   {
     id: '1',
@@ -99,14 +56,6 @@ const mockProducts: Product[] = [
         unit: 'per liter',
         minOrder: 1,
         description: '205L Drum - Great for workshops'
-      },
-      {
-        id: '1-bulk',
-        type: 'Bulk Tank',
-        price: 38.99,
-        unit: 'per liter',
-        minOrder: 1000,
-        description: '1000L+ Bulk delivery - Best price for large operations'
       }
     ]
   },
@@ -127,22 +76,6 @@ const mockProducts: Product[] = [
         unit: 'per 5L container',
         minOrder: 1,
         description: '5L Container - Convenient for small applications'
-      },
-      {
-        id: '2-drum',
-        type: 'Drum',
-        price: 16.50,
-        unit: 'per liter',
-        minOrder: 1,
-        description: '205L Drum - Industrial standard'
-      },
-      {
-        id: '2-bulk',
-        type: 'Bulk Tank',
-        price: 14.99,
-        unit: 'per liter',
-        minOrder: 2000,
-        description: '2000L+ Bulk delivery - Maximum savings'
       }
     ]
   },
@@ -163,22 +96,6 @@ const mockProducts: Product[] = [
         unit: 'per liter',
         minOrder: 2,
         description: '1L Bottle - Perfect for small boats'
-      },
-      {
-        id: '3-case',
-        type: 'Case',
-        price: 62.50,
-        unit: 'per liter',
-        minOrder: 1,
-        description: '12x1L Case - Great for marine services'
-      },
-      {
-        id: '3-bulk',
-        type: 'Bulk Tank',
-        price: 55.99,
-        unit: 'per liter',
-        minOrder: 500,
-        description: '500L+ Bulk delivery - For large marine operations'
       }
     ]
   },
@@ -199,95 +116,97 @@ const mockProducts: Product[] = [
         unit: 'per 500g tube',
         minOrder: 6,
         description: '500g Tube - Handy for maintenance'
-      },
-      {
-        id: '4-pail',
-        type: '18kg Pail',
-        price: 18.50,
-        unit: 'per kg',
-        minOrder: 1,
-        description: '18kg Pail - Workshop favorite'
       }
     ]
   }
 ];
 
-// Mock data for the Grainger-style layout
-const mockProductData = {
-  itemCode: 'LUB-5W30-001',
-  itemName: 'Premium Synthetic Engine Oil 5W-30',
-  brand: 'Castrol',
-  imageUrl: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
-  customerPrice: 45.99,
-  listPrice: 52.99,
-  stockQty: 12,
-  nextZoneDate: 'Tomorrow 2:00 PM',
-  specs: [
-    { key: 'Viscosity Grade', value: '5W-30' },
-    { key: 'API Classification', value: 'API SN/CF' },
-    { key: 'ACEA Classification', value: 'ACEA A3/B4' },
-    { key: 'SAE Grade', value: 'SAE 5W-30' },
-    { key: 'Density @ 15°C', value: '0.85 kg/L' },
-    { key: 'Flash Point', value: '230°C' },
-    { key: 'Pour Point', value: '-42°C' },
-    { key: 'Viscosity @ 40°C', value: '70 cSt' },
-    { key: 'Viscosity @ 100°C', value: '12 cSt' },
-    { key: 'Viscosity Index', value: '160' },
-    { key: 'Base Oil Type', value: 'Synthetic' },
-    { key: 'Package Size', value: '205L Drum' },
-    { key: 'Color', value: 'Amber' },
-    { key: 'Odor', value: 'Mild petroleum' },
-    { key: 'Storage Temperature', value: '-10°C to +40°C' },
-    { key: 'Shelf Life', value: '5 years from manufacture date' },
-    { key: 'UN Number', value: 'Not classified as dangerous goods' },
-    { key: 'Environmental Impact', value: 'Biodegradable additives' }
-  ],
-  isHazardous: false,
-  sdsUrl: '/documents/sds/castrol-5w30-sds.pdf',
-  documents: [
-    { name: 'Technical Data Sheet', url: '/documents/tds/castrol-5w30-tds.pdf' },
-    { name: 'Product Warranty Information', url: '/documents/warranty/castrol-warranty.pdf' },
-    { name: 'Industry Approvals', url: '/documents/approvals/castrol-approvals.pdf' }
-  ],
-  crossSell: [
-    {
-      itemCode: 'CS-001',
-      title: 'Oil Filter - Premium Grade',
-      thumbUrl: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
-      price: 12.99
-    },
-    {
-      itemCode: 'CS-002',
-      title: 'Funnel Set - Professional',
-      thumbUrl: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
-      price: 24.50
-    },
-    {
-      itemCode: 'CS-003',
-      title: 'Oil Drain Pan - 20L Capacity',
-      thumbUrl: '/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png',
-      price: 34.99
-    },
-    {
-      itemCode: 'CS-004',
-      title: 'Shop Towels - Heavy Duty',
-      thumbUrl: '/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png',
-      price: 18.75
-    }
-  ]
+// Function to convert product data to Grainger-style format
+const convertToGraingerFormat = (product: Product) => {
+  const basePrice = product.options[0]?.price || 0;
+  return {
+    itemCode: `${product.category.substring(0,3).toUpperCase()}-${product.id.padStart(3, '0')}`,
+    itemName: product.name,
+    brand: 'Premium',
+    imageUrl: product.image,
+    customerPrice: basePrice,
+    listPrice: basePrice * 1.15,
+    stockQty: product.inStock ? 12 : 0,
+    nextZoneDate: 'Tomorrow 2:00 PM',
+    specs: [
+      { key: 'Viscosity Grade', value: product.viscosity },
+      { key: 'Application', value: product.application },
+      { key: 'Category', value: product.category },
+      { key: 'Package Type', value: product.options[0]?.type || 'Various' },
+      { key: 'Base Oil Type', value: 'Synthetic' },
+      { key: 'Color', value: 'Amber' },
+      { key: 'Storage Temperature', value: '-10°C to +40°C' },
+      { key: 'Shelf Life', value: '5 years from manufacture date' }
+    ],
+    isHazardous: false,
+    sdsUrl: '/documents/sds/product-sds.pdf',
+    documents: [
+      { name: 'Technical Data Sheet', url: '/documents/tds/product-tds.pdf' },
+      { name: 'Product Warranty Information', url: '/documents/warranty/product-warranty.pdf' },
+      { name: 'Industry Approvals', url: '/documents/approvals/product-approvals.pdf' }
+    ],
+    crossSell: [
+      {
+        itemCode: 'CS-001',
+        title: 'Oil Filter - Premium Grade',
+        thumbUrl: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
+        price: 12.99
+      },
+      {
+        itemCode: 'CS-002',
+        title: 'Funnel Set - Professional',
+        thumbUrl: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
+        price: 24.50
+      },
+      {
+        itemCode: 'CS-003',
+        title: 'Oil Drain Pan - 20L Capacity',
+        thumbUrl: '/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png',
+        price: 34.99
+      },
+      {
+        itemCode: 'CS-004',
+        title: 'Shop Towels - Heavy Duty',
+        thumbUrl: '/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png',
+        price: 18.75
+      }
+    ]
+  };
 };
-
-const breadcrumbItems = [
-  { label: 'Products', href: '/guest/products' },
-  { label: 'Lubricants', href: '/guest/products?category=lubricants' },
-  { label: 'Engine Oils', href: '/guest/products?category=engine-oils' },
-  { label: 'Synthetic', href: '/guest/products?category=synthetic' },
-  { label: mockProductData.itemCode }
-];
 
 const GuestProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const product = mockProducts.find(p => p.id === id);
+
+  if (!product) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-4">Product Not Found</h1>
+          <Button onClick={() => navigate('/guest/products')}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Products
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const mockProductData = convertToGraingerFormat(product);
+  
+  const breadcrumbItems = [
+    { label: 'Products', href: '/guest/products' },
+    { label: 'Lubricants', href: '/guest/products?category=lubricants' },
+    { label: product.category, href: `/guest/products?category=${product.category.toLowerCase()}` },
+    { label: mockProductData.itemCode }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
