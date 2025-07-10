@@ -14,6 +14,7 @@ import ChatWidget from '@/components/ProductDetail/ChatWidget';
 interface ProductOption {
   id: string;
   type: string;
+  size: string;
   price: number;
   unit: string;
   minOrder: number;
@@ -47,18 +48,20 @@ const mockProducts: Product[] = [
       {
         id: '1-pail',
         type: 'Pail',
+        size: '18.927L',
         price: 45.99,
-        unit: 'per liter',
-        minOrder: 4,
-        description: '20L Pail - Perfect for small garages'
+        unit: 'per pail',
+        minOrder: 1,
+        description: '18.927L Pail - Perfect for small garages'
       },
       {
         id: '1-drum',
         type: 'Drum',
+        size: '208.198L',
         price: 42.99,
-        unit: 'per liter',
+        unit: 'per drum',
         minOrder: 1,
-        description: '205L Drum - Great for workshops'
+        description: '208.198L Drum - Great for workshops'
       }
     ]
   },
@@ -76,6 +79,7 @@ const mockProducts: Product[] = [
       {
         id: '2-bulk',
         type: 'Bulk',
+        size: '>400L',
         price: 14.99,
         unit: 'per liter',
         minOrder: 400,
@@ -94,12 +98,13 @@ const mockProducts: Product[] = [
     inStock: true,
     options: [
       {
-        id: '3-bottle',
-        type: '1L Bottle',
+        id: '3-case',
+        type: 'Case',
+        size: '6 x 1L',
         price: 67.50,
-        unit: 'per liter',
-        minOrder: 2,
-        description: '1L Bottle - Perfect for small boats'
+        unit: 'per case',
+        minOrder: 1,
+        description: '6 x 1L Case - Perfect for small boats'
       }
     ]
   },
@@ -114,12 +119,13 @@ const mockProducts: Product[] = [
     inStock: false,
     options: [
       {
-        id: '4-tube',
-        type: '500g Tube',
+        id: '4-case',
+        type: 'Case',
+        size: '3 x 4.73L',
         price: 25.99,
-        unit: 'per 500g tube',
-        minOrder: 6,
-        description: '500g Tube - Handy for maintenance'
+        unit: 'per case',
+        minOrder: 1,
+        description: '3 x 4.73L Case - Handy for maintenance'
       }
     ]
   }

@@ -7,6 +7,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Search, Filter, Eye } from 'lucide-react';
 
+interface ProductOption {
+  id: string;
+  type: string;
+  size: string;
+  price: number;
+  unit: string;
+  minOrder: number;
+  description: string;
+}
+
 interface Product {
   id: string;
   itemCode: string;
@@ -19,6 +29,7 @@ interface Product {
   inStock: boolean;
   isBulk?: boolean;
   startingPrice: number;
+  options: ProductOption[];
 }
 
 const mockProducts: Product[] = [
@@ -32,7 +43,27 @@ const mockProducts: Product[] = [
     application: 'Automotive',
     image: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
     inStock: true,
-    startingPrice: 38.99
+    startingPrice: 38.99,
+    options: [
+      {
+        id: '1-pail',
+        type: 'Pail',
+        size: '18.927L',
+        price: 45.99,
+        unit: 'per pail',
+        minOrder: 1,
+        description: '18.927L Pail - Perfect for small garages'
+      },
+      {
+        id: '1-drum',
+        type: 'Drum',
+        size: '208.198L',
+        price: 42.99,
+        unit: 'per drum',
+        minOrder: 1,
+        description: '208.198L Drum - Great for workshops'
+      }
+    ]
   },
   {
     id: '2',
@@ -45,7 +76,18 @@ const mockProducts: Product[] = [
     image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: true,
     isBulk: true,
-    startingPrice: 14.99
+    startingPrice: 14.99,
+    options: [
+      {
+        id: '2-bulk',
+        type: 'Bulk',
+        size: '>400L',
+        price: 14.99,
+        unit: 'per liter',
+        minOrder: 400,
+        description: 'Bulk quantity - Minimum 400L order'
+      }
+    ]
   },
   {
     id: '3',
@@ -57,7 +99,18 @@ const mockProducts: Product[] = [
     application: 'Marine',
     image: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
     inStock: true,
-    startingPrice: 55.99
+    startingPrice: 55.99,
+    options: [
+      {
+        id: '3-case',
+        type: 'Case',
+        size: '6 x 1L',
+        price: 67.50,
+        unit: 'per case',
+        minOrder: 1,
+        description: '6 x 1L Case - Perfect for small boats'
+      }
+    ]
   },
   {
     id: '4',
@@ -69,7 +122,18 @@ const mockProducts: Product[] = [
     application: 'General Purpose',
     image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: false,
-    startingPrice: 18.50
+    startingPrice: 18.50,
+    options: [
+      {
+        id: '4-case',
+        type: 'Case',
+        size: '3 x 4.73L',
+        price: 25.99,
+        unit: 'per case',
+        minOrder: 1,
+        description: '3 x 4.73L Case - Handy for maintenance'
+      }
+    ]
   }
 ];
 
@@ -181,7 +245,19 @@ const GuestProducts = () => {
                   <Badge variant="secondary">{product.category}</Badge>
                 </TableCell>
                 <TableCell className="font-medium">{product.viscosity}</TableCell>
-                <TableCell>{product.application}</TableCell>
+                <TableCell>
+                  <div className="space-y-1">
+                    <div>{product.application}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {product.options.map((option, index) => (
+                        <span key={option.id}>
+                          {option.type} ({option.size})
+                          {index < product.options.length - 1 && ', '}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </TableCell>
                 <TableCell>
                   <div className="space-y-1">
                     <Badge variant={product.inStock ? "default" : "destructive"}>
