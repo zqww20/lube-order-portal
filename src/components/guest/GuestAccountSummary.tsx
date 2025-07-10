@@ -2,10 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CreditCard, MapPin, Clock } from 'lucide-react';
-
 const GuestAccountSummary = () => {
-  return (
-    <Card>
+  return <Card>
       <CardHeader className="pb-2 bg-brand-light/50">
         <CardTitle className="font-heading text-base flex items-center text-brand">
           <CreditCard className="h-4 w-4 mr-2 text-brand" />
@@ -30,18 +28,8 @@ const GuestAccountSummary = () => {
             </Badge>
           </div>
         </div>
-        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-center space-x-2">
-            <MapPin className="h-4 w-4 text-blue-600" />
-            <div>
-              <p className="text-sm font-medium text-blue-800">Payment Options</p>
-              <p className="text-xs text-blue-700">Cash or E-transfer accepted at pickup</p>
-            </div>
-          </div>
-        </div>
+        
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default GuestAccountSummary;
