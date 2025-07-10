@@ -20,6 +20,7 @@ import Login from "./pages/Login";
 import GuestLayout from "./components/GuestLayout";
 import GuestDashboard from "./pages/guest/Dashboard";
 import GuestProducts from "./pages/guest/Products";
+import GuestProductDetail from "./pages/guest/ProductDetail";
 import GuestCart from "./pages/guest/Cart";
 import GuestLocation from "./pages/guest/Location";
 import EmployeeLayout from "./components/EmployeeLayout";
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/guest" element={<GuestLayout />}>
             <Route path="dashboard" element={<GuestDashboard />} />
             <Route path="products" element={<GuestProducts />} />
+            <Route path="products/:id" element={<GuestProductDetail />} />
             <Route path="cart" element={<GuestCart />} />
             <Route path="location" element={<GuestLocation />} />
           </Route>
