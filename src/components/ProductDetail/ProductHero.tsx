@@ -17,6 +17,7 @@ interface ProductHeroProps {
   listPrice?: number;
   stockQty: number;
   nextZoneDate?: string;
+  isBulk?: boolean;
 }
 
 const ProductHero = ({
@@ -27,15 +28,18 @@ const ProductHero = ({
   customerPrice,
   listPrice,
   stockQty,
-  nextZoneDate
+  nextZoneDate,
+  isBulk
 }: ProductHeroProps) => {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(isBulk ? 400 : 1);
   const [deliveryMethod, setDeliveryMethod] = useState('pickup');
   const [compareChecked, setCompareChecked] = useState(false);
   const [imageHovered, setImageHovered] = useState(false);
 
   const handleQuantityChange = (increment: boolean) => {
-    setQuantity(prev => increment ? prev + 1 : Math.max(1, prev - 1));
+    const minValue = isBulk ? 400 : 1;
+    const step = isBulk ? 10 : 1;
+    setQuantity(prev => increment ? prev + step : Math.max(minValue, prev - step));
   };
 
   const getStockStatus = () => {
@@ -98,7 +102,9 @@ const ProductHero = ({
         {/* Quantity and Add to Cart */}
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <Label htmlFor="quantity" className="text-sm font-medium">Qty:</Label>
+            <Label htmlFor="quantity" className="text-sm font-medium">
+              {isBulk ? 'Liters:' : 'Qty:'}
+            </Label>
             <div className="flex items-center border rounded-md">
               <Button
                 variant="ghost"
@@ -112,9 +118,12 @@ const ProductHero = ({
                 id="quantity"
                 type="number"
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-16 text-center border-0 focus-visible:ring-0"
-                min="1"
+                onChange={(e) => {
+                  const minValue = isBulk ? 400 : 1;
+                  setQuantity(Math.max(minValue, parseInt(e.target.value) || minValue));
+                }}
+                className="w-20 text-center border-0 focus-visible:ring-0"
+                min={isBulk ? "400" : "1"}
               />
               <Button
                 variant="ghost"
@@ -131,7 +140,7 @@ const ProductHero = ({
             size="lg" 
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
           >
-            Add to Cart - ${(customerPrice * quantity).toFixed(2)}
+            Add to Cart - ${(customerPrice * quantity).toFixed(2)} {isBulk ? `(${quantity}L)` : ''}
           </Button>
 
           <div className="flex items-center space-x-2">

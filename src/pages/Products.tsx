@@ -17,6 +17,7 @@ interface Product {
   application: string;
   image: string;
   inStock: boolean;
+  isBulk?: boolean;
   startingPrice: number;
 }
 
@@ -36,13 +37,14 @@ const mockProducts: Product[] = [
   {
     id: '2',
     itemCode: 'HF-ISO46-002',
-    name: 'Industrial Hydraulic Fluid',
+    name: 'Industrial Hydraulic Fluid (Bulk)',
     category: 'Hydraulic Fluids',
     description: 'Premium quality hydraulic fluid for industrial machinery',
     viscosity: 'ISO 46',
     application: 'Industrial',
     image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: true,
+    isBulk: true,
     startingPrice: 14.99
   },
   {

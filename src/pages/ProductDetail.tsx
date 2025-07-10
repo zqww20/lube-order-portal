@@ -29,6 +29,7 @@ interface Product {
   application: string;
   image: string;
   inStock: boolean;
+  isBulk?: boolean;
   options: ProductOption[];
 }
 
@@ -63,21 +64,22 @@ const mockProducts: Product[] = [
   },
   {
     id: '2',
-    name: 'Industrial Hydraulic Fluid',
+    name: 'Industrial Hydraulic Fluid (Bulk)',
     category: 'Hydraulic Fluids',
     description: 'Premium quality hydraulic fluid for industrial machinery',
     viscosity: 'ISO 46',
     application: 'Industrial',
     image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: true,
+    isBulk: true,
     options: [
       {
-        id: '2-container',
-        type: '5L Container',
-        price: 89.99,
-        unit: 'per 5L container',
-        minOrder: 1,
-        description: '5L Container - Convenient for small applications'
+        id: '2-bulk',
+        type: 'Bulk',
+        price: 14.99,
+        unit: 'per liter',
+        minOrder: 400,
+        description: 'Bulk quantity - Minimum 400L order'
       }
     ]
   },
@@ -135,6 +137,7 @@ const convertToGraingerFormat = (product: Product) => {
     listPrice: basePrice * 1.15,
     stockQty: product.inStock ? 12 : 0,
     nextZoneDate: 'Tomorrow 2:00 PM',
+    isBulk: product.isBulk,
     specs: [
       { key: 'Viscosity Grade', value: product.viscosity },
       { key: 'Application', value: product.application },
