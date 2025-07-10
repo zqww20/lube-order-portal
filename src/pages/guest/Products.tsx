@@ -1,117 +1,203 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { AlertCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Search, Filter, Eye } from 'lucide-react';
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  viscosity: string;
+  application: string;
+  image: string;
+  inStock: boolean;
+  startingPrice: number;
+}
+
+const mockProducts: Product[] = [
+  {
+    id: '1',
+    name: 'Premium Engine Oil 5W-30',
+    category: 'Engine Oils',
+    description: 'High-performance synthetic engine oil for modern vehicles',
+    viscosity: '5W-30',
+    application: 'Automotive',
+    image: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
+    inStock: true,
+    startingPrice: 38.99
+  },
+  {
+    id: '2',
+    name: 'Industrial Hydraulic Fluid',
+    category: 'Hydraulic Fluids',
+    description: 'Premium quality hydraulic fluid for industrial machinery',
+    viscosity: 'ISO 46',
+    application: 'Industrial',
+    image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
+    inStock: true,
+    startingPrice: 14.99
+  },
+  {
+    id: '3',
+    name: 'Marine Gear Oil',
+    category: 'Marine Lubricants',
+    description: 'Specialized gear oil for marine applications',
+    viscosity: 'SAE 80W-90',
+    application: 'Marine',
+    image: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
+    inStock: true,
+    startingPrice: 55.99
+  },
+  {
+    id: '4',
+    name: 'Multi-Purpose Grease',
+    category: 'Greases',
+    description: 'Versatile lithium-based grease for various applications',
+    viscosity: 'NLGI 2',
+    application: 'General Purpose',
+    image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
+    inStock: false,
+    startingPrice: 18.50
+  }
+];
+
+const categories = ['All', 'Engine Oils', 'Hydraulic Fluids', 'Marine Lubricants', 'Greases'];
 
 const GuestProducts = () => {
-  const products = [
-    {
-      id: '1',
-      name: 'Premium Engine Oil 5W-30',
-      price: 45.99,
-      unit: 'liter',
-      inStock: true,
-      category: 'Engine Oil'
-    },
-    {
-      id: '2',
-      name: 'Industrial Hydraulic Fluid',
-      price: 89.99,
-      unit: '5L container',
-      inStock: true,
-      category: 'Hydraulic Fluids'
-    },
-    {
-      id: '3',
-      name: 'Marine Gear Oil',
-      price: 67.50,
-      unit: 'liter',
-      inStock: false,
-      category: 'Marine Oil'
-    },
-    {
-      id: '4',
-      name: 'Multi-Purpose Grease',
-      price: 25.99,
-      unit: '500g tube',
-      inStock: true,
-      category: 'Grease'
-    },
-    {
-      id: '5',
-      name: 'Transmission Fluid ATF',
-      price: 55.99,
-      unit: 'liter',
-      inStock: true,
-      category: 'Transmission Fluid'
+  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let filtered = products;
+    
+    if (selectedCategory !== 'All') {
+      filtered = filtered.filter(product => product.category === selectedCategory);
     }
-  ];
+    
+    if (searchTerm) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    setFilteredProducts(filtered);
+  }, [products, searchTerm, selectedCategory]);
+
+  const handleProductClick = (productId: string) => {
+    navigate(`/guest/products/${productId}`);
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Guest Product Catalog</h1>
-          <p className="text-muted-foreground">Cash pickup only - Limited selection available</p>
+          <h1 className="text-3xl font-bold text-gray-900">Lubricant Products</h1>
+          <p className="text-gray-600 mt-2">Professional grade lubricants for all your needs</p>
         </div>
       </div>
 
-      {/* Guest Restrictions Notice */}
-      <Card className="border-orange-200 bg-orange-50">
-        <CardContent className="p-4">
-          <div className="flex items-start space-x-3">
-            <AlertCircle className="h-5 w-5 text-orange-600 mt-0.5" />
-            <div>
-              <h4 className="font-medium text-orange-800 mb-1">Guest Purchase Limitations</h4>
-              <ul className="text-sm text-orange-700 space-y-1">
-                <li>• Maximum 5 unique items per transaction</li>
-                <li>• Cash or E-transfer payment at pickup</li>
-                <li>• No bulk discounts available</li>
-                <li>• Limited product selection</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <Card key={product.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-lg">{product.name}</CardTitle>
-                  <CardDescription>{product.category}</CardDescription>
-                </div>
-                <Badge variant={product.inStock ? "default" : "secondary"}>
-                  {product.inStock ? "Available" : "Out of Stock"}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold">${product.price}</span>
-                  <span className="text-sm text-muted-foreground">per {product.unit}</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Max: 5 items</span>
-                  <Button 
-                    size="sm" 
-                    disabled={!product.inStock}
-                    className="flex-1 ml-2"
-                  >
-                    {product.inStock ? "Add to Cart" : "Out of Stock"}
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-full md:w-48">
+            <Filter className="h-4 w-4 mr-2" />
+            <SelectValue placeholder="Category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map(category => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
+
+      {/* Products Table */}
+      <div className="bg-white rounded-lg border shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-semibold">Product Name</TableHead>
+              <TableHead className="font-semibold">Category</TableHead>
+              <TableHead className="font-semibold">Viscosity</TableHead>
+              <TableHead className="font-semibold">Application</TableHead>
+              <TableHead className="font-semibold">Status</TableHead>
+              <TableHead className="font-semibold">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredProducts.map((product) => (
+              <TableRow 
+                key={product.id}
+                className="hover:bg-muted/50 cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
+              >
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="h-10 w-10 rounded-md object-cover bg-muted"
+                    />
+                    <div>
+                      <div className="font-semibold text-foreground">{product.name}</div>
+                      <div className="text-sm text-muted-foreground">{product.description}</div>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge variant="secondary">{product.category}</Badge>
+                </TableCell>
+                <TableCell className="font-medium">{product.viscosity}</TableCell>
+                <TableCell>{product.application}</TableCell>
+                <TableCell>
+                  <div className="space-y-1">
+                    <Badge variant={product.inStock ? "default" : "destructive"}>
+                      {product.inStock ? "In Stock" : "Out of Stock"}
+                    </Badge>
+                    {!product.inStock && (
+                      <p className="text-xs text-muted-foreground">
+                        10-12 days to fulfill
+                      </p>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline">
+                    <Eye className="h-4 w-4 mr-1" />
+                    View
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {filteredProducts.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
+        </div>
+      )}
     </div>
   );
 };
