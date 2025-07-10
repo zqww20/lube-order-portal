@@ -181,7 +181,11 @@ const EmployeeOrders = () => {
                     <Badge variant="outline">{order.warehouse}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Button size="sm" variant="outline">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => window.location.href = `/employee/orders/${order.id}`}
+                    >
                       <Eye className="h-4 w-4 mr-1" />
                       View
                     </Button>
