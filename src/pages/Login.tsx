@@ -2,7 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleGuestAccess = () => {
+    navigate('/guest/dashboard');
+  };
+
   return (
     <div className="min-h-screen bg-muted/30 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
@@ -51,6 +58,24 @@ const Login = () => {
               
               <Button className="w-full h-12 text-base font-semibold">
                 Sign In
+              </Button>
+              
+              {/* Guest Access */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+              
+              <Button 
+                variant="outline" 
+                className="w-full h-12 text-base font-semibold"
+                onClick={handleGuestAccess}
+              >
+                Continue as Guest
               </Button>
               
               <div className="text-center space-y-3 pt-4">
