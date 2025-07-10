@@ -60,6 +60,24 @@ const Login = () => {
                 Sign In
               </Button>
               
+              {/* Guest Access */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+              
+              <Button 
+                variant="outline" 
+                className="w-full h-12 text-base font-semibold"
+                onClick={handleGuestAccess}
+              >
+                Continue as Guest
+              </Button>
+              
               <div className="text-center space-y-3 pt-4">
                 <div className="flex justify-center items-center space-x-4 text-sm">
                   <a href="#" className="text-primary hover:text-primary/80 transition-colors">
@@ -69,13 +87,6 @@ const Login = () => {
                   <a href="#" className="text-primary hover:text-primary/80 transition-colors">
                     Forgot Password?
                   </a>
-                  <span className="text-muted-foreground">•</span>
-                  <button 
-                    onClick={handleGuestAccess}
-                    className="text-primary hover:text-primary/80 transition-colors"
-                  >
-                    Continue as Guest
-                  </button>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   © {new Date().getFullYear()} Bluewater Group. All rights reserved.
