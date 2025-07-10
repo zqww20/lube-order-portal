@@ -34,8 +34,8 @@ interface Product {
 
 const mockProducts: Product[] = [
   {
-    id: '1',
-    itemCode: 'EO-5W30-001',
+    id: '1-pail',
+    itemCode: 'EO-5W30-001-P',
     name: 'Premium Engine Oil 5W-30',
     category: 'Engine Oils',
     description: 'High-performance synthetic engine oil for modern vehicles',
@@ -43,7 +43,7 @@ const mockProducts: Product[] = [
     application: 'Automotive',
     image: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
     inStock: true,
-    startingPrice: 38.99,
+    startingPrice: 45.99,
     options: [
       {
         id: '1-pail',
@@ -53,7 +53,21 @@ const mockProducts: Product[] = [
         unit: 'per pail',
         minOrder: 1,
         description: '18.927L Pail - Perfect for small garages'
-      },
+      }
+    ]
+  },
+  {
+    id: '1-drum',
+    itemCode: 'EO-5W30-001-D',
+    name: 'Premium Engine Oil 5W-30',
+    category: 'Engine Oils',
+    description: 'High-performance synthetic engine oil for modern vehicles',
+    viscosity: '5W-30',
+    application: 'Automotive',
+    image: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
+    inStock: true,
+    startingPrice: 42.99,
+    options: [
       {
         id: '1-drum',
         type: 'Drum',
@@ -66,8 +80,8 @@ const mockProducts: Product[] = [
     ]
   },
   {
-    id: '2',
-    itemCode: 'HF-ISO46-002',
+    id: '2-bulk',
+    itemCode: 'HF-ISO46-002-B',
     name: 'Industrial Hydraulic Fluid (Bulk)',
     category: 'Hydraulic Fluids',
     description: 'Premium quality hydraulic fluid for industrial machinery',
@@ -90,8 +104,8 @@ const mockProducts: Product[] = [
     ]
   },
   {
-    id: '3',
-    itemCode: 'MGO-80W90-003',
+    id: '3-case',
+    itemCode: 'MGO-80W90-003-C',
     name: 'Marine Gear Oil',
     category: 'Marine Lubricants',
     description: 'Specialized gear oil for marine applications',
@@ -99,7 +113,7 @@ const mockProducts: Product[] = [
     application: 'Marine',
     image: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
     inStock: true,
-    startingPrice: 55.99,
+    startingPrice: 67.50,
     options: [
       {
         id: '3-case',
@@ -113,8 +127,8 @@ const mockProducts: Product[] = [
     ]
   },
   {
-    id: '4',
-    itemCode: 'GR-NLGI2-004',
+    id: '4-case',
+    itemCode: 'GR-NLGI2-004-C',
     name: 'Multi-Purpose Grease',
     category: 'Greases',
     description: 'Versatile lithium-based grease for various applications',
@@ -122,7 +136,7 @@ const mockProducts: Product[] = [
     application: 'General Purpose',
     image: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
     inStock: false,
-    startingPrice: 18.50,
+    startingPrice: 25.99,
     options: [
       {
         id: '4-case',
@@ -249,12 +263,7 @@ const GuestProducts = () => {
                   <div className="space-y-1">
                     <div>{product.application}</div>
                     <div className="text-xs text-muted-foreground">
-                      {product.options.map((option, index) => (
-                        <span key={option.id}>
-                          {option.type} ({option.size})
-                          {index < product.options.length - 1 && ', '}
-                        </span>
-                      ))}
+                      {product.options[0].type} ({product.options[0].size})
                     </div>
                   </div>
                 </TableCell>
