@@ -30,6 +30,7 @@ import EmployeeQuotes from "./pages/employee/Quotes";
 import EmployeeOrders from "./pages/employee/Orders";
 import EmployeeOrderDetail from "./pages/employee/OrderDetail";
 import AdminLogistics from "./pages/employee/AdminLogistics";
+import GraingerProductDetail from "./pages/GraingerProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/products/:id" element={<ProductDetail />} />
+                  <Route path="/grainger-products/:id" element={<GraingerProductDetail />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/orders" element={<Orders />} />
                   <Route path="/orders/:id" element={<OrderDetail />} />
