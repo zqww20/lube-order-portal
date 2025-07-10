@@ -43,6 +43,7 @@ const ProductHero = ({
   };
 
   const getStockStatus = () => {
+    if (stockQty === 0) return { color: 'text-destructive', label: 'Out of Stock' };
     if (stockQty <= 5) return { color: 'text-warning', label: 'Limited — order soon' };
     if (stockQty <= 20) return { color: 'text-warning', label: 'Low Stock' };
     return { color: 'text-success', label: 'In Stock' };
@@ -179,9 +180,6 @@ const ProductHero = ({
                 <div className={`w-2 h-2 rounded-full ${stockStatus.color.replace('text-', 'bg-')}`} />
                 <span className={`text-sm font-medium ${stockStatus.color}`}>
                   {stockStatus.label}
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  ({stockQty} available)
                 </span>
               </div>
 
