@@ -1,11 +1,13 @@
-import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Package, Quote } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import QuoteRequest from '@/components/QuoteRequest';
+import ProductBreadcrumbs from '@/components/ProductDetail/ProductBreadcrumbs';
+import ProductHero from '@/components/ProductDetail/ProductHero';
+import CustomersAlsoViewed from '@/components/ProductDetail/CustomersAlsoViewed';
+import TechnicalSpecs from '@/components/ProductDetail/TechnicalSpecs';
+import ComplianceRestrictions from '@/components/ProductDetail/ComplianceRestrictions';
+import Documentation from '@/components/ProductDetail/Documentation';
+import ChatWidget from '@/components/ProductDetail/ChatWidget';
 
 interface ProductOption {
   id: string;
@@ -210,184 +212,141 @@ const mockProducts: Product[] = [
   }
 ];
 
+// Mock data for the Grainger-style layout
+const mockProductData = {
+  itemCode: 'LUB-5W30-001',
+  itemName: 'Premium Synthetic Engine Oil 5W-30',
+  brand: 'Castrol',
+  imageUrl: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
+  customerPrice: 45.99,
+  listPrice: 52.99,
+  stockQty: 12,
+  nextZoneDate: 'Tomorrow 2:00 PM',
+  specs: [
+    { key: 'Viscosity Grade', value: '5W-30' },
+    { key: 'API Classification', value: 'API SN/CF' },
+    { key: 'ACEA Classification', value: 'ACEA A3/B4' },
+    { key: 'SAE Grade', value: 'SAE 5W-30' },
+    { key: 'Density @ 15°C', value: '0.85 kg/L' },
+    { key: 'Flash Point', value: '230°C' },
+    { key: 'Pour Point', value: '-42°C' },
+    { key: 'Viscosity @ 40°C', value: '70 cSt' },
+    { key: 'Viscosity @ 100°C', value: '12 cSt' },
+    { key: 'Viscosity Index', value: '160' },
+    { key: 'Base Oil Type', value: 'Synthetic' },
+    { key: 'Package Size', value: '205L Drum' },
+    { key: 'Color', value: 'Amber' },
+    { key: 'Odor', value: 'Mild petroleum' },
+    { key: 'Storage Temperature', value: '-10°C to +40°C' },
+    { key: 'Shelf Life', value: '5 years from manufacture date' },
+    { key: 'UN Number', value: 'Not classified as dangerous goods' },
+    { key: 'Environmental Impact', value: 'Biodegradable additives' }
+  ],
+  isHazardous: false,
+  sdsUrl: '/documents/sds/castrol-5w30-sds.pdf',
+  documents: [
+    { name: 'Technical Data Sheet', url: '/documents/tds/castrol-5w30-tds.pdf' },
+    { name: 'Product Warranty Information', url: '/documents/warranty/castrol-warranty.pdf' },
+    { name: 'Industry Approvals', url: '/documents/approvals/castrol-approvals.pdf' }
+  ],
+  crossSell: [
+    {
+      itemCode: 'CS-001',
+      title: 'Oil Filter - Premium Grade',
+      thumbUrl: '/lovable-uploads/e466ab4c-bb95-44ed-9edb-f24db0a4929f.png',
+      price: 12.99
+    },
+    {
+      itemCode: 'CS-002',
+      title: 'Funnel Set - Professional',
+      thumbUrl: '/lovable-uploads/9362ba69-b54d-4d24-8699-96bdb60d215c.png',
+      price: 24.50
+    },
+    {
+      itemCode: 'CS-003',
+      title: 'Oil Drain Pan - 20L Capacity',
+      thumbUrl: '/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png',
+      price: 34.99
+    },
+    {
+      itemCode: 'CS-004',
+      title: 'Shop Towels - Heavy Duty',
+      thumbUrl: '/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png',
+      price: 18.75
+    }
+  ]
+};
+
+const breadcrumbItems = [
+  { label: 'Products', href: '/guest/products' },
+  { label: 'Lubricants', href: '/guest/products?category=lubricants' },
+  { label: 'Engine Oils', href: '/guest/products?category=engine-oils' },
+  { label: 'Synthetic', href: '/guest/products?category=synthetic' },
+  { label: mockProductData.itemCode }
+];
+
 const GuestProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
-  const product = mockProducts.find(p => p.id === id);
-
-  if (!product) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <Button onClick={() => navigate('/guest/products')}>
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header with Back Button and Guest Notice */}
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between mb-4">
+          <Button
+            variant="outline"
+            onClick={() => navigate('/guest/products')}
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Products
           </Button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <Button 
-          variant="outline" 
-          onClick={() => navigate('/guest/products')}
-          className="flex items-center"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Products
-        </Button>
-        
-        <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
-          <p className="text-amber-800 text-sm font-medium">
-            Guest Portal: Cash or E-transfer • Pick-up Only • 5 SKU Limit
-          </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Product Image and Basic Info */}
-        <div>
-          <div className="aspect-square bg-gray-100 rounded-lg mb-6 flex items-center justify-center">
-            <img 
-              src={product.image} 
-              alt={product.name}
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
           
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Badge variant="secondary">{product.category}</Badge>
-              <Badge variant={product.inStock ? "default" : "destructive"}>
-                {product.inStock ? "In Stock" : "Out of Stock"}
-              </Badge>
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="font-semibold text-gray-900">Product Specifications</h3>
-              <div className="text-sm text-gray-600 space-y-1">
-                <p><span className="font-medium">Viscosity:</span> {product.viscosity}</p>
-                <p><span className="font-medium">Application:</span> {product.application}</p>
-              </div>
-            </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
+            <p className="text-amber-800 text-sm font-medium">
+              Guest Portal: Cash or E-transfer • Pick-up Only • 5 SKU Limit
+            </p>
           </div>
         </div>
 
-        {/* Product Details and Options */}
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
-            <p className="text-lg text-gray-600 mb-6">{product.description}</p>
+        {/* Breadcrumbs */}
+        <ProductBreadcrumbs items={breadcrumbItems} />
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+          {/* Main Content - 3/4 width on desktop */}
+          <div className="xl:col-span-3 space-y-8">
+            {/* Product Hero */}
+            <ProductHero {...mockProductData} />
+
+            {/* Information Blocks */}
+            <div className="space-y-6">
+              {/* Technical Specifications */}
+              <TechnicalSpecs specs={mockProductData.specs} />
+
+              {/* Compliance & Restrictions */}
+              <ComplianceRestrictions
+                isHazardous={mockProductData.isHazardous}
+                sdsUrl={mockProductData.sdsUrl}
+              />
+
+              {/* Documentation */}
+              <Documentation documents={mockProductData.documents} />
+            </div>
           </div>
 
-          {/* Product Options */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-gray-900">Available Options</h3>
-            {product.options.map((option) => (
-              <Card key={option.id} className="border-2 hover:border-blue-200 transition-colors">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-lg flex items-center">
-                        <Package className="h-5 w-5 mr-2 text-blue-600" />
-                        {option.type}
-                      </CardTitle>
-                      <CardDescription>{option.description}</CardDescription>
-                    </div>
-                    <Badge variant="outline">Min: {option.minOrder}</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between items-center">
-                    <QuoteRequest 
-                      product={{
-                        id: product.id,
-                        name: product.name,
-                        category: product.category,
-                        description: product.description,
-                        price: option.price,
-                        unit: option.unit,
-                        viscosity: product.viscosity,
-                        application: product.application
-                      }}
-                      trigger={
-                        <Button 
-                          disabled={!product.inStock}
-                          className="flex items-center"
-                        >
-                          <Quote className="h-4 w-4 mr-2" />
-                          Request Quote
-                        </Button>
-                      }
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          {/* Sidebar - 1/4 width on desktop, full width on mobile */}
+          <div className="xl:col-span-1">
+            {/* Mobile: Horizontal carousel, Desktop: Vertical sidebar */}
+            <div className="xl:sticky xl:top-4">
+              <CustomersAlsoViewed crossSell={mockProductData.crossSell} />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Cross-sell Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">You might also need</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {crossSellProducts.map((crossProduct) => (
-            <Card key={crossProduct.id} className="hover:shadow-md transition-shadow">
-              <CardHeader className="pb-2">
-                <div className="aspect-square bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
-                  <img 
-                    src={crossProduct.image} 
-                    alt={crossProduct.name}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-                <CardTitle className="text-sm">{crossProduct.name}</CardTitle>
-                <CardDescription className="text-xs">{crossProduct.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex justify-between items-center mb-2">
-                  <Badge variant="secondary" className="text-xs">{crossProduct.category}</Badge>
-                  <Badge variant={crossProduct.inStock ? "default" : "destructive"} className="text-xs">
-                    {crossProduct.inStock ? "In Stock" : "Out of Stock"}
-                  </Badge>
-                </div>
-                <div className="text-lg font-bold text-blue-600 mb-2">
-                  Request Quote
-                </div>
-                <QuoteRequest 
-                  product={{
-                    id: crossProduct.id,
-                    name: crossProduct.name,
-                    category: crossProduct.category,
-                    description: crossProduct.description,
-                    price: crossProduct.price,
-                    unit: crossProduct.unit,
-                    viscosity: '',
-                    application: 'General Purpose'
-                  }}
-                  trigger={
-                    <Button 
-                      size="sm" 
-                      className="w-full"
-                      disabled={!crossProduct.inStock}
-                    >
-                      <Quote className="h-3 w-3 mr-1" />
-                      Request Quote
-                    </Button>
-                  }
-                />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 };
