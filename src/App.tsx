@@ -64,25 +64,64 @@ const App = () => (
           </Route>
 
           {/* Customer Routes */}
-          <Route path="*" element={
+          <Route path="/" element={
             <div className="min-h-screen bg-background">
               <Header />
               <main className="pt-16">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/products/:id" element={<ProductDetail />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/orders/:id" element={<OrderDetail />} />
-                  <Route path="/quotes" element={<CustomerQuotes />} />
-                  <Route path="/employee" element={<Employee />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <Index />
               </main>
             </div>
           } />
+          <Route path="/products" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main className="pt-16">
+                <Products />
+              </main>
+            </div>
+          } />
+          <Route path="/products/:id" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main className="pt-16">
+                <ProductDetail />
+              </main>
+            </div>
+          } />
+          <Route path="/cart" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main className="pt-16">
+                <Cart />
+              </main>
+            </div>
+          } />
+          <Route path="/orders" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main className="pt-16">
+                <Orders />
+              </main>
+            </div>
+          } />
+          <Route path="/orders/:id" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main className="pt-16">
+                <OrderDetail />
+              </main>
+            </div>
+          } />
+          <Route path="/quotes" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main className="pt-16">
+                <CustomerQuotes />
+              </main>
+            </div>
+          } />
+          <Route path="/employee" element={<Employee />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
