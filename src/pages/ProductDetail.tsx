@@ -36,7 +36,7 @@ interface Product {
 
 const mockProducts: Product[] = [
   {
-    id: '1',
+    id: '1-pail',
     name: 'Premium Engine Oil 5W-30',
     category: 'Engine Oils',
     description: 'High-performance synthetic engine oil for modern vehicles',
@@ -53,7 +53,19 @@ const mockProducts: Product[] = [
         unit: 'per pail',
         minOrder: 1,
         description: '18.927L Pail - Perfect for small garages'
-      },
+      }
+    ]
+  },
+  {
+    id: '1-drum',
+    name: 'Premium Engine Oil 5W-30',
+    category: 'Engine Oils',
+    description: 'High-performance synthetic engine oil for modern vehicles',
+    viscosity: '5W-30',
+    application: 'Automotive',
+    image: '/lovable-uploads/87030237-a1f1-4d5a-ae5b-1a75883b24f0.png',
+    inStock: true,
+    options: [
       {
         id: '1-drum',
         type: 'Drum',
@@ -66,7 +78,7 @@ const mockProducts: Product[] = [
     ]
   },
   {
-    id: '2',
+    id: '2-bulk',
     name: 'Industrial Hydraulic Fluid (Bulk)',
     category: 'Hydraulic Fluids',
     description: 'Premium quality hydraulic fluid for industrial machinery',
@@ -88,9 +100,9 @@ const mockProducts: Product[] = [
     ]
   },
   {
-    id: '3',
+    id: '3-case',
     name: 'Marine Gear Oil',
-    category: 'Marine Lubricants', 
+    category: 'Marine Lubricants',
     description: 'Specialized gear oil for marine applications',
     viscosity: 'SAE 80W-90',
     application: 'Marine',
@@ -109,7 +121,7 @@ const mockProducts: Product[] = [
     ]
   },
   {
-    id: '4',
+    id: '4-case',
     name: 'Multi-Purpose Grease',
     category: 'Greases',
     description: 'Versatile lithium-based grease for various applications',
