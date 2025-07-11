@@ -37,7 +37,7 @@ const mockProducts: Product[] = [
     id: '1-pail',
     itemCode: 'EO-5W30-001-P',
     name: 'Premium Engine Oil 5W-30',
-    category: 'Engine Oils',
+    category: 'Lubricants',
     description: 'High-performance synthetic engine oil for modern vehicles',
     viscosity: '5W-30',
     application: 'Automotive',
@@ -60,7 +60,7 @@ const mockProducts: Product[] = [
     id: '1-drum',
     itemCode: 'EO-5W30-001-D',
     name: 'Premium Engine Oil 5W-30',
-    category: 'Engine Oils',
+    category: 'Lubricants',
     description: 'High-performance synthetic engine oil for modern vehicles',
     viscosity: '5W-30',
     application: 'Automotive',
@@ -83,7 +83,7 @@ const mockProducts: Product[] = [
     id: '2-bulk',
     itemCode: 'HF-ISO46-002-B',
     name: 'Industrial Hydraulic Fluid (Bulk)',
-    category: 'Hydraulic Fluids',
+    category: 'Lubricants',
     description: 'Premium quality hydraulic fluid for industrial machinery',
     viscosity: 'ISO 46',
     application: 'Industrial',
@@ -107,7 +107,7 @@ const mockProducts: Product[] = [
     id: '3-case',
     itemCode: 'MGO-80W90-003-C',
     name: 'Marine Gear Oil',
-    category: 'Marine Lubricants',
+    category: 'Lubricants',
     description: 'Specialized gear oil for marine applications',
     viscosity: 'SAE 80W-90',
     application: 'Marine',
@@ -130,7 +130,7 @@ const mockProducts: Product[] = [
     id: '4-case',
     itemCode: 'GR-NLGI2-004-C',
     name: 'Multi-Purpose Grease',
-    category: 'Greases',
+    category: 'Lubricants',
     description: 'Versatile lithium-based grease for various applications',
     viscosity: 'NLGI 2',
     application: 'General Purpose',
@@ -151,7 +151,7 @@ const mockProducts: Product[] = [
   }
 ];
 
-const categories = ['All', 'Engine Oils', 'Hydraulic Fluids', 'Marine Lubricants', 'Greases'];
+const categories = ['All', 'Lubricants'];
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>(mockProducts);
@@ -183,12 +183,6 @@ const Products = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Lubricant Products</h1>
-          <p className="text-gray-600 mt-2">Professional grade lubricants for all your needs</p>
-        </div>
-      </div>
 
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
