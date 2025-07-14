@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { useCart } from '@/contexts/CartContext';
+import { getProductById } from '@/data/products';
 import ProductBreadcrumbs from '@/components/ProductDetail/ProductBreadcrumbs';
 import ProductHero from '@/components/ProductDetail/ProductHero';
 import CustomersAlsoViewed from '@/components/ProductDetail/CustomersAlsoViewed';

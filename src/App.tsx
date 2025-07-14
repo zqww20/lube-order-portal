@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QuoteProvider } from "@/contexts/QuoteContext";
+import { CartProvider } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -36,8 +37,9 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <QuoteProvider>
-      <TooltipProvider>
+    <CartProvider>
+      <QuoteProvider>
+        <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -126,8 +128,9 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </TooltipProvider>
-    </QuoteProvider>
+        </TooltipProvider>
+      </QuoteProvider>
+    </CartProvider>
   </QueryClientProvider>
 );
 
