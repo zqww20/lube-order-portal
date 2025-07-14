@@ -31,7 +31,6 @@ const GuestLayout = () => {
     { name: 'Dashboard', href: '/guest/dashboard', icon: Home },
     { name: 'Products', href: '/guest/products', icon: Package },
     { name: 'Quotes', href: '/guest/quotes', icon: Quote },
-    { name: 'Cart', href: '/guest/cart', icon: ShoppingCart },
     { name: 'Store Location', href: '/guest/location', icon: MapPin },
   ];
 
