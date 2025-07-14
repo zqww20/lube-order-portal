@@ -23,9 +23,6 @@ const GuestAccountSummary = () => {
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">SKU Limit</p>
             <p className="font-semibold text-xs">Max 5 unique items</p>
-            <Badge className="bg-orange-100 text-orange-800 border-orange-200 text-xs">
-              Cash/E-transfer Sales
-            </Badge>
           </div>
         </div>
         
