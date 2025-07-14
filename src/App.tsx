@@ -22,6 +22,7 @@ import GuestDashboard from "./pages/guest/Dashboard";
 import GuestProducts from "./pages/guest/Products";
 import GuestProductDetail from "./pages/guest/ProductDetail";
 import GuestCart from "./pages/guest/Cart";
+import GuestQuotesPage from "./pages/guest/Quotes";
 import GuestLocation from "./pages/guest/Location";
 import EmployeeLayout from "./components/EmployeeLayout";
 import EmployeeDashboard from "./pages/employee/Dashboard";
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="products" element={<GuestProducts />} />
             <Route path="products/:id" element={<GuestProductDetail />} />
             <Route path="cart" element={<GuestCart />} />
+            <Route path="quotes" element={<GuestQuotesPage />} />
             <Route path="location" element={<GuestLocation />} />
           </Route>
           

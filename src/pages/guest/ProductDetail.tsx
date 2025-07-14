@@ -10,6 +10,7 @@ import TechnicalSpecs from '@/components/ProductDetail/TechnicalSpecs';
 import ComplianceRestrictions from '@/components/ProductDetail/ComplianceRestrictions';
 import Documentation from '@/components/ProductDetail/Documentation';
 import ChatWidget from '@/components/ProductDetail/ChatWidget';
+import GuestQuoteRequest from '@/components/guest/GuestQuoteRequest';
 
 interface ProductOption {
   id: string;
@@ -293,8 +294,24 @@ const GuestProductDetail = () => {
           </div>
 
           {/* Sidebar - 1/4 width on desktop, full width on mobile */}
-          <div className="xl:col-span-1">
-            {/* Mobile: Horizontal carousel, Desktop: Vertical sidebar */}
+          <div className="xl:col-span-1 space-y-6">
+            {/* Quote Request */}
+            <div className="xl:sticky xl:top-4">
+              <GuestQuoteRequest 
+                product={{
+                  id: product.id,
+                  name: product.name,
+                  category: product.category,
+                  description: product.description,
+                  price: product.options[0]?.price || 0,
+                  unit: product.options[0]?.unit || 'each',
+                  viscosity: product.viscosity,
+                  application: product.application
+                }}
+              />
+            </div>
+            
+            {/* Cross-sell products */}
             <div className="xl:sticky xl:top-4">
               <CustomersAlsoViewed crossSell={mockProductData.crossSell} />
             </div>
