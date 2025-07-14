@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import ProductBreadcrumbs from '@/components/ProductDetail/ProductBreadcrumbs';
 import ProductHero from '@/components/ProductDetail/ProductHero';
 import CustomersAlsoViewed from '@/components/ProductDetail/CustomersAlsoViewed';
@@ -191,6 +193,8 @@ const convertToGraingerFormat = (product: Product) => {
 const GuestProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [cart, setCart] = useState<{[key: string]: number}>({});
+  const { toast } = useToast();
 
   const product = mockProducts.find(p => p.id === id);
 
@@ -217,6 +221,23 @@ const GuestProductDetail = () => {
     { label: mockProductData.itemCode }
   ];
 
+  const getTotalItems = () => {
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+  };
+
+  const handleAddToCart = (quantity: number) => {
+    const productKey = `${product.id}-${mockProductData.itemCode}`;
+    setCart(prev => ({
+      ...prev,
+      [productKey]: (prev[productKey] || 0) + quantity
+    }));
+    
+    toast({
+      title: "Added to cart",
+      description: `${quantity} item(s) added to your cart`,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header with Back Button and Guest Notice */}
@@ -230,10 +251,18 @@ const GuestProductDetail = () => {
             Back to Products
           </Button>
           
-          <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
-            <p className="text-amber-800 text-sm font-medium">
-              Guest Portal: Cash or E-transfer • Pick-up Only • 5 SKU Limit
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <ShoppingCart className="h-6 w-6" />
+              <span className="bg-action text-white px-2 py-1 rounded-full text-sm">
+                {getTotalItems()}
+              </span>
+            </div>
+            <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
+              <p className="text-amber-800 text-sm font-medium">
+                Guest Portal: Cash or E-transfer • Pick-up Only • 5 SKU Limit
+              </p>
+            </div>
           </div>
         </div>
 
@@ -245,7 +274,7 @@ const GuestProductDetail = () => {
           {/* Main Content - 3/4 width on desktop */}
           <div className="xl:col-span-3 space-y-8">
             {/* Product Hero */}
-            <ProductHero {...mockProductData} />
+            <ProductHero {...mockProductData} onAddToCart={handleAddToCart} />
 
             {/* Information Blocks */}
             <div className="space-y-6">

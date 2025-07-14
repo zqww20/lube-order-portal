@@ -18,6 +18,7 @@ interface ProductHeroProps {
   stockQty: number;
   nextZoneDate?: string;
   isBulk?: boolean;
+  onAddToCart?: (quantity: number) => void;
 }
 
 const ProductHero = ({
@@ -29,7 +30,8 @@ const ProductHero = ({
   listPrice,
   stockQty,
   nextZoneDate,
-  isBulk
+  isBulk,
+  onAddToCart
 }: ProductHeroProps) => {
   const [quantity, setQuantity] = useState(isBulk ? 400 : 1);
   const [deliveryMethod, setDeliveryMethod] = useState('pickup');
@@ -140,6 +142,8 @@ const ProductHero = ({
           <Button 
             size="lg" 
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+            onClick={() => onAddToCart?.(quantity)}
+            disabled={stockQty === 0}
           >
             Add to Cart - ${(customerPrice * quantity).toFixed(2)} {isBulk ? `(${quantity}L)` : ''}
           </Button>

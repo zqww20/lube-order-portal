@@ -237,6 +237,20 @@ const ProductDetail = () => {
     return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
   };
 
+  const handleAddToCart = (quantity: number) => {
+    const mockProductData = convertToGraingerFormat(product);
+    const productKey = `${product.id}-${mockProductData.itemCode}`;
+    setCart(prev => ({
+      ...prev,
+      [productKey]: (prev[productKey] || 0) + quantity
+    }));
+    
+    toast({
+      title: "Added to cart",
+      description: `${quantity} item(s) added to your cart`,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header with Back Button and Cart */}
@@ -265,7 +279,7 @@ const ProductDetail = () => {
           {/* Main Content - 3/4 width on desktop */}
           <div className="xl:col-span-3 space-y-8">
             {/* Product Hero */}
-            <ProductHero {...mockProductData} />
+            <ProductHero {...mockProductData} onAddToCart={handleAddToCart} />
 
             {/* Information Blocks */}
             <div className="space-y-6">
