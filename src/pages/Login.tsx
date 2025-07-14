@@ -80,13 +80,21 @@ const Login = () => {
               
               <div className="text-center space-y-3 pt-4">
                 <div className="flex justify-center items-center space-x-4 text-sm">
-                  <a href="#" className="text-primary hover:text-primary/80 transition-colors">
+                  <Button 
+                    variant="link" 
+                    className="text-primary hover:text-primary/80 transition-colors p-0 h-auto"
+                    onClick={() => navigate('/')}
+                  >
                     Request Access
-                  </a>
+                  </Button>
                   <span className="text-muted-foreground">•</span>
-                  <a href="#" className="text-primary hover:text-primary/80 transition-colors">
+                  <Button 
+                    variant="link" 
+                    className="text-primary hover:text-primary/80 transition-colors p-0 h-auto"
+                    onClick={() => navigate('/')}
+                  >
                     Forgot Password?
-                  </a>
+                  </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   © {new Date().getFullYear()} Bluewater Group. All rights reserved.

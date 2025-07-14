@@ -101,8 +101,24 @@ const Quotes = () => {
   };
 
   const viewQuoteDetails = (quoteId: string) => {
-    console.log('Viewing quote details for:', quoteId);
-    // Here you would navigate to quote details or open a modal
+    const quote = quotes.find(q => q.id === quoteId);
+    if (quote?.status === 'ready' || quote?.status === 'accepted') {
+      // Add quoted items to cart
+      const quotedItems = [
+        {
+          id: `quoted-${quoteId}-1`,
+          name: 'Premium Engine Oil 5W-30',
+          price: 45.99,
+          unit: 'per liter',
+          quantity: 2,
+          image: '/placeholder.svg',
+          minOrder: 1,
+          availableStock: 10
+        }
+      ];
+      localStorage.setItem('quotedCartItems', JSON.stringify(quotedItems));
+      window.location.href = `/cart?from=quotes`;
+    }
   };
 
   const downloadQuote = (quoteId: string) => {
@@ -185,14 +201,25 @@ const Quotes = () => {
                     <Eye className="h-4 w-4 mr-2" />
                     View Quote
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => console.log('Convert to order', quote.id)}
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Convert to Order
-                  </Button>
+                  {quote.status === 'ready' || quote.status === 'accepted' ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => viewQuoteDetails(quote.id)}
+                    >
+                      <Package className="h-4 w-4 mr-2" />
+                      Add to Cart
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Pending
+                    </Button>
+                  )}
                 </div>
               </div>
             </CardContent>

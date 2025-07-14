@@ -108,30 +108,42 @@ const Header = () => {
                   <p className="font-medium">John Smith</p>
                   <p className="text-sm text-muted-foreground">Acme Corp</p>
                 </div>
-                <DropdownMenuItem>
-                  <User className="h-4 w-4 mr-2" />
-                  My Profile
+                <DropdownMenuItem asChild>
+                  <Link to="/" className="flex items-center w-full">
+                    <User className="h-4 w-4 mr-2" />
+                    My Profile
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Package className="h-4 w-4 mr-2" />
-                  My Orders
+                <DropdownMenuItem asChild>
+                  <Link to="/orders" className="flex items-center w-full">
+                    <Package className="h-4 w-4 mr-2" />
+                    My Orders
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <FileText className="h-4 w-4 mr-2" />
-                  My Quotes
+                <DropdownMenuItem asChild>
+                  <Link to="/quotes" className="flex items-center w-full">
+                    <FileText className="h-4 w-4 mr-2" />
+                    My Quotes
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Users className="h-4 w-4 mr-2" />
-                  Manage Users
+                <DropdownMenuItem asChild>
+                  <Link to="/" className="flex items-center w-full">
+                    <Users className="h-4 w-4 mr-2" />
+                    Manage Users
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="h-4 w-4 mr-2" />
-                  Account Settings
+                <DropdownMenuItem asChild>
+                  <Link to="/" className="flex items-center w-full">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Account Settings
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+                <DropdownMenuItem asChild>
+                  <Link to="/login" className="flex items-center w-full text-destructive">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
