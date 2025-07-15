@@ -53,8 +53,9 @@ const GuestProducts = () => {
           <h3 className="font-semibold text-amber-800">Guest Portal Information</h3>
         </div>
         <p className="text-amber-700 text-sm">
-          All products must be quoted before pickup. Browse products below, request quotes for items you need, 
-          and our sales team will provide competitive pricing. Once approved, products can be picked up at our location.
+          All products must be quoted before pickup. Browse products below, request quotes for competitive pricing. 
+          Once approved, products can be picked up at our designated warehouse if in stock, transferred on the closest day if available, 
+          or fulfilled within 10-12 days if special ordering is required.
         </p>
       </div>
 
