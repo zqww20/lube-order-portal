@@ -53,10 +53,8 @@ const GuestProducts = () => {
           <h3 className="font-semibold text-amber-800">Guest Portal Information</h3>
         </div>
         <p className="text-amber-700 text-sm">
-          <strong>Pricing:</strong> Request quotes for competitive pricing • 
-          <strong>Payments:</strong> Cash or e-transfer only • 
-          <strong>Delivery:</strong> Store pickup only • 
-          <strong>Limit:</strong> Maximum 5 different products per order
+          All products must be quoted before pickup. Browse products below, request quotes for items you need, 
+          and our sales team will provide competitive pricing. Once approved, products can be picked up at our location.
         </p>
       </div>
 
