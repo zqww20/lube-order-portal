@@ -1,8 +1,8 @@
 import React from 'react';
-import GuestQuotes from '@/components/guest/GuestQuotes';
+import CustomerQuotes from '@/components/CustomerQuotes';
 
 const GuestQuotesPage = () => {
-  return <GuestQuotes />;
+  return <CustomerQuotes />;
 };
 
 export default GuestQuotesPage;
