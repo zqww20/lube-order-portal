@@ -145,151 +145,213 @@ const QuotingWorkbench = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-6">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Quoting Workbench</h1>
-          <p className="text-muted-foreground">Quote ID: {quoteData.id}</p>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/5 to-background/95">
+      {/* Header Bar */}
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/40">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate(-1)}
+                className="hover:bg-muted/50"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
+              </Button>
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight">Quoting Workbench</h1>
+                <p className="text-muted-foreground text-sm">Quote ID: {quoteData.id}</p>
+              </div>
+            </div>
+            
+            {/* Customer Info in Header */}
+            <div className="hidden md:flex items-center gap-4 text-sm">
+              <div className="text-right">
+                <p className="font-semibold">{quoteData.customerName}</p>
+                <p className="text-muted-foreground">{quoteData.customerEmail}</p>
+              </div>
+              <Badge variant="outline" className="gap-1">
+                {getStockStatusIcon(quoteData.stockStatus)}
+                {getStockStatusText(quoteData.stockStatus)}
+              </Badge>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Customer & Product Info */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Customer Details */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Customer Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div>
-                  <Label className="text-sm font-medium">Customer</Label>
-                  <p className="text-lg font-semibold">{quoteData.customerName}</p>
+      {/* Main Content */}
+      <div className="flex-1 p-6 max-w-none">
+        <div className="grid grid-cols-12 gap-6 h-full">
+          {/* Left Panel - Products & Pricing */}
+          <div className="col-span-12 xl:col-span-8 space-y-6">
+            {/* Products Overview */}
+            <Card className="shadow-sm border-border/50">
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">Products Requested</CardTitle>
+                  <Badge variant="secondary" className="text-xs">
+                    {quoteData.products.length} item{quoteData.products.length !== 1 ? 's' : ''}
+                  </Badge>
                 </div>
-                <div>
-                  <Label className="text-sm font-medium">Email</Label>
-                  <p className="text-sm text-muted-foreground">{quoteData.customerEmail}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-3">
+                  {quoteData.products.map((product, index) => (
+                    <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/30">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <Package className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">{product.name}</p>
+                          <p className="text-sm text-muted-foreground">#{product.selectedOption.productNumber}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold">{product.quantity} × {product.selectedOption.containerType}</p>
+                        <p className="text-sm text-muted-foreground">{product.selectedOption.size}{product.selectedOption.unit} each</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          {/* Products Requested */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Products Requested</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {quoteData.products.map((product, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 border rounded-lg">
-                    <div>
-                      <p className="font-medium">{product.name}</p>
-                      <p className="text-sm text-muted-foreground">Product #: {product.selectedOption.productNumber}</p>
+            {/* Pricing Grid */}
+            <Card className="shadow-sm border-border/50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Product Pricing</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6">
+                  {products.map((product, index) => (
+                    <div key={index} className="p-6 border border-border/40 rounded-xl bg-card/50 space-y-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-semibold text-lg">{product.name}</h4>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {product.selectedOption.productNumber} • {product.quantity} × {product.selectedOption.size}{product.selectedOption.unit} 
+                            = <span className="font-medium">{(product.quantity * product.selectedOption.size).toFixed(2)}L total</span>
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="space-y-2">
+                          <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Our Cost</Label>
+                          <p className="text-2xl font-bold text-muted-foreground">${product.wholesaleCost.toFixed(2)}/L</p>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor={`markup-${index}`} className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                            Markup per Liter ($)
+                          </Label>
+                          <Input
+                            id={`markup-${index}`}
+                            type="number"
+                            step="0.01"
+                            placeholder="0.00"
+                            value={product.markupDisplay}
+                            onChange={(e) => updateProductMarkup(index, e.target.value)}
+                            className="text-lg h-12 font-semibold"
+                          />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Final Price</Label>
+                          <p className="text-2xl font-bold text-primary">${product.finalPrice.toFixed(2)}/L</p>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-3 border-t border-border/30">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">Total Quote Value:</span>
+                          <span className="text-xl font-bold text-primary">
+                            ${(product.quantity * product.selectedOption.size * product.finalPrice).toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-semibold">{product.quantity} × {product.selectedOption.containerType}</p>
-                      <p className="text-sm text-muted-foreground">{product.selectedOption.size}{product.selectedOption.unit} each</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Product Pricing */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Product Pricing</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {products.map((product, index) => (
-                <div key={index} className="border rounded-lg p-4 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <h4 className="font-semibold">{product.name}</h4>
-                    <div className="text-right">
-                      <span className="text-sm font-medium">{product.selectedOption.productNumber}</span>
-                      <p className="text-xs text-muted-foreground">{product.quantity} × {product.selectedOption.size}{product.selectedOption.unit} = {(product.quantity * product.selectedOption.size).toFixed(2)}L total</p>
-                    </div>
+          {/* Right Panel - Actions & Info */}
+          <div className="col-span-12 xl:col-span-4 space-y-6">
+            {/* Quick Summary */}
+            <Card className="shadow-sm border-border/50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Quote Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Total Items:</span>
+                    <span className="font-medium">{products.reduce((sum, p) => sum + p.quantity, 0)}</span>
                   </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-xs">Our Cost</Label>
-                      <p className="text-sm font-medium">${product.wholesaleCost.toFixed(2)}/L</p>
-                    </div>
-                    <div>
-                      <Label className="text-xs">Final Price</Label>
-                      <p className="text-sm font-semibold text-primary">${product.finalPrice.toFixed(2)}/L</p>
-                    </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Total Volume:</span>
+                    <span className="font-medium">
+                      {products.reduce((sum, p) => sum + (p.quantity * p.selectedOption.size), 0).toFixed(2)}L
+                    </span>
                   </div>
-                  
-                  <div>
-                    <Label htmlFor={`markup-${index}`} className="text-sm">Markup per Liter ($)</Label>
-                    <Input
-                      id={`markup-${index}`}
-                      type="number"
-                      step="0.01"
-                      placeholder="0.00"
-                      value={product.markupDisplay}
-                      onChange={(e) => updateProductMarkup(index, e.target.value)}
-                      className="mt-1"
-                    />
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Warehouse:</span>
+                    <span className="font-medium flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {quoteData.warehouse}
+                    </span>
                   </div>
-                  
-                  <div className="text-xs text-muted-foreground">
-                    Total: {product.quantity} × {product.selectedOption.size}L × ${product.finalPrice.toFixed(2)} = ${(product.quantity * product.selectedOption.size * product.finalPrice).toFixed(2)}
+                  <div className="border-t pt-3">
+                    <div className="flex justify-between">
+                      <span className="font-medium">Grand Total:</span>
+                      <span className="text-xl font-bold text-primary">
+                        ${products.reduce((sum, p) => sum + (p.quantity * p.selectedOption.size * p.finalPrice), 0).toFixed(2)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-          {/* Notes */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Additional Notes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                placeholder="Add any special instructions or notes..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                className="min-h-20"
-              />
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
 
-        {/* Logistics Info & Actions */}
-        <div className="space-y-6">
-          {/* Submit Action */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Submit Quote</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button 
-                onClick={handleSubmitQuote}
-                className="w-full bg-brand-red text-brand-red-foreground hover:bg-brand-red/90"
-                disabled={products.every(p => p.markupPerLiter === 0)}
-              >
-                Submit Quote to Customer
-              </Button>
-              <p className="text-xs text-muted-foreground mt-2 text-center">
-                Quote will be sent directly to customer email
-              </p>
-            </CardContent>
-          </Card>
+            {/* Submit Action */}
+            <Card className="shadow-sm border-border/50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Submit Quote</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Button 
+                  onClick={handleSubmitQuote}
+                  className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90"
+                  disabled={products.every(p => p.markupPerLiter === 0)}
+                >
+                  Submit Quote to Customer
+                </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  Quote will be sent directly to {quoteData.customerEmail}
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Notes */}
+            <Card className="shadow-sm border-border/50">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Additional Notes</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Textarea
+                  placeholder="Add any special instructions, delivery notes, or customer requirements..."
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className="min-h-32 resize-none"
+                />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
