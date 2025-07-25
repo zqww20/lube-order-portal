@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Download, Truck, Package, MapPin, Calendar, Receipt, Phone, Mail, Link as LinkIcon, Clock } from 'lucide-react';
+import WarehouseStagingStatus from '@/components/WarehouseStagingStatus';
 
 interface OrderItem {
   id: string;
@@ -481,6 +482,13 @@ const OrderDetail = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
+          {/* Warehouse Staging Status for Pickup Orders */}
+          <WarehouseStagingStatus 
+            orderId={order.id}
+            orderType="pickup"
+            status={order.status}
+          />
+          
           {/* Order Status & Tracking */}
           <Card>
             <CardHeader>

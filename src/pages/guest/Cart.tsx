@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { ShoppingCart, MapPin, Plus, Minus, Trash2, Quote } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import WarehouseStagingStatus from '@/components/WarehouseStagingStatus';
 
 const GuestCart = () => {
   const navigate = useNavigate();

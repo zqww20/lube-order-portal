@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import WarehouseStagingStatus from '@/components/WarehouseStagingStatus';
 
 interface CartItem {
   id: string;
