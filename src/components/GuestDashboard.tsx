@@ -2,21 +2,23 @@ import React from 'react';
 import GuestAccountSummary from '@/components/guest/GuestAccountSummary';
 import GuestActionCards from '@/components/guest/GuestActionCards';
 import GuestQuickOrder from '@/components/guest/GuestQuickOrder';
+import GuestHeroSection from '@/components/guest/GuestHeroSection';
+import GuestValueProposition from '@/components/guest/GuestValueProposition';
 
 const GuestDashboard = () => {
   return (
-    <div className="space-y-3">
-      {/* Dashboard Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Welcome, Guest!</h1>
-        <p className="text-gray-600 mt-2">Browse and order products for cash pickup</p>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+      <GuestHeroSection />
+      
+      <div className="container mx-auto px-4 pb-8 space-y-8">
+        <GuestValueProposition />
+        
+        <GuestAccountSummary />
+
+        <GuestActionCards />
+
+        <GuestQuickOrder />
       </div>
-
-      <GuestAccountSummary />
-
-      <GuestActionCards />
-
-      <GuestQuickOrder />
     </div>
   );
 };
