@@ -69,7 +69,7 @@ const App = () => (
 
           {/* Customer Routes */}
           <Route path="/" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <Index />
@@ -77,7 +77,7 @@ const App = () => (
             </div>
           } />
           <Route path="/products" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <Products />
@@ -85,7 +85,7 @@ const App = () => (
             </div>
           } />
           <Route path="/products/:id" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <ProductDetail />
@@ -93,7 +93,7 @@ const App = () => (
             </div>
           } />
           <Route path="/cart" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <Cart />
@@ -101,7 +101,7 @@ const App = () => (
             </div>
           } />
           <Route path="/orders" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <Orders />
@@ -109,7 +109,7 @@ const App = () => (
             </div>
           } />
           <Route path="/orders/:id" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <OrderDetail />
@@ -117,7 +117,7 @@ const App = () => (
             </div>
           } />
           <Route path="/quotes" element={
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen surface-gradient">
               <Header />
               <main className="pt-16">
                 <CustomerQuotes />

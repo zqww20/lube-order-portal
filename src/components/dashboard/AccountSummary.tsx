@@ -16,31 +16,31 @@ interface AccountSummaryProps {
 
 const AccountSummary = ({ accountSummary }: AccountSummaryProps) => {
   return (
-    <Card>
-      <CardHeader className="pb-2 bg-brand-light/50">
-        <CardTitle className="font-heading text-base flex items-center text-brand">
-          <CreditCard className="h-4 w-4 mr-2 text-brand" />
+    <Card className="card-modern">
+      <CardHeader className="pb-4 surface-gradient rounded-t-xl">
+        <CardTitle className="font-heading text-lg flex items-center text-brand">
+          <CreditCard className="h-5 w-5 mr-3 text-brand" />
           Account Summary
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-0">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="space-y-0.5">
-            <p className="text-xs text-muted-foreground">Credit Limit</p>
-            <p className="font-semibold text-sm text-brand">${accountSummary.creditLimit.toLocaleString()}</p>
+      <CardContent className="pt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground font-medium">Credit Limit</p>
+            <p className="font-semibold text-xl text-brand">${accountSummary.creditLimit.toLocaleString()}</p>
           </div>
-          <div className="space-y-0.5">
-            <p className="text-xs text-muted-foreground">Available</p>
-            <p className="font-semibold text-sm text-success">${accountSummary.availableCredit.toLocaleString()}</p>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground font-medium">Available</p>
+            <p className="font-semibold text-xl text-success">${accountSummary.availableCredit.toLocaleString()}</p>
           </div>
-          <div className="space-y-0.5">
-            <p className="text-xs text-muted-foreground">Balance</p>
-            <p className="font-semibold text-sm text-brand">${accountSummary.currentBalance.toLocaleString()}</p>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground font-medium">Balance</p>
+            <p className="font-semibold text-xl text-brand">${accountSummary.currentBalance.toLocaleString()}</p>
           </div>
-          <div className="space-y-0.5">
-            <p className="text-xs text-muted-foreground">Due Date</p>
-            <p className="font-semibold text-xs">{accountSummary.nextPaymentDue}</p>
-            <Badge className="bg-success/10 text-success border-success/20 text-xs">
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground font-medium">Due Date</p>
+            <p className="font-semibold text-sm mb-2">{accountSummary.nextPaymentDue}</p>
+            <Badge className="bg-success/10 text-success border-success/20 text-sm px-3 py-1">
               {accountSummary.accountStatus}
             </Badge>
           </div>

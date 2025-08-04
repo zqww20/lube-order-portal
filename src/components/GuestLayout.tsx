@@ -42,10 +42,10 @@ const GuestLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen surface-gradient">
       {/* Guest Header - Matching customer header design */}
-      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-brand shadow-lg">
-        <div className="container mx-auto px-4">
+      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-brand shadow-xl backdrop-blur-md border-b border-white/10">
+        <div className="container mx-auto px-4 lg:px-6">
           <div className="flex justify-between items-center h-16">
             {/* Logo & Guest Indicator */}
             <div className="flex items-center space-x-4">
@@ -62,15 +62,15 @@ const GuestLayout = () => {
             </div>
 
             {/* Navigation - Matching customer navigation style */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 ${
+                  className={`px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center space-x-2 rounded-lg ${
                     isActive(item.href)
-                      ? 'text-white font-semibold border-b-2 border-accent'
-                      : 'text-white/90 hover:text-white hover:text-accent'
+                      ? 'text-white font-semibold bg-white/10 border border-white/20'
+                      : 'text-white/90 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <item.icon className="h-4 w-4" />
@@ -90,7 +90,7 @@ const GuestLayout = () => {
               {/* Guest Options Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 border border-white/30">
+                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 border border-white/20 rounded-lg transition-all duration-200">
                     <User className="h-4 w-4 mr-2" />
                     Guest
                   </Button>
@@ -119,11 +119,11 @@ const GuestLayout = () => {
               </DropdownMenu>
 
               {/* Cart - Matching customer cart button */}
-              <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
+              <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10 rounded-lg transition-all duration-200">
                 <Link to="/guest/cart">
                   <ShoppingCart className="h-5 w-5" />
                   {cartItems > 0 && (
-                    <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white">
+                    <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white animate-pulse-glow">
                       {cartItems}
                     </Badge>
                   )}
@@ -134,7 +134,7 @@ const GuestLayout = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="md:hidden text-white hover:bg-white/10"
+                className="md:hidden text-white hover:bg-white/10 rounded-lg"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
@@ -173,7 +173,7 @@ const GuestLayout = () => {
 
       {/* Main Content */}
       <main className="pt-16">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 lg:px-6 py-8">
           <Outlet />
         </div>
       </main>

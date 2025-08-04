@@ -5,91 +5,91 @@ import { Package, FileText, Zap, Plus, ArrowRight } from 'lucide-react';
 
 const ActionCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {/* Orders Card */}
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer border-brand/20">
+      <Card className="card-modern hover:shadow-glow transition-all duration-300 cursor-pointer group border-brand/20">
         <Link to="/orders">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-lg bg-brand/10 flex items-center justify-center">
-                <Package className="h-5 w-5 text-brand" />
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className="h-12 w-12 rounded-xl bg-brand/10 flex items-center justify-center group-hover:bg-brand/20 transition-colors">
+                <Package className="h-6 w-6 text-brand" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm text-brand">My Orders</h3>
-                <p className="text-xs text-muted-foreground">Track shipments</p>
+                <h3 className="font-semibold text-base text-brand">My Orders</h3>
+                <p className="text-sm text-muted-foreground">Track shipments</p>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between">
-              <span className="text-2xl font-bold text-brand">3</span>
-              <ArrowRight className="h-4 w-4 text-brand/60" />
+            <div className="mt-6 flex items-center justify-between">
+              <span className="text-3xl font-bold text-brand">3</span>
+              <ArrowRight className="h-5 w-5 text-brand/60 group-hover:translate-x-1 transition-transform" />
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Active orders</p>
+            <p className="text-sm text-muted-foreground mt-2">Active orders</p>
           </CardContent>
         </Link>
       </Card>
 
       {/* Quotes Card */}
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer border-brand/10">
+      <Card className="card-modern hover:shadow-glow transition-all duration-300 cursor-pointer group border-brand/10">
         <Link to="/quotes">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-lg bg-brand/5 flex items-center justify-center">
-                <FileText className="h-5 w-5 text-brand" />
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className="h-12 w-12 rounded-xl bg-brand/5 flex items-center justify-center group-hover:bg-brand/15 transition-colors">
+                <FileText className="h-6 w-6 text-brand" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm text-brand">My Quotes</h3>
-                <p className="text-xs text-muted-foreground">View pricing</p>
+                <h3 className="font-semibold text-base text-brand">My Quotes</h3>
+                <p className="text-sm text-muted-foreground">View pricing</p>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between">
-              <span className="text-2xl font-bold text-brand">2</span>
-              <ArrowRight className="h-4 w-4 text-brand/60" />
+            <div className="mt-6 flex items-center justify-between">
+              <span className="text-3xl font-bold text-brand">2</span>
+              <ArrowRight className="h-5 w-5 text-brand/60 group-hover:translate-x-1 transition-transform" />
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Ready to review</p>
+            <p className="text-sm text-muted-foreground mt-2">Ready to review</p>
           </CardContent>
         </Link>
       </Card>
 
       {/* Emergency Delivery Card */}
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+      <Card className="card-modern hover:shadow-glow transition-all duration-300 cursor-pointer group animate-pulse-glow">
         <Link to="/products?emergency=true">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-lg bg-warning/10 flex items-center justify-center">
-                <Zap className="h-5 w-5 text-warning" />
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className="h-12 w-12 rounded-xl bg-warning/10 flex items-center justify-center group-hover:bg-warning/20 transition-colors">
+                <Zap className="h-6 w-6 text-warning" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">Emergency</h3>
-                <p className="text-xs text-muted-foreground">Rush delivery</p>
+                <h3 className="font-semibold text-base">Emergency</h3>
+                <p className="text-sm text-muted-foreground">Rush delivery</p>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between">
-              <span className="text-xs font-medium text-warning">24/7</span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+            <div className="mt-6 flex items-center justify-between">
+              <span className="text-lg font-bold text-warning">24/7</span>
+              <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Available</p>
+            <p className="text-sm text-muted-foreground mt-2">Available</p>
           </CardContent>
         </Link>
       </Card>
 
       {/* Quick Order Card */}
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+      <Card className="card-modern hover:shadow-glow transition-all duration-300 cursor-pointer group">
         <Link to="/products">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-lg bg-success/10 flex items-center justify-center">
-                <Plus className="h-5 w-5 text-success" />
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className="h-12 w-12 rounded-xl bg-success/10 flex items-center justify-center group-hover:bg-success/20 transition-colors">
+                <Plus className="h-6 w-6 text-success" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">Quick Order</h3>
-                <p className="text-xs text-muted-foreground">Browse products</p>
+                <h3 className="font-semibold text-base">Quick Order</h3>
+                <p className="text-sm text-muted-foreground">Browse products</p>
               </div>
             </div>
-            <div className="mt-3 flex items-center justify-between">
-              <span className="text-xs font-medium text-success">Fast</span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+            <div className="mt-6 flex items-center justify-between">
+              <span className="text-lg font-bold text-success">Fast</span>
+              <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Start shopping</p>
+            <p className="text-sm text-muted-foreground mt-2">Start shopping</p>
           </CardContent>
         </Link>
       </Card>
