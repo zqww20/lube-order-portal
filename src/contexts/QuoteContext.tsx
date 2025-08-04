@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
+import { sapApiService } from '@/services/sapApi';
+import { DataTransformService } from '@/services/dataTransform';
 
 export interface QuoteItem {
   id: string;
@@ -155,6 +157,30 @@ const QuoteContext = createContext<{
 
 export const QuoteProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(quoteReducer, initialState);
+
+  useEffect(() => {
+    // Sync quotes with SAP on mount if connected
+    if (sapApiService.isConnected()) {
+      syncQuotes();
+    }
+  }, []);
+
+  const syncQuotes = async (): Promise<void> => {
+    if (!sapApiService.isConnected()) return;
+    
+    try {
+      const sapQuotes = await sapApiService.getQuotes();
+      const transformedQuotes = sapQuotes.flatMap(quote => 
+        DataTransformService.sapQuoteToQuoteItem(quote)
+      );
+      
+      if (transformedQuotes.length > 0) {
+        dispatch({ type: 'SET_QUOTES', payload: transformedQuotes });
+      }
+    } catch (error) {
+      console.error('Failed to sync quotes from SAP:', error);
+    }
+  };
 
   return (
     <QuoteContext.Provider value={{ state, dispatch }}>
