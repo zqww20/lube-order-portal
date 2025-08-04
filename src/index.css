@@ -4,11 +4,11 @@
 @tailwind utilities;
 
 /* Bluewater Group B2B Portal Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap');
 
 @layer base {
 :root {
-    /* Modern Bluewater Brand Colors */
+    /* Bluewater Brand Colors */
     --background: 0 0% 100%;
     --foreground: 216 100% 16%; /* Navy #001F4F */
 
@@ -24,8 +24,8 @@
     --secondary: 205 100% 50%; /* Action Blue #0091FF */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 13% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 227 25% 97%;
+    --muted-foreground: 227 30% 45%;
 
     --accent: 205 100% 50%; /* Action Blue #0091FF */
     --accent-foreground: 0 0% 100%;
@@ -43,26 +43,11 @@
     --brand-red: 0 69% 55%; /* Corporate red accent */
     --brand-red-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 205 100% 50%;
+    --border: 227 20% 89%;
+    --input: 227 15% 92%;
+    --ring: 227 63% 18%;
 
     --radius: 0.75rem;
-
-    /* Modern Design System Variables */
-    --gradient-primary: linear-gradient(135deg, hsl(216 100% 16%) 0%, hsl(216 100% 20%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(205 100% 50%) 0%, hsl(205 100% 60%) 100%);
-    --gradient-surface: linear-gradient(135deg, hsl(220 13% 98%) 0%, hsl(220 13% 96%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(216 100% 16%) 0%, hsl(205 100% 50%) 100%);
-    
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --shadow-glow: 0 0 20px hsl(205 100% 50% / 0.3);
-
-    --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 227 63% 96%;
     --sidebar-foreground: 227 63% 18%;
@@ -111,27 +96,23 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    @apply bg-background text-foreground font-body;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    @apply font-semibold tracking-tight;
-  }
-
-  html {
-    scroll-behavior: smooth;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    @apply font-semibold;
   }
 }
 
 @layer utilities {
   .font-heading {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
   .font-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   .text-success {
@@ -159,15 +140,15 @@
   }
 
   .text-brand {
-    color: hsl(var(--primary));
+    color: hsl(227 63% 18%);
   }
   
   .bg-brand {
-    background: var(--gradient-primary);
+    background-color: hsl(227 63% 18%);
   }
   
   .border-brand {
-    border-color: hsl(var(--primary));
+    border-color: hsl(227 63% 18%);
   }
 
   .bg-brand-red {
@@ -183,80 +164,10 @@
   }
 
   .bg-brand-light {
-    background: var(--gradient-surface);
+    background-color: hsl(227 63% 96%);
   }
 
   .bg-gradient-radial {
     background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
-  }
-
-  .bg-gradient-hero {
-    background: var(--gradient-hero);
-  }
-
-  .shadow-elegant {
-    box-shadow: var(--shadow-lg);
-  }
-
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .transition-base {
-    transition: var(--transition-base);
-  }
-
-  .transition-smooth {
-    transition: var(--transition-smooth);
-  }
-
-  .card-modern {
-    @apply bg-card border border-border rounded-xl shadow-elegant backdrop-blur-sm;
-  }
-
-  .btn-modern {
-    @apply transition-all duration-200 transform hover:scale-105 active:scale-95;
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px hsl(205 100% 50% / 0.3); }
-    50% { box-shadow: 0 0 30px hsl(205 100% 50% / 0.5); }
-  }
-
-  .hero-gradient {
-    background: linear-gradient(135deg, 
-      hsl(var(--primary)) 0%, 
-      hsl(var(--accent)) 50%, 
-      hsl(var(--primary)) 100%);
-  }
-
-  .surface-gradient {
-    background: linear-gradient(135deg, 
-      hsl(var(--muted)) 0%, 
-      hsl(var(--background)) 100%);
   }
 }

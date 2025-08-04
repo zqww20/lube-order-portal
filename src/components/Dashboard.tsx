@@ -101,21 +101,18 @@ const Dashboard = () => {
     reason: 'Usage trend indicates reorder',
     nextOrderDate: '2024-02-20'
   }];
-  return <div className="space-y-8">
+  return <div className="space-y-3">
       {/* Dashboard Header */}
-      <div className="relative">
-        <div className="absolute inset-0 bg-gradient-hero rounded-2xl opacity-5"></div>
-        <div className="relative p-8 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-gradient mb-4">Welcome back, John!</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Manage your orders, track shipments, and discover new products with our enhanced portal experience</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">Welcome back, John!</h1>
+        <p className="text-gray-600 mt-2">Manage your orders and track shipments</p>
       </div>
 
       <AccountSummary accountSummary={accountSummary} />
 
       <ActionCards />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <RecentActivity recentOrders={recentOrders} />
         </div>
