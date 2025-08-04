@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import SAPConnectionStatus from '@/components/SAPConnectionStatus';
+import RealTimeDataSync from '@/components/RealTimeDataSync';
 import { 
   Clock, 
   Search, 
@@ -104,6 +106,12 @@ const EmployeeDashboard = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
+      
+      {/* SAP Integration Status - Employee Only */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <SAPConnectionStatus />
+        <RealTimeDataSync />
+      </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
