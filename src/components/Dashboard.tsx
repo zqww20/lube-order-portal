@@ -101,9 +101,9 @@ const Dashboard = () => {
     reason: 'Usage trend indicates reorder',
     nextOrderDate: '2024-02-20'
   }];
-  return <div className="mobile-spacing">
+  return <div className="space-y-4">
       {/* Dashboard Header */}
-      <div className="mb-4 text-center lg:text-left mobile-padding">
+      <div className="mb-4 text-center lg:text-left">
         <h1 className="text-mobile-h1 text-gradient mb-2">Welcome back, John!</h1>
         <p className="text-muted-foreground text-mobile-body">Manage your orders and track shipments</p>
       </div>
