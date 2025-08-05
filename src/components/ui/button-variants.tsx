@@ -43,7 +43,7 @@ export const buttonConfigs = {
   cardAction: {
     variant: 'outline' as const,
     size: 'sm' as const,
-    className: 'w-full'
+    className: 'px-3 py-1.5 text-xs'
   },
   
   // Quick actions - small buttons for frequent actions
