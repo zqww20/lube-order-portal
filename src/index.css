@@ -57,23 +57,6 @@
     --sidebar-accent-foreground: 227 63% 18%;
     --sidebar-border: 227 30% 90%;
     --sidebar-ring: 227 63% 18%;
-
-    /* Bluewater Portal-Specific Colors */
-    --bluewater-700: 227 63% 18%; /* Dark Navy */
-    --bluewater-800: 216 100% 12%; /* Darker Navy */
-    --bluewater-900: 216 100% 8%; /* Darkest Navy */
-    
-    /* Guest Portal Colors */
-    --guest-primary: 145 63% 49%; /* Teal */
-    --guest-secondary: 145 31% 93%; /* Light Teal */
-    
-    /* Employee Portal Colors */
-    --employee-primary: 227 63% 18%; /* Navy */
-    --employee-secondary: 227 25% 97%; /* Light Navy */
-    
-    /* Customer Portal Colors */
-    --customer-primary: 205 100% 50%; /* Blue */
-    --customer-secondary: 205 50% 96%; /* Light Blue */
   }
 
   .dark {
@@ -315,65 +298,5 @@
   .mobile-table-cell:before {
     content: attr(data-label) ': ';
     @apply font-semibold md:hidden;
-  }
-
-  /* Bluewater Portal Utilities */
-  .bg-bluewater-700 {
-    background-color: hsl(var(--bluewater-700));
-  }
-  
-  .bg-bluewater-800 {
-    background-color: hsl(var(--bluewater-800));
-  }
-  
-  .bg-bluewater-900 {
-    background-color: hsl(var(--bluewater-900));
-  }
-  
-  .text-bluewater-700 {
-    color: hsl(var(--bluewater-700));
-  }
-  
-  .border-bluewater-700 {
-    border-color: hsl(var(--bluewater-700));
-  }
-
-  /* Guest Portal Utilities */
-  .bg-guest-primary {
-    background-color: hsl(var(--guest-primary));
-  }
-  
-  .text-guest-primary {
-    color: hsl(var(--guest-primary));
-  }
-  
-  .bg-guest-secondary {
-    background-color: hsl(var(--guest-secondary));
-  }
-
-  /* Employee Portal Utilities */
-  .bg-employee-primary {
-    background-color: hsl(var(--employee-primary));
-  }
-  
-  .text-employee-primary {
-    color: hsl(var(--employee-primary));
-  }
-  
-  .bg-employee-secondary {
-    background-color: hsl(var(--employee-secondary));
-  }
-
-  /* Customer Portal Utilities */
-  .bg-customer-primary {
-    background-color: hsl(var(--customer-primary));
-  }
-  
-  .text-customer-primary {
-    color: hsl(var(--customer-primary));
-  }
-  
-  .bg-customer-secondary {
-    background-color: hsl(var(--customer-secondary));
   }
 }
