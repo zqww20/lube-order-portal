@@ -103,7 +103,7 @@ const Dashboard = () => {
   }];
   return <div className="mobile-spacing">
       {/* Dashboard Header */}
-      <div className="mb-6 md:mb-8 text-center lg:text-left mobile-padding">
+      <div className="mb-4 text-center lg:text-left mobile-padding">
         <h1 className="text-mobile-h1 text-gradient mb-2">Welcome back, John!</h1>
         <p className="text-muted-foreground text-mobile-body">Manage your orders and track shipments</p>
       </div>
