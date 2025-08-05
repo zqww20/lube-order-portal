@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QuoteProvider } from "@/contexts/QuoteContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import Header from "@/components/Header";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -36,13 +37,14 @@ import AdminLogistics from "./pages/employee/AdminLogistics";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <CartProvider>
-      <QuoteProvider>
-        <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <CartProvider>
+        <QuoteProvider>
+          <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
           
@@ -126,12 +128,13 @@ const App = () => (
           } />
           <Route path="/employee" element={<Employee />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-        </TooltipProvider>
-      </QuoteProvider>
-    </CartProvider>
-  </QueryClientProvider>
+          </Routes>
+        </BrowserRouter>
+          </TooltipProvider>
+        </QuoteProvider>
+      </CartProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

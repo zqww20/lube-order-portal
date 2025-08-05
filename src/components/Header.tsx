@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
   DropdownMenu,
@@ -12,19 +11,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { 
-  Search, 
   ShoppingCart, 
   User, 
   Package, 
   Settings, 
   LogOut, 
-  Menu,
-  X,
   FileText,
   Users,
-  LayoutDashboard,
-  Package2
+  LayoutDashboard
 } from 'lucide-react';
+import { UnifiedNavigation, MobileMenuButton, NavigationItem } from '@/components/common/UnifiedNavigation';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -33,10 +29,10 @@ const Header = () => {
   const cartItems = 6; // This would come from your cart state
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-    { name: 'Products', href: '/products', icon: Package2 },
-    { name: 'Quotes', href: '/quotes', icon: FileText },
-    { name: 'Orders', href: '/orders', icon: Package },
+    { title: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { title: 'Products', href: '/products', icon: Package },
+    { title: 'Quotes', href: '/quotes', icon: FileText },
+    { title: 'Orders', href: '/orders', icon: Package },
   ];
 
   const isActive = (path: string) => {
@@ -72,22 +68,13 @@ const Header = () => {
             </Badge>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2 ${
-                  isActive(item.href)
-                    ? 'text-white font-semibold border-b-2 border-accent'
-                    : 'text-white/90 hover:text-white hover:text-accent'
-                }`}
-              >
-                <item.icon className="h-4 w-4" />
-                <span>{item.name}</span>
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden md:block">
+            <UnifiedNavigation 
+              items={navigation as NavigationItem[]} 
+              variant="horizontal"
+              className="text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_a.bg-primary]:bg-white/10 [&_a.bg-primary]:text-white [&_a.bg-primary]:border-b-2 [&_a.bg-primary]:border-accent"
+            />
+          </div>
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
@@ -161,40 +148,23 @@ const Header = () => {
             </Button>
 
             {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden text-white hover:bg-white/10 touch-target"
+            <MobileMenuButton 
+              isOpen={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
+              className="text-white hover:bg-white/10"
+            />
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-white/20 bg-brand">
-            <div className="px-2 py-3 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`block px-4 py-3 rounded-md text-base font-medium transition-colors flex items-center space-x-3 touch-target ${
-                    isActive(item.href)
-                      ? 'bg-white/10 text-white font-semibold'
-                      : 'text-white/90 hover:text-white hover:bg-white/5'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
+            <div className="px-2 py-3">
+              <UnifiedNavigation 
+                items={navigation as NavigationItem[]} 
+                variant="mobile"
+                className="[&_a]:text-white/90 [&_a:hover]:text-white [&_a:hover]:bg-white/5 [&_a.bg-primary]:bg-white/10 [&_a.bg-primary]:text-white"
+              />
             </div>
           </div>
         )}
