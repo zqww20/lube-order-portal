@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { designTokens } from "./src/styles/tokens";
 
 export default {
 	darkMode: ["class"],
@@ -12,13 +13,15 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: designTokens.spacing.md,
 			screens: {
 				'2xl': '1400px'
 			}
 		},
 		extend: {
+			// Design System Colors - Enhanced with semantic tokens
 			colors: {
+				// Core theme colors (keep existing CSS variables)
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -61,34 +64,85 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+
+				// Enhanced semantic color system
+				'brand-red': {
+					DEFAULT: 'hsl(var(--brand-red))',
+					foreground: 'hsl(var(--brand-red-foreground))'
+				},
+				
+				// Status colors with variants
+				status: designTokens.colors.status,
+				
+				// Neutral color scale
+				neutral: designTokens.colors.neutral,
 			},
+
+			// Typography system
+			fontFamily: designTokens.typography.fontFamily,
+			fontSize: {
+				...designTokens.typography.fontSize,
+				// Responsive heading variants
+				'h1': ['2rem', { lineHeight: '1.25', fontWeight: '700' }],
+				'h2': ['1.5rem', { lineHeight: '1.25', fontWeight: '600' }],
+				'h3': ['1.25rem', { lineHeight: '1.5', fontWeight: '600' }],
+				'h4': ['1.125rem', { lineHeight: '1.5', fontWeight: '600' }],
+				'h5': ['1rem', { lineHeight: '1.5', fontWeight: '600' }],
+				'h6': ['0.875rem', { lineHeight: '1.5', fontWeight: '600' }],
+			},
+			fontWeight: designTokens.typography.fontWeight,
+			lineHeight: designTokens.typography.lineHeight,
+			letterSpacing: designTokens.typography.letterSpacing,
+
+			// Spacing system
+			spacing: designTokens.spacing,
+
+			// Border radius
 			borderRadius: {
+				...designTokens.radius,
+				// Keep existing CSS variable references
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+
+			// Enhanced shadows
+			boxShadow: designTokens.elevation,
+
+			// Transition system
+			transitionDuration: designTokens.transition.duration,
+			transitionTimingFunction: designTokens.transition.timing,
+
+			// Enhanced animations
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0', opacity: '0' },
+					to: { height: 'var(--radix-accordion-content-height)', opacity: '1' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
+					to: { height: '0', opacity: '0' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'scale-in': {
+					'0%': { transform: 'scale(0.95)', opacity: '0' },
+					'100%': { transform: 'scale(1)', opacity: '1' }
+				},
+				'slide-in-right': {
+					'0%': { transform: 'translateX(100%)' },
+					'100%': { transform: 'translateX(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out',
+				'scale-in': 'scale-in 0.2s ease-out',
+				'slide-in-right': 'slide-in-right 0.3s ease-out'
 			}
 		}
 	},

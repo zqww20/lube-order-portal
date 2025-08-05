@@ -102,7 +102,31 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-    @apply font-semibold;
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-h1 md:text-display-sm lg:text-display-md font-bold;
+  }
+
+  h2 {
+    @apply text-h2 md:text-h1 lg:text-display-sm font-semibold;
+  }
+
+  h3 {
+    @apply text-h3 md:text-h2 lg:text-h1 font-semibold;
+  }
+
+  h4 {
+    @apply text-h4 md:text-h3 lg:text-h2 font-semibold;
+  }
+
+  h5 {
+    @apply text-h5 md:text-h4 lg:text-h3 font-semibold;
+  }
+
+  h6 {
+    @apply text-h6 md:text-h5 lg:text-h4 font-semibold uppercase tracking-wide;
   }
 }
 
