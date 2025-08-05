@@ -78,7 +78,7 @@ export const UnifiedActionCard = ({
         </div>
         
         <Button 
-          variant={variant === 'primary' ? 'default' : 'outline'} 
+          variant="outline" 
           size="sm" 
           className="w-full"
           disabled={disabled}
