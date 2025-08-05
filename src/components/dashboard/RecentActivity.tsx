@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, Truck, CheckCircle, AlertCircle, ArrowRight } from 'lucide-react';
-import { useButtonVariant } from '@/hooks/useButtonVariant';
 
 interface Order {
   id: string;
@@ -65,14 +64,14 @@ const RecentActivity = ({ recentOrders }: RecentActivityProps) => {
             <div className="flex items-center justify-between sm:flex-col sm:text-right sm:justify-start">
               <p className="font-semibold text-mobile-caption">${order.total.toFixed(2)}</p>
               {order.status === 'Shipped' && (
-                <Button {...useButtonVariant('link', { size: 'sm', className: 'text-xs' })}>
+                <Button variant="link" size="sm" className="p-0 h-auto text-xs touch-target">
                   Track
                 </Button>
               )}
             </div>
           </div>
         ))}
-        <Button asChild {...useButtonVariant('secondary', { className: 'w-full' })}>
+        <Button asChild variant="outline" className="w-full touch-target">
           <Link to="/orders">
             View All Orders <ArrowRight className="h-4 w-4 ml-1" />
           </Link>

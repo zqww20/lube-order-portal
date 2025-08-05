@@ -9,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import WarehouseStagingStatus from '@/components/WarehouseStagingStatus';
-import { useButtonVariant } from '@/hooks/useButtonVariant';
 
 interface CartItem {
   id: string;
@@ -161,7 +160,7 @@ const Cart = () => {
           <ShoppingBag className="mx-auto h-24 w-24 text-gray-400 mb-4" />
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
           <p className="text-gray-600 mb-6">Add some products to get started!</p>
-          <Button {...useButtonVariant('primary')} onClick={() => window.history.back()}>
+          <Button onClick={() => window.history.back()}>
             Continue Shopping
           </Button>
         </div>
@@ -198,7 +197,8 @@ const Cart = () => {
                   
                   <div className="flex items-center space-x-2">
                     <Button
-                      {...useButtonVariant('quickAction')}
+                      variant="outline"
+                      size="sm"
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       disabled={item.quantity <= item.minOrder}
                     >
@@ -214,7 +214,8 @@ const Cart = () => {
                     />
                     
                     <Button
-                      {...useButtonVariant('quickAction')}
+                      variant="outline"
+                      size="sm"
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     >
                       <Plus className="h-4 w-4" />
@@ -226,7 +227,8 @@ const Cart = () => {
                       ${(item.price * item.quantity).toFixed(2)}
                     </p>
                     <Button
-                      {...useButtonVariant('subtle')}
+                      variant="ghost"
+                      size="sm"
                       onClick={() => removeItem(item.id)}
                       className="text-red-600 hover:text-red-800"
                     >
@@ -489,8 +491,9 @@ const Cart = () => {
               </div>
               
               <Button 
-                {...useButtonVariant('primary', { className: 'w-full mt-6', size: 'lg' })}
                 onClick={handleCheckout}
+                className="w-full mt-6"
+                size="lg"
               >
                 Place Order
               </Button>
