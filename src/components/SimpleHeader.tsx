@@ -9,7 +9,7 @@ const SimpleHeader = () => {
           <Link to="/" className="flex items-center space-x-3">
             <div className="h-12 w-auto flex items-center">
               <img 
-                src="/lovable-uploads/5a3219f9-f6bb-4b5b-936f-6484a5d764f6.png" 
+                src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
                 alt="Bluewater Group Logo" 
                 className="h-10 w-auto object-contain"
               />

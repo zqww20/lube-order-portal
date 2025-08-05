@@ -72,7 +72,7 @@ const EmployeeLayout = () => {
             {/* Logo & Employee Indicator */}
             <div className="flex items-center space-x-4">
               <img 
-                src="/lovable-uploads/73e1d39d-4ed6-4eb1-9866-b1671d7f685a.png" 
+                src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
                 alt="Bluewater Group Logo" 
                 className="h-10 w-auto object-contain"
               />

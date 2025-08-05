@@ -16,7 +16,7 @@ const Login = () => {
         {/* Logo Section */}
         <div className="text-center mb-8">
           <img 
-            src="/lovable-uploads/85a47f68-5b7a-442a-89b1-43de0ae350ac.png" 
+            src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
             alt="Bluewater Group Logo" 
             className="w-16 h-16 mx-auto mb-4 rounded-full"
           />

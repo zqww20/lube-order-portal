@@ -51,7 +51,7 @@ const GuestLayout = () => {
             <div className="flex items-center space-x-4">
               <Link to="/guest/dashboard" className="flex items-center">
                 <img 
-                  src="/lovable-uploads/fe3190ea-9ce7-4559-8b4e-f3aebf733b9d.png" 
+                  src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
                   alt="Bluewater Group Logo" 
                   className="h-10 w-auto object-contain"
                 />
