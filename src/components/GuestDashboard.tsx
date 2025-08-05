@@ -7,9 +7,9 @@ const GuestDashboard = () => {
   return (
     <div className="space-y-3">
       {/* Dashboard Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Welcome, Guest!</h1>
-        <p className="text-gray-600 mt-2">Browse and order products for cash pickup</p>
+      <div className="mb-8 text-center lg:text-left">
+        <h1 className="text-4xl font-bold text-gradient mb-2">Welcome, Guest!</h1>
+        <p className="text-muted-foreground text-lg">Browse and order products for cash pickup</p>
       </div>
 
       <GuestAccountSummary />

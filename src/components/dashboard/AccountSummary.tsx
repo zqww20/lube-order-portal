@@ -16,15 +16,15 @@ interface AccountSummaryProps {
 
 const AccountSummary = ({ accountSummary }: AccountSummaryProps) => {
   return (
-    <Card>
-      <CardHeader className="pb-2 bg-brand-light/50">
-        <CardTitle className="font-heading text-base flex items-center text-brand">
-          <CreditCard className="h-4 w-4 mr-2 text-brand" />
+    <Card className="card-enhanced shadow-card hover-lift">
+      <CardHeader className="pb-3 bg-gradient-subtle">
+        <CardTitle className="font-heading text-lg flex items-center text-brand">
+          <CreditCard className="h-5 w-5 mr-3 text-brand" />
           Account Summary
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-0">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <CardContent className="pt-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="space-y-0.5">
             <p className="text-xs text-muted-foreground">Credit Limit</p>
             <p className="font-semibold text-sm text-brand">${accountSummary.creditLimit.toLocaleString()}</p>
