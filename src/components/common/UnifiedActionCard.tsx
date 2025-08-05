@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useButtonVariant } from '@/hooks/useButtonVariant';
 
 interface UnifiedActionCardProps {
   title: string;
@@ -78,9 +79,7 @@ export const UnifiedActionCard = ({
         </div>
         
         <Button 
-          variant="outline" 
-          size="sm" 
-          className="w-full"
+          {...useButtonVariant('cardAction')}
           disabled={disabled}
         >
           {buttonText}

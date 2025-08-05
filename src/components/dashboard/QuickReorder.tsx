@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Target, Plus, Package } from 'lucide-react';
+import { useButtonVariant } from '@/hooks/useButtonVariant';
 
 interface Product {
   id: string;
@@ -50,7 +51,7 @@ const QuickReorder = ({ frequentProducts, predictiveRecommendations }: QuickReor
               </div>
               <p className="text-xs text-muted-foreground mb-1">{item.reason}</p>
               <p className="text-xs text-muted-foreground mb-2">Est. order: {item.nextOrderDate}</p>
-              <Button size="sm" className="w-full h-7 text-xs">
+              <Button {...useButtonVariant('primary', { size: 'sm', className: 'w-full h-7 text-xs' })}>
                 <Plus className="h-3 w-3 mr-1" />
                 Quick Order
               </Button>
@@ -83,10 +84,10 @@ const QuickReorder = ({ frequentProducts, predictiveRecommendations }: QuickReor
                     </span>
                   </div>
                   <Button 
-                    size="sm" 
-                    className="w-full h-7 text-xs" 
+                    {...useButtonVariant(product.inStock ? 'primary' : 'secondary', 
+                      { size: 'sm', className: 'w-full h-7 text-xs' }
+                    )}
                     disabled={!product.inStock}
-                    variant={product.inStock ? "default" : "secondary"}
                   >
                     <Plus className="h-3 w-3 mr-1" />
                     Add
@@ -109,7 +110,7 @@ const QuickReorder = ({ frequentProducts, predictiveRecommendations }: QuickReor
                   Marine Oil + Additives
                 </Badge>
               </div>
-              <Button size="sm" variant="outline" className="w-full h-6 text-xs mt-2">
+              <Button {...useButtonVariant('secondary', { size: 'sm', className: 'w-full h-6 text-xs mt-2' })}>
                 View Bundle Deals
               </Button>
             </div>

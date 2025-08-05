@@ -21,6 +21,7 @@ import {
   LayoutDashboard
 } from 'lucide-react';
 import { UnifiedNavigation, MobileMenuButton, NavigationItem } from '@/components/common/UnifiedNavigation';
+import { useButtonVariant } from '@/hooks/useButtonVariant';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -85,7 +86,7 @@ const Header = () => {
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 border border-white/30">
+                <Button {...useButtonVariant('nav')}>
                   <User className="h-4 w-4 mr-2" />
                   Account
                 </Button>
@@ -136,7 +137,7 @@ const Header = () => {
             </DropdownMenu>
 
             {/* Cart - moved to rightmost position */}
-            <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10 touch-target">
+            <Button asChild {...useButtonVariant('nav', { className: 'relative text-white hover:text-accent hover:bg-white/10' })}>
               <Link to="/cart">
                 <ShoppingCart className="h-5 w-5" />
                 {cartItems > 0 && (
