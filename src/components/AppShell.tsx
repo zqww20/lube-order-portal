@@ -205,259 +205,269 @@ const AppShell = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
-      {/* Unified Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-brand shadow-brand backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo & Portal Badge */}
-            <div className="flex items-center space-x-4">
-              <Link 
-                to={userState.user?.role === 'employee' ? '/employee/dashboard' : 
-                    userState.user?.role === 'customer' ? '/' : '/guest/dashboard'} 
-                className="flex items-center"
-              >
-                <img 
-                  src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
-                  alt="Bluewater Group Logo" 
-                  className="h-10 w-auto object-contain"
-                />
-              </Link>
-              <Badge variant={portalBadge.variant} className="bg-secondary text-secondary-foreground">
-                {portalBadge.text}
-              </Badge>
-            </div>
+    <div className="min-h-screen bg-gradient-subtle flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-bluewater-800 text-white md:block hidden fixed left-0 top-0 h-full z-40">
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="bg-bluewater-700 text-white flex items-center justify-between h-14 px-4">
+            <Link 
+              to={userState.user?.role === 'employee' ? '/employee/dashboard' : 
+                  userState.user?.role === 'customer' ? '/' : '/guest/dashboard'} 
+              className="flex items-center space-x-2"
+            >
+              <img 
+                src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
+                alt="Bluewater Group Logo" 
+                className="h-8 w-auto object-contain"
+              />
+            </Link>
+            <Badge variant={portalBadge.variant} className="bg-secondary text-secondary-foreground text-xs">
+              {portalBadge.text.split(' ')[0]}
+            </Badge>
+          </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              {navigation.slice(0, 4).map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={cn(
-                    "px-3 py-2 text-sm font-medium transition-colors flex items-center space-x-2",
-                    isActive(item.href)
-                      ? "text-white font-semibold border-b-2 border-accent"
-                      : "text-white/90 hover:text-white hover:text-accent"
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.name}</span>
-                  {item.badge && (
-                    <Badge variant="secondary" className="ml-1 px-1 py-0 text-xs">
-                      {item.badge}
-                    </Badge>
-                  )}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Actions */}
-            <div className="flex items-center space-x-4">
-              {/* User Info */}
-              <div className="hidden md:flex items-center space-x-2 text-sm">
-                <User className="h-4 w-4 text-white/80" />
-                <span className="text-white/80">{userInfo.email}</span>
-              </div>
-
-              {/* User Menu */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 border border-white/30">
-                    <User className="h-4 w-4 mr-2" />
-                    Account
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <div className="px-3 py-2 border-b">
-                    <p className="font-medium">{userInfo.name}</p>
-                    <p className="text-sm text-muted-foreground">{userInfo.company}</p>
-                  </div>
-                  <DropdownMenuItem>
-                    <User className="h-4 w-4 mr-2" />
-                    My Profile
-                  </DropdownMenuItem>
-                  {userState.user?.role === 'customer' && (
-                    <>
-                      <DropdownMenuItem asChild>
-                        <Link to="/orders" className="flex items-center w-full">
-                          <Package className="h-4 w-4 mr-2" />
-                          My Orders
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link to="/quotes" className="flex items-center w-full">
-                          <FileText className="h-4 w-4 mr-2" />
-                          My Quotes
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Users className="h-4 w-4 mr-2" />
-                        Manage Users
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                  {!userState.user && (
-                    <>
-                      <DropdownMenuItem>
-                        <MapPin className="h-4 w-4 mr-2" />
-                        Store Location
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <AlertCircle className="h-4 w-4 mr-2" />
-                        Pickup Policy
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                  <DropdownMenuItem>
-                    <Settings className="h-4 w-4 mr-2" />
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    className="text-destructive" 
-                    onClick={() => {
-                      if (userState.user) {
-                        logout();
-                      } else {
-                        window.location.href = '/';
-                      }
-                    }}
+          {/* Sidebar Navigation */}
+          <nav className="flex-1 py-4">
+            <ul className="space-y-2 px-3">
+              {navigation.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      isActive(item.href)
+                        ? "bg-bluewater-700 text-white"
+                        : "text-white/80 hover:text-white hover:bg-bluewater-700"
+                    )}
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    {userState.user ? 'Sign Out' : 'Exit Guest Portal'}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {/* Cart - Show for customer and guest */}
-              {(!userState.user || userState.user.role === 'customer') && (
-                <Button 
-                  asChild 
-                  variant="ghost" 
-                  size="sm" 
-                  className="relative text-white hover:text-accent hover:bg-white/10 touch-target"
-                >
-                  <Link to={userState.user ? '/cart' : '/guest/cart'}>
-                    <ShoppingCart className="h-5 w-5" />
-                    {cartItems > 0 && (
-                      <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white min-w-[20px] h-5 flex items-center justify-center">
-                        {cartItems}
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.name}</span>
+                    {item.badge && (
+                      <Badge variant="secondary" className="ml-auto text-xs">
+                        {item.badge}
                       </Badge>
                     )}
                   </Link>
-                </Button>
-              )}
-
-              {/* Mobile Menu */}
-              <Disclosure>
-                {({ open }) => (
-                  <>
-                    <Disclosure.Button 
-                      className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
-                    >
-                      {open ? (
-                        <X className="h-5 w-5" />
-                      ) : (
-                        <Menu className="h-5 w-5" />
-                      )}
-                    </Disclosure.Button>
-                    <Disclosure.Panel className="absolute top-16 left-0 right-0 md:hidden border-t border-white/20 bg-brand">
-                      <div className="px-2 py-3 space-y-1">
-                        {navigation.map((item) => (
-                          <Link
-                            key={item.href}
-                            to={item.href}
-                            className={cn(
-                              "block px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center space-x-2",
-                              isActive(item.href)
-                                ? "bg-white/10 text-white font-semibold"
-                                : "text-white/90 hover:text-white hover:bg-white/5"
-                            )}
-                          >
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.name}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Breadcrumbs */}
-      {breadcrumbs.length > 1 && (
-        <nav className="fixed top-16 left-0 right-0 z-40 bg-muted/80 backdrop-blur-sm border-b border-border">
-          <div className="container mx-auto px-4 py-2">
-            <ol className="flex items-center space-x-2 text-sm">
-              {breadcrumbs.map((item, index) => (
-                <li key={index} className="flex items-center">
-                  {index > 0 && <ChevronRight className="h-4 w-4 mx-2 text-muted-foreground" />}
-                  {item.href ? (
-                    <Link 
-                      to={item.href} 
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  ) : (
-                    <span className="text-foreground font-medium">{item.name}</span>
-                  )}
                 </li>
               ))}
-            </ol>
-          </div>
-        </nav>
-      )}
+            </ul>
+          </nav>
 
-      {/* Main Content */}
-      <main className={cn("pt-16", breadcrumbs.length > 1 && "pt-28")}>
-        <Outlet />
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-card border-t border-border">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Bluewater Group</h3>
-              <p className="text-muted-foreground text-sm">
-                Your trusted partner for industrial supplies and solutions.
-              </p>
+          {/* Sidebar Footer */}
+          <div className="border-t border-bluewater-700 p-4">
+            <div className="flex items-center space-x-3">
+              <User className="h-8 w-8 rounded-full bg-bluewater-700 p-1.5" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-white truncate">{userInfo.name}</p>
+                <p className="text-xs text-white/60 truncate">{userInfo.company}</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-medium mb-3">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to={userState.user?.role === 'employee' ? '/employee/dashboard' : userState.user ? '/' : '/guest/dashboard'} className="text-muted-foreground hover:text-foreground">Dashboard</Link></li>
-                <li><Link to={userState.user?.role === 'employee' ? '/employee/quotes' : userState.user ? '/products' : '/guest/products'} className="text-muted-foreground hover:text-foreground">Products</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-3">Support</h4>
-              <ul className="space-y-2 text-sm">
-                <li><span className="text-muted-foreground">Phone: (555) 123-4567</span></li>
-                <li><span className="text-muted-foreground">Email: support@bluewatergroup.ca</span></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-3">Portal Access</h4>
-              <p className="text-muted-foreground text-sm">
-                {userState.user 
-                  ? `Logged in as ${userState.user.role}` 
-                  : 'Currently in guest mode'
-                }
-              </p>
-            </div>
-          </div>
-          <div className="border-t border-border mt-8 pt-4 text-center text-sm text-muted-foreground">
-            © 2024 Bluewater Group. All rights reserved.
           </div>
         </div>
-      </footer>
+      </aside>
+
+      <div className="flex-1 md:pl-64 flex flex-col min-h-screen">
+        {/* Top Bar */}
+        <header className="bg-bluewater-700 text-white flex items-center justify-between h-14 px-4 fixed top-0 left-0 right-0 z-50 md:left-64">
+          <div className="flex items-center space-x-4">
+            {/* Mobile Menu Button */}
+            <Disclosure>
+              {({ open }) => (
+                <>
+                  <Disclosure.Button className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-bluewater-800 focus:outline-none focus:ring-2 focus:ring-white">
+                    {open ? (
+                      <X className="h-5 w-5" />
+                    ) : (
+                      <Menu className="h-5 w-5" />
+                    )}
+                  </Disclosure.Button>
+                  
+                  {/* Mobile Logo for small screens */}
+                  <Link 
+                    to={userState.user?.role === 'employee' ? '/employee/dashboard' : 
+                        userState.user?.role === 'customer' ? '/' : '/guest/dashboard'} 
+                    className="md:hidden flex items-center"
+                  >
+                    <img 
+                      src="/lovable-uploads/55e4f4d0-f564-42e5-99d3-e7bad233d344.png" 
+                      alt="Bluewater Group Logo" 
+                      className="h-8 w-auto object-contain"
+                    />
+                  </Link>
+                  
+                  <Disclosure.Panel className="absolute top-14 left-0 right-0 md:hidden bg-bluewater-800 border-t border-bluewater-700">
+                    <div className="px-2 py-3 space-y-1">
+                      {navigation.map((item) => (
+                        <Link
+                          key={item.href}
+                          to={item.href}
+                          className={cn(
+                            "block px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center space-x-2",
+                            isActive(item.href)
+                              ? "bg-bluewater-700 text-white"
+                              : "text-white/80 hover:text-white hover:bg-bluewater-700"
+                          )}
+                        >
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </Disclosure.Panel>
+                </>
+              )}
+            </Disclosure>
+
+            {/* Desktop Portal Badge */}
+            <Badge variant={portalBadge.variant} className="hidden md:block bg-secondary text-secondary-foreground">
+              {portalBadge.text}
+            </Badge>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            {/* User Info */}
+            <div className="hidden lg:flex items-center space-x-2 text-sm">
+              <User className="h-4 w-4 text-white/80" />
+              <span className="text-white/80">{userInfo.email}</span>
+            </div>
+
+            {/* User Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-white hover:bg-bluewater-800">
+                  <User className="h-4 w-4 mr-2" />
+                  Account
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="px-3 py-2 border-b">
+                  <p className="font-medium">{userInfo.name}</p>
+                  <p className="text-sm text-muted-foreground">{userInfo.company}</p>
+                </div>
+                <DropdownMenuItem>
+                  <User className="h-4 w-4 mr-2" />
+                  My Profile
+                </DropdownMenuItem>
+                {userState.user?.role === 'customer' && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to="/orders" className="flex items-center w-full">
+                        <Package className="h-4 w-4 mr-2" />
+                        My Orders
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/quotes" className="flex items-center w-full">
+                        <FileText className="h-4 w-4 mr-2" />
+                        My Quotes
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Users className="h-4 w-4 mr-2" />
+                      Manage Users
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {!userState.user && (
+                  <>
+                    <DropdownMenuItem>
+                      <MapPin className="h-4 w-4 mr-2" />
+                      Store Location
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <AlertCircle className="h-4 w-4 mr-2" />
+                      Pickup Policy
+                    </DropdownMenuItem>
+                  </>
+                )}
+                <DropdownMenuItem>
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  className="text-destructive" 
+                  onClick={() => {
+                    if (userState.user) {
+                      logout();
+                    } else {
+                      window.location.href = '/';
+                    }
+                  }}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  {userState.user ? 'Sign Out' : 'Exit Guest Portal'}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Cart - Show for customer and guest */}
+            {(!userState.user || userState.user.role === 'customer') && (
+              <Button 
+                asChild 
+                variant="ghost" 
+                size="sm" 
+                className="relative text-white hover:bg-bluewater-800 touch-target"
+              >
+                <Link to={userState.user ? '/cart' : '/guest/cart'}>
+                  <ShoppingCart className="h-5 w-5" />
+                  {cartItems > 0 && (
+                    <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white min-w-[20px] h-5 flex items-center justify-center">
+                      {cartItems}
+                    </Badge>
+                  )}
+                </Link>
+              </Button>
+            )}
+          </div>
+        </header>
+
+        {/* Breadcrumbs */}
+        {breadcrumbs.length > 1 && (
+          <nav className="bg-muted/80 backdrop-blur-sm border-b border-border mt-14">
+            <div className="px-6 py-2">
+              <ol className="flex items-center space-x-2 text-sm">
+                {breadcrumbs.map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    {index > 0 && <ChevronRight className="h-4 w-4 mx-2 text-muted-foreground" />}
+                    {item.href ? (
+                      <Link 
+                        to={item.href} 
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    ) : (
+                      <span className="text-foreground font-medium">{item.name}</span>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </nav>
+        )}
+
+        {/* Main Content */}
+        <main className={cn("flex-1 p-6", breadcrumbs.length > 1 ? "mt-0" : "mt-14")}>
+          <Outlet />
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-bluewater-700 text-white flex items-center justify-between h-14 px-4 mt-auto">
+          <div className="flex items-center space-x-4">
+            <span className="text-sm">© 2024 Bluewater Group</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm">
+              {userState.user 
+                ? `${userState.user.role} Portal` 
+                : 'Guest Portal'
+              }
+            </span>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 };
