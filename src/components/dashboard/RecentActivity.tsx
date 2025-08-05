@@ -40,38 +40,38 @@ const RecentActivity = ({ recentOrders }: RecentActivityProps) => {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="font-heading text-lg">Recent Activity</CardTitle>
+        <CardTitle className="font-heading text-mobile-h3">Recent Activity</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 pt-0">
         {recentOrders.slice(0, 3).map((order) => (
-          <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/30 transition-colors">
+          <div key={order.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 border rounded-lg hover:bg-muted/30 transition-colors space-y-2 sm:space-y-0">
             <div className="flex-1">
-              <div className="flex items-center space-x-2 mb-1">
-                <span className="font-semibold text-primary text-sm">{order.id}</span>
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="font-semibold text-primary text-mobile-caption">{order.id}</span>
                 <Badge className={`${getStatusColor(order.status)} flex items-center space-x-1 text-xs`}>
                   {getStatusIcon(order.status)}
                   <span>{order.status}</span>
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground mb-1 line-clamp-1">{order.items}</p>
-              <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+              <p className="text-mobile-caption text-muted-foreground mb-2 line-clamp-2">{order.items}</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs text-muted-foreground">
                 <span>{order.date}</span>
                 {order.trackingNumber && (
-                  <span>#{order.trackingNumber}</span>
+                  <span className="sm:ml-0">#{order.trackingNumber}</span>
                 )}
               </div>
             </div>
-            <div className="text-right">
-              <p className="font-semibold text-sm">${order.total.toFixed(2)}</p>
+            <div className="flex items-center justify-between sm:flex-col sm:text-right sm:justify-start">
+              <p className="font-semibold text-mobile-caption">${order.total.toFixed(2)}</p>
               {order.status === 'Shipped' && (
-                <Button variant="link" size="sm" className="p-0 h-auto text-xs">
+                <Button variant="link" size="sm" className="p-0 h-auto text-xs touch-target">
                   Track
                 </Button>
               )}
             </div>
           </div>
         ))}
-        <Button asChild variant="outline" className="w-full">
+        <Button asChild variant="outline" className="w-full touch-target">
           <Link to="/orders">
             View All Orders <ArrowRight className="h-4 w-4 ml-1" />
           </Link>

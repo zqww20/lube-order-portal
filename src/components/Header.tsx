@@ -149,11 +149,11 @@ const Header = () => {
             </DropdownMenu>
 
             {/* Cart - moved to rightmost position */}
-            <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10">
+            <Button asChild variant="ghost" size="sm" className="relative text-white hover:text-accent hover:bg-white/10 touch-target">
               <Link to="/cart">
                 <ShoppingCart className="h-5 w-5" />
                 {cartItems > 0 && (
-                  <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white">
+                  <Badge className="absolute -top-2 -right-2 px-2 py-1 text-xs bg-accent text-white min-w-[20px] h-5 flex items-center justify-center">
                     {cartItems}
                   </Badge>
                 )}
@@ -164,7 +164,7 @@ const Header = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden text-white hover:bg-white/10"
+              className="md:hidden text-white hover:bg-white/10 touch-target"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
@@ -184,14 +184,14 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center space-x-2 ${
+                  className={`block px-4 py-3 rounded-md text-base font-medium transition-colors flex items-center space-x-3 touch-target ${
                     isActive(item.href)
                       ? 'bg-white/10 text-white font-semibold'
                       : 'text-white/90 hover:text-white hover:bg-white/5'
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <item.icon className="h-4 w-4" />
+                  <item.icon className="h-5 w-5" />
                   <span>{item.name}</span>
                 </Link>
               ))}

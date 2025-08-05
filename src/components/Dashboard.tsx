@@ -101,18 +101,18 @@ const Dashboard = () => {
     reason: 'Usage trend indicates reorder',
     nextOrderDate: '2024-02-20'
   }];
-  return <div className="space-y-6">
+  return <div className="mobile-spacing">
       {/* Dashboard Header */}
-      <div className="mb-8 text-center lg:text-left">
-        <h1 className="text-4xl font-bold text-gradient mb-2">Welcome back, John!</h1>
-        <p className="text-muted-foreground text-lg">Manage your orders and track shipments</p>
+      <div className="mb-6 md:mb-8 text-center lg:text-left mobile-padding">
+        <h1 className="text-mobile-h1 text-gradient mb-2">Welcome back, John!</h1>
+        <p className="text-muted-foreground text-mobile-body">Manage your orders and track shipments</p>
       </div>
 
       <AccountSummary accountSummary={accountSummary} />
 
       <ActionCards />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         <div className="lg:col-span-2">
           <RecentActivity recentOrders={recentOrders} />
         </div>
