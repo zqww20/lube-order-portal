@@ -83,15 +83,15 @@ const WorkbenchList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bw-surface/30">
+    <div className="min-h-screen bg-background">
       <div className="container max-w-7xl mx-auto p-6 space-y-8">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="text-h2 font-bold text-bw-primary tracking-tight">
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Quote Workbench
             </h1>
-            <p className="text-base text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Manage and edit customer quotes with real-time updates
             </p>
           </div>
@@ -106,7 +106,7 @@ const WorkbenchList = () => {
             </Button>
             <Button 
               onClick={() => navigate('/employee/workbench/new')}
-              className="bg-bw-primary hover:bg-bw-primary/90 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Plus className="h-4 w-4 mr-2" />
               New Quote
@@ -116,19 +116,21 @@ const WorkbenchList = () => {
 
         {/* Quick Stats Grid */}
         <div className="grid gap-6 md:grid-cols-3">
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md hover:shadow-hover transition-all duration-200">
+          <Card className="bg-card border shadow-sm hover:shadow-md transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                     Active Quotes
                   </p>
-                  <p className="text-3xl font-bold text-bw-primary">
-                    {quotes.length}
-                  </p>
                 </div>
-                <div className="h-12 w-12 bg-bw-accent/10 rounded-lg flex items-center justify-center">
-                  <Calculator className="h-6 w-6 text-bw-accent" />
+                <p className="text-2xl font-bold text-foreground">
+                  {quotes.length}
+                </p>
+              </div>
+                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Calculator className="h-6 w-6 text-primary" />
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
@@ -139,17 +141,19 @@ const WorkbenchList = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md hover:shadow-hover transition-all duration-200">
+          <Card className="bg-card border shadow-sm hover:shadow-md transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                     Pending Review
                   </p>
-                  <p className="text-3xl font-bold text-bw-primary">
-                    {quotes.filter(q => q.status === 'pending_review').length}
-                  </p>
                 </div>
+                <p className="text-2xl font-bold text-foreground">
+                  {quotes.filter(q => q.status === 'pending_review').length}
+                </p>
+              </div>
                 <div className="h-12 w-12 bg-amber-100 rounded-lg flex items-center justify-center">
                   <Clock className="h-6 w-6 text-amber-600" />
                 </div>
@@ -161,17 +165,19 @@ const WorkbenchList = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md hover:shadow-hover transition-all duration-200">
+          <Card className="bg-card border shadow-sm hover:shadow-md transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                     Total Items
                   </p>
-                  <p className="text-3xl font-bold text-bw-primary">
-                    {quotes.reduce((sum, q) => sum + q.itemCount, 0)}
-                  </p>
                 </div>
+                <p className="text-2xl font-bold text-foreground">
+                  {quotes.reduce((sum, q) => sum + q.itemCount, 0)}
+                </p>
+              </div>
                 <div className="h-12 w-12 bg-emerald-100 rounded-lg flex items-center justify-center">
                   <Package className="h-6 w-6 text-emerald-600" />
                 </div>
@@ -185,10 +191,10 @@ const WorkbenchList = () => {
         </div>
 
         {/* Quotes List */}
-        <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md">
+        <Card className="bg-card border shadow-sm">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-semibold text-bw-primary">
+              <CardTitle className="text-lg font-semibold text-foreground">
                 Active Quotes
               </CardTitle>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -203,19 +209,19 @@ const WorkbenchList = () => {
                 return (
                   <div
                     key={quote.id}
-                    className="p-6 hover:bg-bw-surface/50 transition-all duration-200 group cursor-pointer"
+                    className="p-6 hover:bg-muted/50 transition-all duration-200 group cursor-pointer"
                     onClick={() => navigate(`/employee/workbench/${quote.id}`)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="flex-shrink-0">
-                          <div className="h-10 w-10 bg-bw-accent/10 rounded-lg flex items-center justify-center">
-                            <StatusIcon className="h-5 w-5 text-bw-accent" />
+                          <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <StatusIcon className="h-5 w-5 text-primary" />
                           </div>
                         </div>
                         <div className="space-y-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="font-semibold text-bw-primary group-hover:text-bw-accent transition-colors">
+                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
                               {quote.id}
                             </h3>
                             <Badge 
