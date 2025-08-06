@@ -72,21 +72,21 @@ const QuickActions = () => {
           <CardTitle className="text-lg">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {primaryActions.map((action, index) => (
               <Button
                 key={index}
                 variant={action.variant}
-                className="h-auto p-4 flex flex-col items-start space-y-2 text-left min-h-[80px]"
+                className="h-auto p-3 sm:p-4 flex flex-col items-start space-y-2 text-left min-h-[70px] sm:min-h-[80px] w-full"
                 onClick={action.action}
               >
                 <div className="flex items-center space-x-2 w-full">
-                  <action.icon className="h-5 w-5 flex-shrink-0" />
-                  <span className="font-medium text-sm leading-tight break-words">
+                  <action.icon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                  <span className="font-medium text-xs sm:text-sm leading-tight break-words flex-1 overflow-wrap-anywhere">
                     {action.title}
                   </span>
                 </div>
-                <span className="text-xs text-left opacity-80 leading-tight break-words w-full">
+                <span className="text-xs leading-tight break-words w-full opacity-80 overflow-wrap-anywhere hyphens-auto">
                   {action.description}
                 </span>
               </Button>
