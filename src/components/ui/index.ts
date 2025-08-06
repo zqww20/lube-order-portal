@@ -6,6 +6,20 @@ export * from './typography';
 export * from './badge';
 export * from './skeleton';
 
+// New Typography Components (explicit exports to avoid conflicts)
+export { 
+  Display, 
+  H1 as TypographyH1, 
+  H2 as TypographyH2, 
+  H3 as TypographyH3, 
+  H4 as TypographyH4, 
+  H5 as TypographyH5, 
+  H6 as TypographyH6, 
+  P, 
+  Caption as TypographyCaption, 
+  Micro 
+} from '../typography/Typography';
+
 // Form Components
 export * from './form';
 export * from './label';
