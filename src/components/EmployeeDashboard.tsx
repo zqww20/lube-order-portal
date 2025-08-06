@@ -20,28 +20,28 @@ const EmployeeDashboard = () => {
       value: "1,247",
       change: "+12%",
       icon: Users,
-      color: "text-blue-600"
+      color: "text-bw-accent"
     },
     {
       title: "Pending Orders",
       value: "89",
       change: "+23%",
       icon: Package,
-      color: "text-orange-600"
+      color: "text-status-warning"
     },
     {
       title: "Revenue (MTD)",
       value: "$284,950",
       change: "+8%",
       icon: DollarSign,
-      color: "text-green-600"
+      color: "text-status-success"
     },
     {
       title: "Quote Requests",
       value: "34",
       change: "+5%",
       icon: FileText,
-      color: "text-purple-600"
+      color: "text-bw-primary"
     }
   ];
 
@@ -97,7 +97,7 @@ const EmployeeDashboard = () => {
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
               <p className="text-xs text-muted-foreground">
-                <span className="text-green-600">{stat.change}</span> from last month
+                <span className="text-status-success">{stat.change}</span> from last month
               </p>
             </CardContent>
           </Card>
@@ -117,7 +117,7 @@ const EmployeeDashboard = () => {
               {recentActivities.map((activity, index) => (
                 <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-bw-accent rounded-full"></div>
                     <div>
                       <p className="text-sm font-medium">{activity.message}</p>
                       <p className="text-xs text-muted-foreground">{activity.time}</p>

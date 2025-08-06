@@ -69,11 +69,11 @@ const mockCustomerQuotes: CustomerQuote[] = [
 ];
 
 const statusInfo = {
-  pending: { color: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: Clock, text: 'Under Review' },
-  processing: { color: 'bg-blue-50 text-blue-700 border-blue-200', icon: Package, text: 'Being Processed' },
-  quoted: { color: 'bg-green-50 text-green-700 border-green-200', icon: DollarSign, text: 'Quote Ready' },
-  accepted: { color: 'bg-purple-50 text-purple-700 border-purple-200', icon: CheckCircle, text: 'Accepted' },
-  declined: { color: 'bg-red-50 text-red-700 border-red-200', icon: XCircle, text: 'Declined' }
+  pending: { color: 'bg-status-warning-muted text-status-warning border-status-warning-border', icon: Clock, text: 'Under Review' },
+  processing: { color: 'bg-bw-surface text-bw-accent border-bw-accent', icon: Package, text: 'Being Processed' },
+  quoted: { color: 'bg-status-success-muted text-status-success border-status-success-border', icon: DollarSign, text: 'Quote Ready' },
+  accepted: { color: 'bg-bw-accent/10 text-bw-primary border-bw-accent', icon: CheckCircle, text: 'Accepted' },
+  declined: { color: 'bg-status-error-muted text-status-error border-status-error-border', icon: XCircle, text: 'Declined' }
 };
 
 const CustomerQuotes = () => {
@@ -150,8 +150,8 @@ const CustomerQuotes = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-gray-900">My Quote Requests</h1>
-          <p className="text-gray-600 mt-2">Track your quote requests and responses</p>
+          <h1 className="text-3xl font-bold text-bw-text">My Quote Requests</h1>
+          <p className="text-bw-text/70 mt-2">Track your quote requests and responses</p>
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3 bg-primary/10 text-primary px-6 py-3 rounded-lg">
@@ -210,9 +210,9 @@ const CustomerQuotes = () => {
                         </Badge>
                       </div>
                     
-                      <p className="text-sm text-gray-600 mb-2">Quote #{quote.id} • {quote.category}</p>
+                      <p className="text-sm text-bw-text/60 mb-2">Quote #{quote.id} • {quote.category}</p>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-bw-text/60 mb-2">
                         <p>Quantity: {quote.quantity} units</p>
                         <p>Requested: {quote.requestDate}</p>
                         <p>Expected: {quote.expectedDelivery}</p>

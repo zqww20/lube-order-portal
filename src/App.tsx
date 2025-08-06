@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QuoteProvider } from "@/contexts/QuoteContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { GlobalDesignRefresh } from "@/components/ui/global-design-refresh";
 import Header from "@/components/Header";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -42,6 +43,7 @@ const App = () => (
       <CartProvider>
         <QuoteProvider>
           <TooltipProvider>
+          <GlobalDesignRefresh />
           <Toaster />
           <Sonner />
           <BrowserRouter>

@@ -54,10 +54,10 @@ const QuoteRequest = ({ product, trigger }: QuoteRequestProps) => {
   return (
     <div>
       {/* Product info display */}
-      <div className="bg-gray-50 p-3 rounded-lg mb-4">
-        <h4 className="font-medium text-sm text-gray-900">{product.name}</h4>
-        <p className="text-sm text-gray-600">{product.category}</p>
-        <p className="text-sm text-gray-500">Current price: ${product.price} {product.unit}</p>
+      <div className="bg-bw-surface p-3 rounded-lg mb-4 shadow-bw-md">
+        <h4 className="font-medium text-sm text-bw-text">{product.name}</h4>
+        <p className="text-sm text-bw-text/70">{product.category}</p>
+        <p className="text-sm text-bw-text/60">Current price: ${product.price} {product.unit}</p>
       </div>
 
       <UnifiedQuoteRequest

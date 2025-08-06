@@ -181,8 +181,8 @@ const ERPIntegration = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">ERP Integration</h1>
-        <p className="text-gray-600 mt-2">Manage your Enterprise Resource Planning system integration</p>
+        <h1 className="text-3xl font-bold text-bw-text">ERP Integration</h1>
+        <p className="text-bw-text/70 mt-2">Manage your Enterprise Resource Planning system integration</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -310,7 +310,7 @@ const ERPIntegration = () => {
                   Generate
                 </Button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-bw-text/50 mt-1">
                 Configure this webhook in your ERP system for real-time inventory updates
               </p>
             </div>
@@ -334,23 +334,23 @@ const ERPIntegration = () => {
                 <h4 className="font-medium mb-3">SAP B1 Item Master Sync</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Item Code</span>
+                    <span className="text-bw-text/60">Item Code</span>
                     <span className="font-mono">ItemCode</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Item Name</span>
+                    <span className="text-bw-text/60">Item Name</span>
                     <span className="font-mono">ItemName</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Unit Price</span>
+                    <span className="text-bw-text/60">Unit Price</span>
                     <span className="font-mono">PriceList.Price</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">On Hand</span>
+                    <span className="text-bw-text/60">On Hand</span>
                     <span className="font-mono">ItemWarehouseInfoCollection.InStock</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Item Group</span>
+                    <span className="text-bw-text/60">Item Group</span>
                     <span className="font-mono">ItemsGroupCode</span>
                   </div>
                 </div>
@@ -360,23 +360,23 @@ const ERPIntegration = () => {
                 <h4 className="font-medium mb-3">SAP B1 Quote Processing</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Quote Number</span>
+                    <span className="text-bw-text/60">Quote Number</span>
                     <span className="font-mono">DocNum</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Customer Code</span>
+                    <span className="text-bw-text/60">Customer Code</span>
                     <span className="font-mono">CardCode</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Valid Until</span>
+                    <span className="text-bw-text/60">Valid Until</span>
                     <span className="font-mono">DocDueDate</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Document Lines</span>
+                    <span className="text-bw-text/60">Document Lines</span>
                     <span className="font-mono">DocumentLines[]</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Remarks</span>
+                    <span className="text-bw-text/60">Remarks</span>
                     <span className="font-mono">Comments</span>
                   </div>
                 </div>
@@ -420,24 +420,24 @@ const ERPIntegration = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">1,234</div>
-                <div className="text-sm text-gray-600">SAP Quotations</div>
+                <div className="text-2xl font-bold text-bw-accent">1,234</div>
+                <div className="text-sm text-bw-text/60">SAP Quotations</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">567</div>
-                <div className="text-sm text-gray-600">Items Synced</div>
+                <div className="text-2xl font-bold text-status-success">567</div>
+                <div className="text-sm text-bw-text/60">Items Synced</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">89</div>
-                <div className="text-sm text-gray-600">Business Partners</div>
+                <div className="text-2xl font-bold text-bw-primary">89</div>
+                <div className="text-sm text-bw-text/60">Business Partners</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">99.8%</div>
-                <div className="text-sm text-gray-600">Sync Success Rate</div>
+                <div className="text-2xl font-bold text-status-warning">99.8%</div>
+                <div className="text-sm text-bw-text/60">Sync Success Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">1.2s</div>
-                <div className="text-sm text-gray-600">SAP Response Time</div>
+                <div className="text-2xl font-bold text-status-error">1.2s</div>
+                <div className="text-sm text-bw-text/60">SAP Response Time</div>
               </div>
             </div>
           </CardContent>

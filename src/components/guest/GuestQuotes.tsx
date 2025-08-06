@@ -142,8 +142,8 @@ const GuestQuotes = () => {
       {/* Header */}
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">My Quote Requests</h1>
-          <p className="text-gray-600 mt-2">Track your quote requests and responses (Guest Portal)</p>
+          <h1 className="text-3xl font-bold text-bw-text">My Quote Requests</h1>
+          <p className="text-bw-text/70 mt-2">Track your quote requests and responses (Guest Portal)</p>
         </div>
         <div className="flex items-center space-x-2 bg-muted rounded-lg px-3 py-2">
           <Quote className="h-5 w-5" />
@@ -212,9 +212,9 @@ const GuestQuotes = () => {
                           {statusConfig.text}
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-600 mb-2">Quote #{quote.id} • {quote.category}</p>
+                      <p className="text-sm text-bw-text/60 mb-2">Quote #{quote.id} • {quote.category}</p>
                       
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-bw-text/60">
                         <p>Quantity: {quote.quantity} units</p>
                         <p>Requested: {quote.requestDate}</p>
                         <p>Expected: {quote.expectedDelivery}</p>
@@ -222,7 +222,7 @@ const GuestQuotes = () => {
                       </div>
                       
                       {quote.requirements && (
-                        <p className="text-sm text-gray-500 mt-2">
+                        <p className="text-sm text-bw-text/60 mt-2">
                           Requirements: {quote.requirements}
                         </p>
                       )}
@@ -238,8 +238,8 @@ const GuestQuotes = () => {
                           </div>
                         </div>
                       ) : (
-                        <div className="mt-4 p-3 bg-gray-50 rounded-lg border">
-                          <p className="text-gray-600 text-sm">
+                        <div className="mt-4 p-3 bg-bw-surface rounded-lg border shadow-bw-md">
+                          <p className="text-bw-text/70 text-sm">
                             {quote.status === 'pending' ? 'Awaiting review...' : 'Quote being prepared...'}
                           </p>
                         </div>
@@ -256,9 +256,9 @@ const GuestQuotes = () => {
       {quotes.length === 0 && (
         <Card>
           <CardContent className="p-8 text-center">
-            <Quote className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No quote requests yet</h3>
-            <p className="text-gray-600 mb-4">
+            <Quote className="h-12 w-12 mx-auto text-bw-text/50 mb-4" />
+            <h3 className="text-lg font-medium text-bw-text mb-2">No quote requests yet</h3>
+            <p className="text-bw-text/70 mb-4">
               Start by browsing products and requesting quotes for items you need.
             </p>
             <Button onClick={() => navigate('/guest/products')}>

@@ -82,7 +82,7 @@ const RealTimeDataSync = () => {
       case 'error':
         return <AlertCircle className="h-3 w-3 text-red-500" />;
       default:
-        return <Clock className="h-3 w-3 text-gray-400" />;
+        return <Clock className="h-3 w-3 text-bw-text/50" />;
     }
   };
 
