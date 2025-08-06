@@ -8,7 +8,12 @@ import {
   Clock, 
   User, 
   Package,
-  Plus
+  Plus,
+  Search,
+  Filter,
+  FileText,
+  TrendingUp,
+  CheckCircle
 } from 'lucide-react';
 
 interface QuoteWorkItem {
@@ -53,8 +58,8 @@ const WorkbenchList = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'draft': return 'secondary';
-      case 'pending_review': return 'warning';
-      case 'pending_approval': return 'success';
+      case 'pending_review': return 'outline';
+      case 'pending_approval': return 'default';
       default: return 'secondary';
     }
   };
@@ -68,114 +73,200 @@ const WorkbenchList = () => {
     }
   };
 
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'draft': return FileText;
+      case 'pending_review': return Clock;
+      case 'pending_approval': return CheckCircle;
+      default: return FileText;
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Quote Workbench</h1>
-          <p className="text-muted-foreground">
-            Manage and edit customer quotes
-          </p>
+    <div className="min-h-screen bg-bw-surface/30">
+      <div className="container max-w-7xl mx-auto p-6 space-y-8">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="text-h2 font-bold text-bw-primary tracking-tight">
+              Quote Workbench
+            </h1>
+            <p className="text-base text-muted-foreground">
+              Manage and edit customer quotes with real-time updates
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm">
+              <Search className="h-4 w-4 mr-2" />
+              Search
+            </Button>
+            <Button variant="outline" size="sm">
+              <Filter className="h-4 w-4 mr-2" />
+              Filter
+            </Button>
+            <Button 
+              onClick={() => navigate('/employee/workbench/new')}
+              className="bg-bw-primary hover:bg-bw-primary/90 text-white"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Quote
+            </Button>
+          </div>
         </div>
-        <Button onClick={() => navigate('/employee/workbench/new')}>
-          <Plus className="h-4 w-4 mr-2" />
-          New Quote
-        </Button>
-      </div>
 
-      {/* Quick Stats */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Calculator className="h-4 w-4 text-muted-foreground" />
-              <div>
-                <p className="text-sm font-medium">Active Quotes</p>
-                <p className="text-2xl font-bold">{quotes.length}</p>
+        {/* Quick Stats Grid */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md hover:shadow-hover transition-all duration-200">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                    Active Quotes
+                  </p>
+                  <p className="text-3xl font-bold text-bw-primary">
+                    {quotes.length}
+                  </p>
+                </div>
+                <div className="h-12 w-12 bg-bw-accent/10 rounded-lg flex items-center justify-center">
+                  <Calculator className="h-6 w-6 text-bw-accent" />
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              <div>
-                <p className="text-sm font-medium">Pending Review</p>
-                <p className="text-2xl font-bold">
-                  {quotes.filter(q => q.status === 'pending_review').length}
-                </p>
+              <div className="mt-4 flex items-center text-sm">
+                <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+                <span className="text-green-600 font-medium">+12%</span>
+                <span className="text-muted-foreground ml-1">from last month</span>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Package className="h-4 w-4 text-muted-foreground" />
-              <div>
-                <p className="text-sm font-medium">Total Items</p>
-                <p className="text-2xl font-bold">
-                  {quotes.reduce((sum, q) => sum + q.itemCount, 0)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
 
-      {/* Quotes List */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Active Quotes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {quotes.map((quote) => (
-              <div
-                key={quote.id}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <Badge variant={getStatusColor(quote.status) as any}>
-                      {getStatusLabel(quote.status)}
-                    </Badge>
-                  </div>
-                  <div>
-                    <h3 className="font-medium">{quote.id}</h3>
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                      <div className="flex items-center space-x-1">
-                        <User className="h-3 w-3" />
-                        <span>{quote.customerName}</span>
+          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md hover:shadow-hover transition-all duration-200">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                    Pending Review
+                  </p>
+                  <p className="text-3xl font-bold text-bw-primary">
+                    {quotes.filter(q => q.status === 'pending_review').length}
+                  </p>
+                </div>
+                <div className="h-12 w-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                  <Clock className="h-6 w-6 text-amber-600" />
+                </div>
+              </div>
+              <div className="mt-4 flex items-center text-sm">
+                <span className="text-amber-600 font-medium">2 urgent</span>
+                <span className="text-muted-foreground ml-1">require attention</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md hover:shadow-hover transition-all duration-200">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                    Total Items
+                  </p>
+                  <p className="text-3xl font-bold text-bw-primary">
+                    {quotes.reduce((sum, q) => sum + q.itemCount, 0)}
+                  </p>
+                </div>
+                <div className="h-12 w-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+                  <Package className="h-6 w-6 text-emerald-600" />
+                </div>
+              </div>
+              <div className="mt-4 flex items-center text-sm">
+                <span className="text-emerald-600 font-medium">$247.5K</span>
+                <span className="text-muted-foreground ml-1">total value</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quotes List */}
+        <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-bw-md">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-semibold text-bw-primary">
+                Active Quotes
+              </CardTitle>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span>{quotes.length} total quotes</span>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="divide-y divide-border/50">
+              {quotes.map((quote) => {
+                const StatusIcon = getStatusIcon(quote.status);
+                return (
+                  <div
+                    key={quote.id}
+                    className="p-6 hover:bg-bw-surface/50 transition-all duration-200 group cursor-pointer"
+                    onClick={() => navigate(`/employee/workbench/${quote.id}`)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="flex-shrink-0">
+                          <div className="h-10 w-10 bg-bw-accent/10 rounded-lg flex items-center justify-center">
+                            <StatusIcon className="h-5 w-5 text-bw-accent" />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-3">
+                            <h3 className="font-semibold text-bw-primary group-hover:text-bw-accent transition-colors">
+                              {quote.id}
+                            </h3>
+                            <Badge 
+                              variant={getStatusColor(quote.status) as any}
+                              className="text-xs"
+                            >
+                              {getStatusLabel(quote.status)}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center space-x-6 text-sm text-muted-foreground">
+                            <div className="flex items-center space-x-2">
+                              <User className="h-4 w-4" />
+                              <span className="font-medium">{quote.customerName}</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Package className="h-4 w-4" />
+                              <span>{quote.itemCount} items</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Clock className="h-4 w-4" />
+                              <span>{quote.lastModified}</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-muted-foreground">
+                            {quote.customerEmail}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <Package className="h-3 w-3" />
-                        <span>{quote.itemCount} items</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Clock className="h-3 w-3" />
-                        <span>{quote.lastModified}</span>
+                      
+                      <div className="flex items-center space-x-3">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/employee/workbench/${quote.id}`);
+                          }}
+                        >
+                          <Calculator className="h-4 w-4 mr-2" />
+                          Edit Quote
+                        </Button>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => navigate(`/employee/workbench/${quote.id}`)}
-                  >
-                    <Calculator className="h-4 w-4 mr-2" />
-                    Edit Quote
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
