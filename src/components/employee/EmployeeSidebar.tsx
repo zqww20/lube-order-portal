@@ -31,8 +31,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeSidebar = () => {
+  const navigate = useNavigate();
   const { open } = useSidebar();
   const collapsed = !open;
   const location = useLocation();
@@ -66,6 +69,33 @@ const EmployeeSidebar = () => {
     { title: 'User Management', url: '/employee/admin/users', icon: Users },
     { title: 'System Settings', url: '/employee/admin/settings', icon: Settings },
     { title: 'ERP Integration', url: '/employee/erp-integration', icon: Database },
+  ];
+
+  const quickActions = [
+    {
+      title: 'New Quote',
+      description: 'Create customer quote',
+      icon: Calculator,
+      action: () => navigate('/employee/workbench/new'),
+    },
+    {
+      title: 'Bulk Operations',
+      description: 'Process multiple orders',
+      icon: Package,
+      action: () => navigate('/employee/orders?bulk=true'),
+    },
+    {
+      title: 'Customer Search',
+      description: 'Find customer records',
+      icon: Search,
+      action: () => console.log('Open customer search'),
+    },
+    {
+      title: 'Generate Report',
+      description: 'Create analytics report',
+      icon: BarChart3,
+      action: () => navigate('/employee/analytics/reports'),
+    },
   ];
 
   return (
@@ -163,10 +193,37 @@ const EmployeeSidebar = () => {
       <SidebarFooter className="p-4">
         {!collapsed && (
           <div className="space-y-2">
-            <Button size="sm" className="w-full">
-              <Plus className="h-4 w-4 mr-2" />
-              Quick Action
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="sm" className="w-full">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Quick Actions
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent side="right" align="end" className="w-80 p-0">
+                <div className="p-4">
+                  <h4 className="font-medium mb-3">Quick Actions</h4>
+                  <div className="space-y-2">
+                    {quickActions.map((action, index) => (
+                      <Button
+                        key={index}
+                        variant="ghost"
+                        className="w-full justify-start h-auto p-3 flex-col items-start space-y-1"
+                        onClick={action.action}
+                      >
+                        <div className="flex items-center space-x-2 w-full">
+                          <action.icon className="h-4 w-4 flex-shrink-0" />
+                          <span className="font-medium text-sm">{action.title}</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground text-left">
+                          {action.description}
+                        </span>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
             <div className="flex items-center space-x-2 text-xs text-muted-foreground">
               <Bell className="h-3 w-3" />
               <span>3 notifications</span>
@@ -175,9 +232,36 @@ const EmployeeSidebar = () => {
         )}
         {collapsed && (
           <div className="flex flex-col items-center space-y-2">
-            <Button size="sm" variant="ghost">
-              <Plus className="h-4 w-4" />
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="sm" variant="ghost">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent side="right" align="end" className="w-80 p-0">
+                <div className="p-4">
+                  <h4 className="font-medium mb-3">Quick Actions</h4>
+                  <div className="space-y-2">
+                    {quickActions.map((action, index) => (
+                      <Button
+                        key={index}
+                        variant="ghost"
+                        className="w-full justify-start h-auto p-3 flex-col items-start space-y-1"
+                        onClick={action.action}
+                      >
+                        <div className="flex items-center space-x-2 w-full">
+                          <action.icon className="h-4 w-4 flex-shrink-0" />
+                          <span className="font-medium text-sm">{action.title}</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground text-left">
+                          {action.description}
+                        </span>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
             <Bell className="h-3 w-3 text-muted-foreground" />
           </div>
         )}

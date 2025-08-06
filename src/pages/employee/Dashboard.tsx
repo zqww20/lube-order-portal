@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MetricsGrid from '@/components/employee/dashboard/MetricsGrid';
 import ActivityFeed from '@/components/employee/dashboard/ActivityFeed';
-import QuickActions from '@/components/employee/dashboard/QuickActions';
+
 import SAPConnectionStatus from '@/components/SAPConnectionStatus';
 import RealTimeDataSync from '@/components/RealTimeDataSync';
 import { 
@@ -62,17 +62,9 @@ const EmployeeDashboard = () => {
           {/* Metrics Grid */}
           <MetricsGrid />
 
-          {/* Main Content Grid */}
-          <div className="grid gap-6 lg:grid-cols-3">
-            {/* Activity Feed - Takes 2 columns */}
-            <div className="lg:col-span-2">
-              <ActivityFeed />
-            </div>
-            
-            {/* Quick Actions - Takes 1 column */}
-            <div className="lg:col-span-1">
-              <QuickActions />
-            </div>
+          {/* Main Content - Full Width */}
+          <div className="w-full">
+            <ActivityFeed />
           </div>
         </TabsContent>
 
