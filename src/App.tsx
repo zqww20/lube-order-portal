@@ -30,6 +30,7 @@ import GuestLocation from "./pages/guest/Location";
 import EmployeeLayout from "./components/employee/EmployeeLayout";
 import EmployeeDashboard from "./pages/employee/Dashboard";
 import QuotingWorkbench from "./pages/employee/Workbench";
+import WorkbenchList from "./pages/employee/WorkbenchList";
 import EmployeeQuotes from "./pages/employee/Quotes";
 import EmployeeOrders from "./pages/employee/Orders";
 import EmployeeOrderDetail from "./pages/employee/OrderDetail";
@@ -64,6 +65,7 @@ const App = () => (
           {/* Employee Routes - Secure and Separate */}
           <Route path="/employee" element={<EmployeeLayout />}>
             <Route path="dashboard" element={<EmployeeDashboard />} />
+            <Route path="workbench" element={<WorkbenchList />} />
             <Route path="workbench/:quoteId" element={<QuotingWorkbench />} />
             <Route path="quotes" element={<EmployeeQuotes />} />
             <Route path="orders" element={<EmployeeOrders />} />
