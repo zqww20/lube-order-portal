@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 import { designTokens } from "./src/styles/tokens";
-import { typographyTokens } from "./src/styles/typography";
 
 export default {
 	darkMode: ["class"],
@@ -90,13 +89,8 @@ export default {
 			// Typography system
 			fontFamily: designTokens.typography.fontFamily,
 			fontSize: {
-				// Legacy sizes (keep for backwards compatibility)
 				...designTokens.typography.fontSize,
-				
-				// New centralized typography scale
-				...typographyTokens.fontSize,
-				
-				// Responsive heading variants (legacy)
+				// Responsive heading variants
 				'h1': ['2rem', { lineHeight: '1.25', fontWeight: '700' }],
 				'h2': ['1.5rem', { lineHeight: '1.25', fontWeight: '600' }],
 				'h3': ['1.25rem', { lineHeight: '1.5', fontWeight: '600' }],
@@ -104,14 +98,8 @@ export default {
 				'h5': ['1rem', { lineHeight: '1.5', fontWeight: '600' }],
 				'h6': ['0.875rem', { lineHeight: '1.5', fontWeight: '600' }],
 			},
-			fontWeight: {
-				...designTokens.typography.fontWeight,
-				...typographyTokens.fontWeight,
-			},
-			lineHeight: {
-				...designTokens.typography.lineHeight,
-				...typographyTokens.lineHeight,
-			},
+			fontWeight: designTokens.typography.fontWeight,
+			lineHeight: designTokens.typography.lineHeight,
 			letterSpacing: designTokens.typography.letterSpacing,
 
 			// Spacing system
