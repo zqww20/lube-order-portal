@@ -56,39 +56,39 @@ const PerformanceExtension = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
   const [selectedTeam, setSelectedTeam] = useState('all');
 
-  // Performance metrics data
-  const performanceMetrics: PerformanceMetric[] = [
+  // Performance-specific KPIs (different from Overview metrics)
+  const performanceKPIs: PerformanceMetric[] = [
     {
-      title: 'Quote Conversion Rate',
-      value: '73.2%',
-      change: '+5.8%',
+      title: 'Employee Efficiency Score',
+      value: '87.3%',
+      change: '+8.2%',
       trend: 'up',
-      target: '75%',
+      target: '90%',
       icon: Target
     },
     {
-      title: 'Avg. Response Time',
-      value: '1.8h',
-      change: '-0.4h',
+      title: 'Quality Score',
+      value: '94.1%',
+      change: '+2.4%',
       trend: 'up',
-      target: '< 2h',
-      icon: Clock
-    },
-    {
-      title: 'Customer Satisfaction',
-      value: '4.7/5',
-      change: '+0.3',
-      trend: 'up',
-      target: '4.5/5',
+      target: '95%',
       icon: Award
     },
     {
-      title: 'Revenue per Quote',
-      value: '$18,450',
-      change: '+12%',
+      title: 'Training Completion',
+      value: '78%',
+      change: '+15%',
       trend: 'up',
-      target: '$20K',
-      icon: DollarSign
+      target: '85%',
+      icon: Users
+    },
+    {
+      title: 'Goal Achievement',
+      value: '91.2%',
+      change: '+6.8%',
+      trend: 'up',
+      target: '95%',
+      icon: TrendingUp
     }
   ];
 
@@ -203,9 +203,9 @@ const PerformanceExtension = () => {
         </div>
       </div>
 
-      {/* Performance Metrics Grid */}
+      {/* Performance KPIs Grid - Performance-specific metrics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {performanceMetrics.map((metric, index) => (
+        {performanceKPIs.map((metric, index) => (
           <PerformanceCard key={index} metric={metric} />
         ))}
       </div>
@@ -220,65 +220,98 @@ const PerformanceExtension = () => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            {/* Revenue Trend Chart */}
+          {/* Performance Insights Cards */}
+          <div className="grid gap-6 md:grid-cols-3">
             <Card>
               <CardHeader>
-                <CardTitle>Revenue & Quote Trends</CardTitle>
+                <CardTitle className="text-lg">Performance Insights</CardTitle>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={revenueData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line 
-                      type="monotone" 
-                      dataKey="revenue" 
-                      stroke="hsl(var(--primary))" 
-                      strokeWidth={2}
-                      name="Revenue ($)"
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="quotes" 
-                      stroke="hsl(var(--secondary))" 
-                      strokeWidth={2}
-                      name="Quotes"
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                <div className="space-y-3">
+                  <div className="p-3 bg-success/10 rounded-lg">
+                    <p className="text-sm font-medium text-success">🎯 Top Performer</p>
+                    <p className="text-sm text-muted-foreground">Emma Thompson leads with 310K revenue</p>
+                  </div>
+                  <div className="p-3 bg-warning/10 rounded-lg">
+                    <p className="text-sm font-medium text-warning">⚡ Improvement Area</p>
+                    <p className="text-sm text-muted-foreground">Focus on response time optimization</p>
+                  </div>
+                  <div className="p-3 bg-info/10 rounded-lg">
+                    <p className="text-sm font-medium text-info">📈 Trending Up</p>
+                    <p className="text-sm text-muted-foreground">Quality scores improved by 15%</p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Department Performance */}
             <Card>
               <CardHeader>
-                <CardTitle>Performance by Department</CardTitle>
+                <CardTitle className="text-lg">Coaching Recommendations</CardTitle>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={departmentData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                      label={({ name, value }) => `${name}: ${value}%`}
-                    >
-                      {departmentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div className="space-y-3">
+                  <div className="border-l-4 border-primary pl-3">
+                    <p className="text-sm font-medium">Sales Training</p>
+                    <p className="text-xs text-muted-foreground">Schedule advanced negotiation workshop</p>
+                  </div>
+                  <div className="border-l-4 border-secondary pl-3">
+                    <p className="text-sm font-medium">Process Optimization</p>
+                    <p className="text-xs text-muted-foreground">Implement quote automation tools</p>
+                  </div>
+                  <div className="border-l-4 border-accent pl-3">
+                    <p className="text-sm font-medium">Team Building</p>
+                    <p className="text-xs text-muted-foreground">Cross-department collaboration session</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Action Items</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <p className="text-sm">Review Mike's response time metrics</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <p className="text-sm">Update training completion targets</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <p className="text-sm">Schedule team performance review</p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
+
+          {/* Performance Trends Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Performance Efficiency Trends</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart data={revenueData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line 
+                    type="monotone" 
+                    dataKey="quotes" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={3}
+                    name="Efficiency Score"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="team" className="space-y-6">
