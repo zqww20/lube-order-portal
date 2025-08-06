@@ -36,6 +36,7 @@ import EmployeeOrders from "./pages/employee/Orders";
 import EmployeeOrderDetail from "./pages/employee/OrderDetail";
 import AdminLogistics from "./pages/employee/AdminLogistics";
 import EmployeePromoConsole from "./pages/EmployeePromoConsole";
+import Performance from "./pages/employee/Performance";
 
 const queryClient = new QueryClient();
 
@@ -71,7 +72,7 @@ const App = () => (
             <Route path="orders" element={<EmployeeOrders />} />
             <Route path="orders/:orderId" element={<EmployeeOrderDetail />} />
             <Route path="admin/logistics" element={<AdminLogistics />} />
-            <Route path="analytics/performance" element={<EmployeeDashboard />} />
+            <Route path="analytics/performance" element={<Performance />} />
             <Route path="promo-console" element={<EmployeePromoConsole />} />
             <Route path="erp-integration" element={<ERPIntegration />} />
           </Route>
