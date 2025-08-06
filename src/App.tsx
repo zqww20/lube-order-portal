@@ -27,13 +27,14 @@ import GuestProductDetail from "./pages/guest/ProductDetail";
 import GuestCart from "./pages/guest/Cart";
 import GuestQuotesPage from "./pages/guest/Quotes";
 import GuestLocation from "./pages/guest/Location";
-import EmployeeLayout from "./components/EmployeeLayout";
+import EmployeeLayout from "./components/employee/EmployeeLayout";
 import EmployeeDashboard from "./pages/employee/Dashboard";
 import QuotingWorkbench from "./pages/employee/Workbench";
 import EmployeeQuotes from "./pages/employee/Quotes";
 import EmployeeOrders from "./pages/employee/Orders";
 import EmployeeOrderDetail from "./pages/employee/OrderDetail";
 import AdminLogistics from "./pages/employee/AdminLogistics";
+import EmployeePromoConsole from "./pages/EmployeePromoConsole";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ const App = () => (
             <Route path="orders" element={<EmployeeOrders />} />
             <Route path="orders/:orderId" element={<EmployeeOrderDetail />} />
             <Route path="admin/logistics" element={<AdminLogistics />} />
+            <Route path="promo-console" element={<EmployeePromoConsole />} />
             <Route path="erp-integration" element={<ERPIntegration />} />
           </Route>
 

@@ -1,193 +1,120 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import MetricsGrid from '@/components/employee/dashboard/MetricsGrid';
+import ActivityFeed from '@/components/employee/dashboard/ActivityFeed';
+import QuickActions from '@/components/employee/dashboard/QuickActions';
 import SAPConnectionStatus from '@/components/SAPConnectionStatus';
 import RealTimeDataSync from '@/components/RealTimeDataSync';
 import { 
-  Clock, 
-  Search, 
-  TrendingUp, 
-  Package, 
-  FileText, 
-  Users,
-  AlertCircle
+  Calendar, 
+  Filter, 
+  RefreshCw,
+  Settings
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-
-interface PendingQuote {
-  id: string;
-  customerName: string;
-  products: string[];
-  timeAgo: string;
-  priority: 'high' | 'medium' | 'low';
-  customerEmail: string;
-}
 
 const EmployeeDashboard = () => {
-  const navigate = useNavigate();
-
-  // Mock data for pending quotes
-  const pendingQuotes: PendingQuote[] = [
-    {
-      id: 'Q-2024-001',
-      customerName: 'Atlantic Marine Services',
-      products: ['Marine Gear Oil', 'Hydraulic Fluid ISO 46'],
-      timeAgo: '15 minutes ago',
-      priority: 'high',
-      customerEmail: 'purchasing@atlanticmarine.ca'
-    },
-    {
-      id: 'Q-2024-002',
-      customerName: 'Industrial Solutions Ltd',
-      products: ['Premium Engine Oil 5W-30'],
-      timeAgo: '1 hour ago',
-      priority: 'medium',
-      customerEmail: 'orders@industrialsolutions.ca'
-    },
-    {
-      id: 'Q-2024-003',
-      customerName: 'Maritime Transport Co',
-      products: ['Multi-Purpose Grease', 'Engine Oil 10W-40'],
-      timeAgo: '2 hours ago',
-      priority: 'medium',
-      customerEmail: 'fleet@maritimetransport.ca'
-    },
-    {
-      id: 'Q-2024-004',
-      customerName: 'Coastal Construction',
-      products: ['Hydraulic Fluid ISO 68'],
-      timeAgo: '3 hours ago',
-      priority: 'low',
-      customerEmail: 'procurement@coastal.ca'
-    }
-  ];
-
-  const stats = [
-    {
-      title: "Pending Quotes",
-      value: pendingQuotes.length.toString(),
-      icon: FileText,
-      color: "text-orange-600"
-    },
-    {
-      title: "Active Customers",
-      value: "247",
-      icon: Users,
-      color: "text-blue-600"
-    },
-    {
-      title: "Today's Orders",
-      value: "12",
-      icon: Package,
-      color: "text-green-600"
-    },
-    {
-      title: "Revenue (MTD)",
-      value: "$284,950",
-      icon: TrendingUp,
-      color: "text-purple-600"
-    }
-  ];
-
-  const handleCreateQuote = (quoteId: string) => {
-    navigate(`/employee/workbench/${quoteId}`);
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'destructive';
-      case 'medium': return 'secondary';
-      case 'low': return 'outline';
-      default: return 'secondary';
-    }
-  };
-
   return (
-    <div className="container mx-auto px-4 py-8 space-y-6">
-      
-      {/* SAP Integration Status - Employee Only */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Employee Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back! Here's what's happening in your business today.
+          </p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button variant="outline" size="sm">
+            <Calendar className="h-4 w-4 mr-2" />
+            Last 30 days
+          </Button>
+          <Button variant="outline" size="sm">
+            <Filter className="h-4 w-4 mr-2" />
+            Filter
+          </Button>
+          <Button variant="outline" size="sm">
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
+          <Button variant="outline" size="sm">
+            <Settings className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* System Status */}
+      <div className="grid gap-4 md:grid-cols-2">
         <SAPConnectionStatus />
         <RealTimeDataSync />
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <stat.icon className={`h-4 w-4 ${stat.color}`} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* Main Dashboard Content */}
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="detailed">Detailed View</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        </TabsList>
 
-      {/* Pending Quote Requests */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-orange-600" />
-              Pending Quote Requests
-            </CardTitle>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search customers..."
-                className="pl-10 w-64"
-              />
+        <TabsContent value="overview" className="space-y-6">
+          {/* Metrics Grid */}
+          <MetricsGrid />
+
+          {/* Main Content Grid */}
+          <div className="grid gap-6 lg:grid-cols-3">
+            {/* Activity Feed - Takes 2 columns */}
+            <div className="lg:col-span-2">
+              <ActivityFeed />
+            </div>
+            
+            {/* Quick Actions - Takes 1 column */}
+            <div className="lg:col-span-1">
+              <QuickActions />
             </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {pendingQuotes.map((quote) => (
-              <div key={quote.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-foreground">{quote.customerName}</h3>
-                      <Badge variant={getPriorityColor(quote.priority)}>
-                        {quote.priority.toUpperCase()}
-                      </Badge>
-                    </div>
-                    <div className="text-sm text-muted-foreground mb-2">
-                      <p>{quote.customerEmail}</p>
-                    </div>
-                    <div className="mb-3">
-                      <p className="text-sm font-medium mb-1">Requested Products:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {quote.products.map((product, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {product}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {quote.timeAgo}
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <Button 
-                      onClick={() => handleCreateQuote(quote.id)}
-                    >
-                      Create Quote
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
+        </TabsContent>
+
+        <TabsContent value="detailed" className="space-y-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Detailed Metrics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Detailed analytics and metrics will be displayed here.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Performance Trends</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Performance trends and comparisons will be shown here.
+                </p>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Advanced Analytics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                Advanced analytics dashboard with charts and insights will be implemented here.
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
