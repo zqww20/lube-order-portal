@@ -31,7 +31,7 @@ interface AnalyticsTabProps {
 }
 
 const AnalyticsTab = ({ data }: AnalyticsTabProps) => {
-  const COLORS = ['#0091FF', '#00C08D', '#FFA500', '#FF6B6B', '#9B59B6'];
+  const COLORS = ['hsl(192 77% 59%)', 'hsl(162 100% 38%)', 'hsl(39 100% 67%)', 'hsl(0 79% 69%)', 'hsl(271 44% 52%)'];
 
   const StatCard = ({ 
     title, 
@@ -130,7 +130,7 @@ const AnalyticsTab = ({ data }: AnalyticsTabProps) => {
                       cy="50%"
                       labelLine={false}
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="hsl(192 77% 59%)"
                       dataKey="value"
                     >
                       {data.promoTypeDistribution.map((entry, index) => (
@@ -205,14 +205,14 @@ const AnalyticsTab = ({ data }: AnalyticsTabProps) => {
                   <Line 
                     type="monotone" 
                     dataKey="revenue" 
-                    stroke="#0091FF" 
+                    stroke="hsl(192 77% 59%)" 
                     strokeWidth={2}
                     name="Total Revenue"
                   />
                   <Line 
                     type="monotone" 
                     dataKey="promoRevenue" 
-                    stroke="#00C08D" 
+                    stroke="hsl(162 100% 38%)" 
                     strokeWidth={2}
                     name="Promo Revenue"
                   />

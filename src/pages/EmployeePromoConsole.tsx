@@ -106,11 +106,11 @@ const mockAnalyticsData = {
     { month: 'Jun', revenue: 58000, promoRevenue: 16400 }
   ],
   promoTypeDistribution: [
-    { name: 'Percentage Off', value: 35, color: '#0091FF' },
-    { name: 'Clearance', value: 25, color: '#00C08D' },
-    { name: 'Bundle Deals', value: 20, color: '#FFA500' },
-    { name: 'BOGO', value: 12, color: '#FF6B6B' },
-    { name: 'Fixed Amount', value: 8, color: '#9B59B6' }
+    { name: 'Percentage Off', value: 35, color: 'hsl(192 77% 59%)' },
+    { name: 'Clearance', value: 25, color: 'hsl(162 100% 38%)' },
+    { name: 'Bundle Deals', value: 20, color: 'hsl(39 100% 67%)' },
+    { name: 'BOGO', value: 12, color: 'hsl(0 79% 69%)' },
+    { name: 'Fixed Amount', value: 8, color: 'hsl(271 44% 52%)' }
   ]
 };
 

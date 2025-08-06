@@ -11,7 +11,14 @@
 // =============================================================================
 
 export const colorTokens = {
-  // Primary brand colors
+  // Bluewater Visual Refresh v2 - Core Palette
+  'bw-primary': 'hsl(225 65% 17%)', // #111D4A - Deep Navy
+  'bw-accent': 'hsl(192 77% 59%)',  // #4CC1E5 - Accent Blue  
+  'bw-surface': 'hsl(210 33% 96%)', // #F2F5F7 - Mist Grey
+  'bw-text': 'hsl(0 0% 20%)',       // #333333 - Dark Grey
+  'bw-white': 'hsl(0 0% 100%)',     // #FFFFFF - Pure White
+
+  // Legacy brand colors (for backwards compatibility)
   brand: {
     navy: 'hsl(216 100% 16%)', // #001F4F - Primary brand navy
     blue: 'hsl(205 100% 50%)', // #0091FF - Action blue
@@ -92,16 +99,24 @@ export const typographyTokens = {
     bold: '700',
   },
 
-  // Font sizes with responsive scaling
+  // Font sizes with responsive scaling - Visual Refresh v2
   fontSize: {
-    // Body text sizes
+    // Body text sizes  
     xs: '0.75rem',    // 12px
     sm: '0.875rem',   // 14px
-    base: '1rem',     // 16px
+    base: '1rem',     // 16px - Body text with 1.5 line height
     lg: '1.125rem',   // 18px
     xl: '1.25rem',    // 20px
 
-    // Heading sizes - mobile first, responsive
+    // New Typography Scale (h1 48px → h6 16px)
+    'h1': '3rem',        // 48px
+    'h2': '2.25rem',     // 36px
+    'h3': '1.875rem',    // 30px
+    'h4': '1.5rem',      // 24px
+    'h5': '1.25rem',     // 20px
+    'h6': '1rem',        // 16px
+
+    // Legacy heading sizes (for backwards compatibility)
     'heading-6': '0.875rem',  // h6 - 14px
     'heading-5': '1rem',      // h5 - 16px
     'heading-4': '1.125rem',  // h4 - 18px
@@ -164,7 +179,7 @@ export const spacingTokens = {
 } as const;
 
 // =============================================================================
-// ELEVATION TOKENS (Shadows)
+// ELEVATION TOKENS (Shadows) - Visual Refresh v2  
 // =============================================================================
 
 export const elevationTokens = {
@@ -175,6 +190,9 @@ export const elevationTokens = {
   lg: '0 10px 15px -3px hsl(var(--primary) / 0.1), 0 4px 6px -4px hsl(var(--primary) / 0.1)',
   xl: '0 20px 25px -5px hsl(var(--primary) / 0.1), 0 8px 10px -6px hsl(var(--primary) / 0.1)',
   '2xl': '0 25px 50px -12px hsl(var(--primary) / 0.25)',
+
+  // Unified 4dp shadow token for cards and modals
+  'bw-md': '0 4px 6px -1px hsl(225 65% 17% / 0.1), 0 2px 4px -2px hsl(225 65% 17% / 0.1)',
 
   // Semantic shadows
   card: '0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -2px hsl(var(--primary) / 0.1)',
@@ -202,15 +220,15 @@ export const radiusTokens = {
 } as const;
 
 // =============================================================================
-// TRANSITION TOKENS
+// TRANSITION TOKENS - Visual Refresh v2
 // =============================================================================
 
 export const transitionTokens = {
-  // Duration
+  // Duration  
   duration: {
-    fast: '150ms',
+    fast: '150ms',    // Micro-interactions standard
     normal: '200ms',
-    slow: '300ms',
+    slow: '300ms', 
     slower: '500ms',
   },
 
@@ -219,14 +237,22 @@ export const transitionTokens = {
     ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
     'ease-in': 'cubic-bezier(0.4, 0, 1, 1)',
     'ease-out': 'cubic-bezier(0, 0, 0.2, 1)',
-    'ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+    'ease-in-out': 'ease-in-out', // Standard 150ms ease-in-out for interactions
   },
 
-  // Common transitions
-  all: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-  colors: 'color 200ms cubic-bezier(0.4, 0, 0.2, 1), background-color 200ms cubic-bezier(0.4, 0, 0.2, 1), border-color 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-  transform: 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-  opacity: 'opacity 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+  // Common transitions - 150ms standard for micro-interactions
+  all: 'all 150ms ease-in-out',
+  colors: 'color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out',
+  transform: 'transform 150ms ease-in-out',
+  opacity: 'opacity 150ms ease-in-out',
+  
+  // Legacy transitions (backwards compatibility)
+  legacy: {
+    all: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+    colors: 'color 200ms cubic-bezier(0.4, 0, 0.2, 1), background-color 200ms cubic-bezier(0.4, 0, 0.2, 1), border-color 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+    transform: 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+    opacity: 'opacity 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+  },
 } as const;
 
 // =============================================================================

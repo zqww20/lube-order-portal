@@ -66,7 +66,14 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 
-				// Enhanced semantic color system
+				// NEW: Bluewater Visual Refresh v2 Palette
+				'bw-primary': designTokens.colors['bw-primary'],     // #111D4A Deep Navy
+				'bw-accent': designTokens.colors['bw-accent'],       // #4CC1E5 Accent Blue
+				'bw-surface': designTokens.colors['bw-surface'],     // #F2F5F7 Mist Grey
+				'bw-text': designTokens.colors['bw-text'],           // #333333 Dark Grey
+				'bw-white': designTokens.colors['bw-white'],         // #FFFFFF Pure White
+
+				// Legacy colors (backwards compatibility)
 				'brand-red': {
 					DEFAULT: 'hsl(var(--brand-red))',
 					foreground: 'hsl(var(--brand-red-foreground))'
@@ -107,8 +114,11 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 
-			// Enhanced shadows
-			boxShadow: designTokens.elevation,
+			// Enhanced shadows with unified token
+			boxShadow: {
+				...designTokens.elevation,
+				'bw-md': designTokens.elevation['bw-md'], // 4dp unified shadow
+			},
 
 			// Transition system
 			transitionDuration: designTokens.transition.duration,
