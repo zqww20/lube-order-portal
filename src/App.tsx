@@ -71,6 +71,7 @@ const App = () => (
             <Route path="orders" element={<EmployeeOrders />} />
             <Route path="orders/:orderId" element={<EmployeeOrderDetail />} />
             <Route path="admin/logistics" element={<AdminLogistics />} />
+            <Route path="analytics/performance" element={<EmployeeDashboard />} />
             <Route path="promo-console" element={<EmployeePromoConsole />} />
             <Route path="erp-integration" element={<ERPIntegration />} />
           </Route>
