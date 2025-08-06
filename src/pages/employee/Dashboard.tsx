@@ -2,8 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import MetricsGrid from '@/components/employee/dashboard/MetricsGrid';
-import ActivityFeed from '@/components/employee/dashboard/ActivityFeed';
+import DistributionMetrics from '@/components/employee/dashboard/DistributionMetrics';
+import DistributionOperations from '@/components/employee/dashboard/DistributionOperations';
+import QuickDistributionActions from '@/components/employee/dashboard/QuickDistributionActions';
+import SupplyChainIntelligence from '@/components/employee/dashboard/SupplyChainIntelligence';
 import PerformanceExtension from '@/components/employee/dashboard/PerformanceExtension';
 
 import SAPConnectionStatus from '@/components/SAPConnectionStatus';
@@ -21,9 +23,9 @@ const EmployeeDashboard = () => {
       {/* Header */}
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Employee Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Distribution Operations Center</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's what's happening in your business today.
+            Industrial lubricants & marine equipment distribution dashboard for Nova Scotia operations.
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -54,63 +56,32 @@ const EmployeeDashboard = () => {
       {/* Main Dashboard Content */}
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="overview">Distribution Overview</TabsTrigger>
+          <TabsTrigger value="supply-chain">Supply Chain Intel</TabsTrigger>
+          <TabsTrigger value="actions">Quick Actions</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
-          <TabsTrigger value="detailed">Detailed View</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          {/* Metrics Grid */}
-          <MetricsGrid />
+          {/* Distribution Metrics */}
+          <DistributionMetrics />
 
-          {/* Main Content - Full Width */}
+          {/* Operations Feed */}
           <div className="w-full">
-            <ActivityFeed />
+            <DistributionOperations />
           </div>
+        </TabsContent>
+
+        <TabsContent value="supply-chain" className="space-y-6">
+          <SupplyChainIntelligence />
+        </TabsContent>
+
+        <TabsContent value="actions" className="space-y-6">
+          <QuickDistributionActions />
         </TabsContent>
 
         <TabsContent value="performance" className="space-y-6">
           <PerformanceExtension />
-        </TabsContent>
-
-        <TabsContent value="detailed" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Detailed Metrics</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Detailed analytics and metrics will be displayed here.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Performance Trends</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Performance trends and comparisons will be shown here.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="analytics" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Advanced Analytics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Advanced analytics dashboard with charts and insights will be implemented here.
-              </p>
-            </CardContent>
-          </Card>
         </TabsContent>
       </Tabs>
     </div>
