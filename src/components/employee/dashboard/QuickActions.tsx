@@ -77,7 +77,7 @@ const QuickActions = () => {
               <Button
                 key={index}
                 variant={action.variant}
-                className="h-auto p-3 sm:p-4 flex flex-col items-start space-y-2 text-left min-h-[70px] sm:min-h-[80px] w-full"
+                className="h-auto p-3 sm:p-4 flex flex-col items-start space-y-2 text-left min-h-[70px] sm:min-h-[80px] w-full whitespace-normal"
                 onClick={action.action}
               >
                 <div className="flex items-center space-x-2 w-full">
