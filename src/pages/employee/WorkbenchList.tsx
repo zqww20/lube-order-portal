@@ -221,7 +221,7 @@ const WorkbenchList = () => {
                         </div>
                         <div className="space-y-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                            <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
                               {quote.id}
                             </h3>
                             <Badge 
