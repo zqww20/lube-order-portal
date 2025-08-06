@@ -77,16 +77,16 @@ const QuickActions = () => {
               <Button
                 key={index}
                 variant={action.variant}
-                className="h-auto p-3 sm:p-4 flex flex-col items-start space-y-2 text-left min-h-[70px] sm:min-h-[80px] w-full whitespace-normal"
+                className="h-auto p-3 sm:p-4 !flex !flex-col !items-start !justify-start space-y-2 text-left min-h-[70px] sm:min-h-[80px] w-full !whitespace-normal max-w-full"
                 onClick={action.action}
               >
-                <div className="flex items-center space-x-2 w-full">
+                <div className="flex items-center space-x-2 w-full max-w-full">
                   <action.icon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                  <span className="font-medium text-xs sm:text-sm leading-tight break-words flex-1 overflow-wrap-anywhere">
+                  <span className="font-medium text-xs sm:text-sm leading-tight break-words flex-1 max-w-0">
                     {action.title}
                   </span>
                 </div>
-                <span className="text-xs leading-tight break-words w-full opacity-80 overflow-wrap-anywhere hyphens-auto">
+                <span className="text-xs leading-tight break-words w-full max-w-full opacity-80">
                   {action.description}
                 </span>
               </Button>
