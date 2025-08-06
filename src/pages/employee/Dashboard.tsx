@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MetricsGrid from '@/components/employee/dashboard/MetricsGrid';
 import ActivityFeed from '@/components/employee/dashboard/ActivityFeed';
+import PerformanceExtension from '@/components/employee/dashboard/PerformanceExtension';
 
 import SAPConnectionStatus from '@/components/SAPConnectionStatus';
 import RealTimeDataSync from '@/components/RealTimeDataSync';
@@ -54,6 +55,7 @@ const EmployeeDashboard = () => {
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="detailed">Detailed View</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
@@ -66,6 +68,10 @@ const EmployeeDashboard = () => {
           <div className="w-full">
             <ActivityFeed />
           </div>
+        </TabsContent>
+
+        <TabsContent value="performance" className="space-y-6">
+          <PerformanceExtension />
         </TabsContent>
 
         <TabsContent value="detailed" className="space-y-6">
