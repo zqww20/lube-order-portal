@@ -34,6 +34,7 @@ import EmployeeQuotes from "./pages/employee/Quotes";
 import EmployeeOrders from "./pages/employee/Orders";
 import EmployeeOrderDetail from "./pages/employee/OrderDetail";
 import AdminLogistics from "./pages/employee/AdminLogistics";
+import DesignNavigator from "./components/DesignNavigator";
 
 const queryClient = new QueryClient();
 
@@ -131,6 +132,7 @@ const App = () => (
           <Route path="/employee" element={<Employee />} />
           <Route path="*" element={<NotFound />} />
           </Routes>
+          <DesignNavigator />
         </BrowserRouter>
           </TooltipProvider>
         </QuoteProvider>
