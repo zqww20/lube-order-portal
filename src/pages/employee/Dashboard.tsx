@@ -12,7 +12,7 @@ import {
   Users,
   AlertCircle,
   Tags,
-  Percent
+  Truck
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,16 +25,6 @@ interface PendingQuote {
   customerEmail: string;
 }
 
-interface OngoingPromotion {
-  id: string;
-  productName: string;
-  promoType: string;
-  discount: string;
-  status: 'active' | 'paused';
-  endDate: string;
-  usage: number;
-  revenue: string;
-}
 
 const EmployeeDashboard = () => {
   const navigate = useNavigate();
@@ -75,39 +65,6 @@ const EmployeeDashboard = () => {
     }
   ];
 
-  // Mock data for ongoing promotions
-  const ongoingPromotions: OngoingPromotion[] = [
-    {
-      id: 'PROMO-001',
-      productName: 'Marine Gear Oil SAE 80W-90',
-      promoType: 'Volume Discount',
-      discount: '15% off 5+ units',
-      status: 'active',
-      endDate: '2024-01-15',
-      usage: 23,
-      revenue: '$4,280'
-    },
-    {
-      id: 'PROMO-002',
-      productName: 'Premium Engine Oil 5W-30',
-      promoType: 'Bundle Deal',
-      discount: 'Buy 2, Get 1 Free',
-      status: 'active',
-      endDate: '2024-01-20',
-      usage: 8,
-      revenue: '$1,560'
-    },
-    {
-      id: 'PROMO-003',
-      productName: 'Hydraulic Fluid ISO 46',
-      promoType: 'Clearance',
-      discount: '25% off',
-      status: 'active',
-      endDate: '2024-01-10',
-      usage: 15,
-      revenue: '$2,340'
-    }
-  ];
 
   const stats = [
     {
@@ -117,9 +74,9 @@ const EmployeeDashboard = () => {
       color: "text-orange-600"
     },
     {
-      title: "Active Promotions",
-      value: ongoingPromotions.filter(p => p.status === 'active').length.toString(),
-      icon: Tags,
+      title: "Active Customers",
+      value: "1,247",
+      icon: Users,
       color: "text-blue-600"
     },
     {
@@ -149,9 +106,6 @@ const EmployeeDashboard = () => {
     }
   };
 
-  const getPromoStatusColor = (status: string) => {
-    return status === 'active' ? 'default' : 'secondary';
-  };
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
@@ -169,6 +123,61 @@ const EmployeeDashboard = () => {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start" 
+              onClick={() => navigate('/employee/quotes')}
+            >
+              <FileText className="mr-2 h-4 w-4" />
+              Review Quotes
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full justify-start"
+              onClick={() => navigate('/employee/orders')}
+            >
+              <Package className="mr-2 h-4 w-4" />
+              Process Orders
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full justify-start"
+              onClick={() => navigate('/employee/promotions')}
+            >
+              <Tags className="mr-2 h-4 w-4" />
+              Manage Promotions
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">System Status</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">System Status</span>
+              <Badge variant="default">Online</Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">Last Sync</span>
+              <span className="text-sm">2 minutes ago</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">Active Users</span>
+              <span className="text-sm">24</span>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Pending Quote Requests */}
@@ -195,7 +204,7 @@ const EmployeeDashboard = () => {
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-foreground">{quote.customerName}</h3>
+                      <h3 className="text-sm font-medium text-foreground">{quote.customerName}</h3>
                       <Badge variant={getPriorityColor(quote.priority)}>
                         {quote.priority.toUpperCase()}
                       </Badge>
@@ -220,78 +229,10 @@ const EmployeeDashboard = () => {
                   </div>
                   <div className="ml-4">
                     <Button 
+                      size="sm"
                       onClick={() => handleCreateQuote(quote.id)}
                     >
                       Create Quote
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Ongoing Promotions */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle className="flex items-center gap-2">
-              <Percent className="h-5 w-5 text-blue-600" />
-              Ongoing Promotions
-            </CardTitle>
-            <Button 
-              variant="outline" 
-              onClick={() => navigate('/employee/promotions')}
-            >
-              Manage Promotions
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {ongoingPromotions.map((promo) => (
-              <div key={promo.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-foreground">{promo.productName}</h3>
-                      <Badge variant={getPromoStatusColor(promo.status)}>
-                        {promo.status.toUpperCase()}
-                      </Badge>
-                    </div>
-                    <div className="mb-3">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div>
-                          <p className="text-muted-foreground">Type</p>
-                          <p className="font-medium">{promo.promoType}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">Discount</p>
-                          <p className="font-medium text-green-600">{promo.discount}</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">Usage</p>
-                          <p className="font-medium">{promo.usage} customers</p>
-                        </div>
-                        <div>
-                          <p className="text-muted-foreground">Revenue</p>
-                          <p className="font-medium text-blue-600">{promo.revenue}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-1" />
-                      Ends {promo.endDate}
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => navigate('/employee/promotions')}
-                    >
-                      Edit
                     </Button>
                   </div>
                 </div>
