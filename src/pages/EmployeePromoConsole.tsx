@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import CostViewGrid from '@/components/EmployeePromoConsole/CostViewGrid';
-import QuickSaleBuilder from '@/components/EmployeePromoConsole/QuickSaleBuilder';
-import ActivePromosDashboard from '@/components/EmployeePromoConsole/ActivePromosDashboard';
-import AnalyticsTab from '@/components/EmployeePromoConsole/AnalyticsTab';
+import CreatePromotionTab from '@/components/EmployeePromoConsole/CreatePromotionTab';
+import ManagePromotionsTab from '@/components/EmployeePromoConsole/ManagePromotionsTab';
+import AnalyticsReportsTab from '@/components/EmployeePromoConsole/AnalyticsReportsTab';
 
 // Mock data
 const mockCostData = [
@@ -165,26 +164,22 @@ const EmployeePromoConsole = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="cost-view" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="cost-view">Cost View</TabsTrigger>
-          <TabsTrigger value="quick-sale">Quick Sale</TabsTrigger>
-          <TabsTrigger value="active-promos">Active Promos</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <Tabs defaultValue="create" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="create">Create Promotion</TabsTrigger>
+          <TabsTrigger value="manage">Manage Promotions</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics & Reports</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="cost-view" className="mt-6">
-          <CostViewGrid costData={mockCostData} />
+        <TabsContent value="create" className="mt-6">
+          <CreatePromotionTab 
+            costData={mockCostData} 
+            onCreatePromo={handleCreatePromo} 
+          />
         </TabsContent>
 
-        <TabsContent value="quick-sale" className="mt-6">
-          <div className="max-w-2xl">
-            <QuickSaleBuilder onCreatePromo={handleCreatePromo} />
-          </div>
-        </TabsContent>
-
-        <TabsContent value="active-promos" className="mt-6">
-          <ActivePromosDashboard
+        <TabsContent value="manage" className="mt-6">
+          <ManagePromotionsTab
             promos={activePromos}
             onTogglePromo={handleTogglePromo}
             onEditPromo={handleEditPromo}
@@ -193,7 +188,7 @@ const EmployeePromoConsole = () => {
         </TabsContent>
 
         <TabsContent value="analytics" className="mt-6">
-          <AnalyticsTab data={mockAnalyticsData} />
+          <AnalyticsReportsTab data={mockAnalyticsData} />
         </TabsContent>
       </Tabs>
     </div>
