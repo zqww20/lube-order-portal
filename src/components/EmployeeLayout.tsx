@@ -16,7 +16,8 @@ import {
   Settings, 
   LogOut,
   User,
-  Database
+  Database,
+  Tags
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,6 +37,11 @@ const EmployeeLayout = () => {
       label: 'Dashboard',
       path: '/employee/dashboard',
       icon: LayoutDashboard
+    },
+    {
+      label: 'Promotions',
+      path: '/employee/promotions',
+      icon: Tags
     },
     {
       label: 'All Quotes',

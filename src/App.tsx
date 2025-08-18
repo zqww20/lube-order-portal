@@ -34,6 +34,7 @@ import EmployeeQuotes from "./pages/employee/Quotes";
 import EmployeeOrders from "./pages/employee/Orders";
 import EmployeeOrderDetail from "./pages/employee/OrderDetail";
 import AdminLogistics from "./pages/employee/AdminLogistics";
+import EmployeePromoConsole from "./pages/EmployeePromoConsole";
 import DesignNavigator from "./components/DesignNavigator";
 
 const queryClient = new QueryClient();
@@ -64,6 +65,7 @@ const App = () => (
           {/* Employee Routes - Secure and Separate */}
           <Route path="/employee" element={<EmployeeLayout />}>
             <Route path="dashboard" element={<EmployeeDashboard />} />
+            <Route path="promotions" element={<EmployeePromoConsole />} />
             <Route path="workbench/:quoteId" element={<QuotingWorkbench />} />
             <Route path="quotes" element={<EmployeeQuotes />} />
             <Route path="orders" element={<EmployeeOrders />} />
