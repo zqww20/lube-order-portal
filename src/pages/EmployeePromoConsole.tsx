@@ -114,7 +114,7 @@ const mockAnalyticsData = {
   ]
 };
 
-const EmployeePromotions = () => {
+const EmployeePromoConsole = () => {
   const [activePromos, setActivePromos] = useState(mockActivePromos);
 
   const handleCreatePromo = (promoData: any) => {
@@ -200,4 +200,4 @@ const EmployeePromotions = () => {
   );
 };
 
-export default EmployeePromotions;
+export default EmployeePromoConsole;
