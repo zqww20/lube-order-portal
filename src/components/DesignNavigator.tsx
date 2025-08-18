@@ -12,7 +12,8 @@ import {
   FileText,
   Settings,
   Home,
-  MapPin
+  MapPin,
+  Tags
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -63,11 +64,11 @@ const navigationSections: NavigationSection[] = [
     badge: "Internal",
     routes: [
       { path: "/employee/dashboard", label: "Employee Dashboard", description: "Internal operations hub" },
+      { path: "/employee/promotions", label: "Promotions", description: "Manage product promotions & discounts" },
       { path: "/employee/quotes", label: "Quote Management", description: "Process customer quotes" },
       { path: "/employee/orders", label: "Order Processing", description: "Fulfill customer orders" },
       { path: "/employee/orders/1", label: "Order Detail", description: "Process individual orders" },
-      { path: "/employee/admin/logistics", label: "Logistics Admin", description: "Warehouse & shipping" },
-      { path: "/employee/erp-integration", label: "ERP Integration", description: "SAP B1 connection" }
+      { path: "/employee/admin/logistics", label: "Logistics Admin", description: "Warehouse & shipping" }
     ]
   }
 ];
